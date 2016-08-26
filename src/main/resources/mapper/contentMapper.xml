@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.contentMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.content">
+		<id column="CONTENT_ID" property="contentId" jdbcType="BIGINT" />
+		<id column="ORD" property="ord" jdbcType="TINYINT" />
+		<result column="CONTENT_TYPE" property="contentType" jdbcType="CHAR" />
+		<result column="TEXT" property="text" jdbcType="VARCHAR" />
+		<association column="IMG" property="img"
+			select="cn.SkyShadow.dao.imagineMapper.selectByPrimaryKey"></association>
+		<association column="AT" property="at"
+			select="cn.SkyShadow.dao.atMapper.selectByPrimaryKey"></association>
+		<association column="NOMINATE" property="nominate"
+			select="cn.SkyShadow.dao.nominateMapper.selectByPrimaryKey"></association>
+		<association column="VOICE" property="voice"
+			select="cn.SkyShadow.dao.voiceMapper.selectByPrimaryKey"></association>
+		<association column="VIDEO" property="video"
+			select="cn.SkyShadow.dao.videoMapper.selectByPrimaryKey"></association>
+		<association column="EXPR" property="expr"
+			select="cn.SkyShadow.dao.exprMapper.selectByPrimaryKey"></association>
+		<association column="FILEGROUP" property="filegroup"
+			select="cn.SkyShadow.dao.filegroupMapper.selectByPrimaryKey"></association>
+		<association column="FILE" property="file"
+			select="cn.SkyShadow.dao.fileMapper.selectByPrimaryKey"></association>
+		<association column="SENDER" property="sender"
+			select="cn.SkyShadow.dao.userMapper.selectBaseInfo"></association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		CONTENT_ID, ORD, CONTENT_TYPE, TEXT, IMG, AT, NOMINATE,
+		VOICE, VIDEO, EXPR,
+		FILEGROUP,
+		FILE, SENDER
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from content
+		where CONTENT_ID = #{contentId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		content
+		where CONTENT_ID = #{contentId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insertSelective" parameterType="cn.SkyShadow.model.content"
+		keyProperty="contentId">
+		insert into content
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="contentId != null">
+				CONTENT_ID,
+			</if>
+			<if test="ord != null">
+				ORD,
+			</if>
+			<if test="contentType != null">
+				CONTENT_TYPE,
+			</if>
+			<if test="text != null">
+				TEXT,
+			</if>
+			<if test="img != null">
+				IMG,
+			</if>
+			<if test="at != null">
+				AT,
+			</if>
+			<if test="nominate != null">
+				NOMINATE,
+			</if>
+			<if test="voice != null">
+				VOICE,
+			</if>
+			<if test="video != null">
+				VIDEO,
+			</if>
+			<if test="expr != null">
+				EXPR,
+			</if>
+			<if test="filegroup != null">
+				FILEGROUP,
+			</if>
+			<if test="file != null">
+				FILE,
+			</if>
+			<if test="sender != null">
+				SENDER,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="contentId != null">
+				#{contentId,jdbcType=BIGINT},
+			</if>
+			<if test="ord != null">
+				#{ord,jdbcType=TINYINT},
+			</if>
+			<if test="contentType != null">
+				#{contentType,jdbcType=CHAR},
+			</if>
+			<if test="text != null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				#{img.imgId,jdbcType=BIGINT},
+			</if>
+			<if test="at != null">
+				#{at.atId,jdbcType=BIGINT},
+			</if>
+			<if test="nominate != null">
+				#{nominate.nominateId,jdbcType=BIGINT},
+			</if>
+			<if test="voice != null">
+				#{voice.voiceId,jdbcType=BIGINT},
+			</if>
+			<if test="video != null">
+				#{video.videoId,jdbcType=BIGINT},
+			</if>
+			<if test="expr != null">
+				#{expr.exprId,jdbcType=BIGINT},
+			</if>
+			<if test="filegroup != null">
+				#{filegroup.filegroupId,jdbcType=BIGINT},
+			</if>
+			<if test="file!= null">
+				#{file.fileId,jdbcType=BIGINT},
+			</if>
+			<if test="sender != null">
+				#{sender.userId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.content">
+		update content
+		<set>
+			<if test="contentType != null">
+				CONTENT_TYPE = #{contentType,jdbcType=CHAR},
+			</if>
+			<if test="text != null">
+				TEXT = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				IMG = #{img.imgId,jdbcType=BIGINT},
+			</if>
+			<if test="at != null">
+				AT = #{at.atId,jdbcType=BIGINT},
+			</if>
+			<if test="nominate != null">
+				NOMINATE = #{nominate.nominateId,jdbcType=BIGINT},
+			</if>
+			<if test="voice != null">
+				VOICE = #{voice.voiceId,jdbcType=BIGINT},
+			</if>
+			<if test="video != null">
+				VIDEO = #{video.videoId,jdbcType=BIGINT},
+			</if>
+			<if test="expr != null">
+				EXPR = #{expr.exprId,jdbcType=BIGINT},
+			</if>
+			<if test="filegroup != null">
+				FILEGROUP = #{filegroup.filegroupId,jdbcType=BIGINT},
+			</if>
+			<if test="file != null">
+				FILE = #{file.fileId,jdbcType=BIGINT},
+			</if>
+			<if test="sender != null">
+				SENDER = #{sender.userId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where CONTENT_ID = #{contentId,jdbcType=BIGINT}
+		and ORD =
+		#{ord,jdbcType=TINYINT}
+	</update>
+</mapper>

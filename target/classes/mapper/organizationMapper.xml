@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.organizationMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.organization">
+		<id column="ORG_ID" property="orgId"  jdbcType="BIGINT" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<association column="LOCATION" property="location"
+			select="cn.SkyShadow.dao.locationMapper.selectByPrimaryKey"></association>
+		<association column="PARENT_ID" property="parentId"
+			select="cn.SkyShadow.dao.organizationMapper.selectBaseInfo"></association>
+		<association column="CREATOR_ID" property="creatorId"
+			select="cn.SkyShadow.dao.userMapper.selectBaseInfo"></association>
+		<collection property="announces" column="ORD_ID" select="selectannounces"></collection>
+		<collection property="sonOrganizations" column="ORG_ID"
+			select="selectsonOrganizations"></collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		ORG_ID, NAME, LOCATION, PARENT_ID, CREATOR_ID
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from organization
+		where ORG_ID = #{orgId,jdbcType=BIGINT}
+	</select>
+	<select id="selectannounces" resultMap="cn.SkyShadow.dao.announceMapper.BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		ANN_ID, CONTENT_ID, TIME
+		from
+		announce where
+		ORG_ID = #{orgId jdbcType="BIGINT"}
+	</select>
+	<select id="selectsonOrganizations" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		ORG_ID, NAME, CREATOR_ID
+		from organization
+		where PARENT_ID = #{orgId,jdbcType=BIGINT}
+	</select>
+	<select id="selectBaseInfo" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		ORG_ID, NAME, LOCATION, CREATOR_ID
+		from organization
+		where ORG_ID = #{orgId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		organization
+		where ORG_ID = #{orgId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.organization" keyProperty="orgId">
+		insert ignore into
+		organization (ORG_ID, NAME, LOCATION,
+		PARENT_ID, CREATOR_ID)
+		values
+		(#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+		#{location.locationId,jdbcType=BIGINT},
+		#{parentId.organizationId,jdbcType=BIGINT},
+		#{creatorId.userId,jdbcType=BIGINT})
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.organization">
+		update organization
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				LOCATION = #{location.locationId,jdbcType=BIGINT},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId.organizationId,jdbcType=BIGINT},
+			</if>
+			<if test="creatorId != null">
+				CREATOR_ID = #{creatorId.userId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where ORG_ID = #{orgId,jdbcType=BIGINT}
+	</update>
+</mapper>

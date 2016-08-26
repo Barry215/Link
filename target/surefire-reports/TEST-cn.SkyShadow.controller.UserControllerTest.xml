@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="10" failures="0" name="cn.SkyShadow.controller.UserControllerTest" time="0.322" errors="0" skipped="0">
+  <properties>
+    <property name="idea.version" value="2016.2.2"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="D:\Program Files\Java\jdk1.8.0_60\jre\bin"/>
+    <property name="java.vm.version" value="25.60-b23"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="D:\IntelliJ\Link"/>
+    <property name="java.runtime.version" value="1.8.0_60-b27"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="basedir" value="D:\IntelliJ\Link"/>
+    <property name="java.endorsed.dirs" value="D:\Program Files\Java\jdk1.8.0_60\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="surefire.real.class.path" value="D:\IntelliJ\Link\target\surefire\surefirebooter6894045283527623299.jar"/>
+    <property name="java.io.tmpdir" value="C:\Users\RichardW\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 8.1"/>
+    <property name="sun.jnu.encoding" value="GBK"/>
+    <property name="java.library.path" value="D:\Program Files\Java\jdk1.8.0_60\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;D:\Program Files\Java\jdk1.8.0_60\bin;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Users\RichardW\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;D:\Program Files\apache-maven-3.3.9\bin;;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;."/>
+    <property name="surefire.test.class.path" value="D:\IntelliJ\Link\target\test-classes;D:\IntelliJ\Link\target\classes;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-core\4.3.2.RELEASE\spring-core-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-oxm\4.3.2.RELEASE\spring-oxm-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-beans\4.3.2.RELEASE\spring-beans-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-tx\4.3.2.RELEASE\spring-tx-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-jdbc\4.3.2.RELEASE\spring-jdbc-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-webmvc\4.3.2.RELEASE\spring-webmvc-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-expression\4.3.2.RELEASE\spring-expression-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-context\4.3.2.RELEASE\spring-context-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-aop\4.3.2.RELEASE\spring-aop-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-test\4.3.2.RELEASE\spring-test-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-web\4.3.2.RELEASE\spring-web-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\taglibs\standard\1.1.2\standard-1.1.2.jar;D:\Program Files\apache-maven-3.3.9\repository\jstl\jstl\1.2\jstl-1.2.jar;D:\Program Files\apache-maven-3.3.9\repository\javax\mail\mail\1.4.1\mail-1.4.1.jar;D:\Program Files\apache-maven-3.3.9\repository\javax\activation\activation\1.1\activation-1.1.jar;D:\Program Files\apache-maven-3.3.9\repository\javax\servlet\javax.servlet-api\3.1.0\javax.servlet-api-3.1.0.jar;D:\Program Files\apache-maven-3.3.9\repository\org\mybatis\mybatis\3.4.1\mybatis-3.4.1.jar;D:\Program Files\apache-maven-3.3.9\repository\org\mybatis\mybatis-spring\1.3.0\mybatis-spring-1.3.0.jar;D:\Program Files\apache-maven-3.3.9\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-api\2.3\log4j-api-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-core\2.3\log4j-core-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\org\slf4j\slf4j-api\1.7.2\slf4j-api-1.7.2.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-slf4j-impl\2.3\log4j-slf4j-impl-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-web\2.3\log4j-web-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\junit\junit\4.12\junit-4.12.jar;D:\Program Files\apache-maven-3.3.9\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;D:\Program Files\apache-maven-3.3.9\repository\com\alibaba\druid\1.0.2\druid-1.0.2.jar;D:\Program Files\apache-maven-3.3.9\repository\com\fasterxml\jackson\core\jackson-core\2.5.3\jackson-core-2.5.3.jar;D:\Program Files\apache-maven-3.3.9\repository\com\fasterxml\jackson\core\jackson-databind\2.5.3\jackson-databind-2.5.3.jar;D:\Program Files\apache-maven-3.3.9\repository\com\fasterxml\jackson\core\jackson-annotations\2.5.0\jackson-annotations-2.5.0.jar;D:\Program Files\apache-maven-3.3.9\repository\com\qiniu\qiniu-java-sdk\7.0.10\qiniu-java-sdk-7.0.10.jar;D:\Program Files\apache-maven-3.3.9\repository\com\google\code\gson\gson\2.3.1\gson-2.3.1.jar;D:\Program Files\apache-maven-3.3.9\repository\com\squareup\okhttp\okhttp\2.7.1\okhttp-2.7.1.jar;D:\Program Files\apache-maven-3.3.9\repository\com\squareup\okio\okio\1.6.0\okio-1.6.0.jar;"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="maven.repo.local" value="D:\Program Files\apache-maven-3.3.9\repository"/>
+    <property name="os.version" value="6.3"/>
+    <property name="user.home" value="C:\Users\RichardW"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="RichardW"/>
+    <property name="java.class.path" value="D:\IntelliJ\Link\target\test-classes;D:\IntelliJ\Link\target\classes;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-core\4.3.2.RELEASE\spring-core-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-oxm\4.3.2.RELEASE\spring-oxm-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-beans\4.3.2.RELEASE\spring-beans-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-tx\4.3.2.RELEASE\spring-tx-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-jdbc\4.3.2.RELEASE\spring-jdbc-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-webmvc\4.3.2.RELEASE\spring-webmvc-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-expression\4.3.2.RELEASE\spring-expression-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-context\4.3.2.RELEASE\spring-context-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-aop\4.3.2.RELEASE\spring-aop-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-test\4.3.2.RELEASE\spring-test-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\org\springframework\spring-web\4.3.2.RELEASE\spring-web-4.3.2.RELEASE.jar;D:\Program Files\apache-maven-3.3.9\repository\taglibs\standard\1.1.2\standard-1.1.2.jar;D:\Program Files\apache-maven-3.3.9\repository\jstl\jstl\1.2\jstl-1.2.jar;D:\Program Files\apache-maven-3.3.9\repository\javax\mail\mail\1.4.1\mail-1.4.1.jar;D:\Program Files\apache-maven-3.3.9\repository\javax\activation\activation\1.1\activation-1.1.jar;D:\Program Files\apache-maven-3.3.9\repository\javax\servlet\javax.servlet-api\3.1.0\javax.servlet-api-3.1.0.jar;D:\Program Files\apache-maven-3.3.9\repository\org\mybatis\mybatis\3.4.1\mybatis-3.4.1.jar;D:\Program Files\apache-maven-3.3.9\repository\org\mybatis\mybatis-spring\1.3.0\mybatis-spring-1.3.0.jar;D:\Program Files\apache-maven-3.3.9\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-api\2.3\log4j-api-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-core\2.3\log4j-core-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\org\slf4j\slf4j-api\1.7.2\slf4j-api-1.7.2.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-slf4j-impl\2.3\log4j-slf4j-impl-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\org\apache\logging\log4j\log4j-web\2.3\log4j-web-2.3.jar;D:\Program Files\apache-maven-3.3.9\repository\junit\junit\4.12\junit-4.12.jar;D:\Program Files\apache-maven-3.3.9\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;D:\Program Files\apache-maven-3.3.9\repository\com\alibaba\druid\1.0.2\druid-1.0.2.jar;D:\Program Files\apache-maven-3.3.9\repository\com\fasterxml\jackson\core\jackson-core\2.5.3\jackson-core-2.5.3.jar;D:\Program Files\apache-maven-3.3.9\repository\com\fasterxml\jackson\core\jackson-databind\2.5.3\jackson-databind-2.5.3.jar;D:\Program Files\apache-maven-3.3.9\repository\com\fasterxml\jackson\core\jackson-annotations\2.5.0\jackson-annotations-2.5.0.jar;D:\Program Files\apache-maven-3.3.9\repository\com\qiniu\qiniu-java-sdk\7.0.10\qiniu-java-sdk-7.0.10.jar;D:\Program Files\apache-maven-3.3.9\repository\com\google\code\gson\gson\2.3.1\gson-2.3.1.jar;D:\Program Files\apache-maven-3.3.9\repository\com\squareup\okhttp\okhttp\2.7.1\okhttp-2.7.1.jar;D:\Program Files\apache-maven-3.3.9\repository\com\squareup\okio\okio\1.6.0\okio-1.6.0.jar;"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="D:\Program Files\Java\jdk1.8.0_60\jre"/>
+    <property name="sun.java.command" value="D:\IntelliJ\Link\target\surefire\surefirebooter6894045283527623299.jar D:\IntelliJ\Link\target\surefire\surefire9042376813974945539tmp D:\IntelliJ\Link\target\surefire\surefire7521454877329058860tmp"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="en"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_60"/>
+    <property name="java.ext.dirs" value="D:\Program Files\Java\jdk1.8.0_60\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="D:\Program Files\Java\jdk1.8.0_60\jre\lib\resources.jar;D:\Program Files\Java\jdk1.8.0_60\jre\lib\rt.jar;D:\Program Files\Java\jdk1.8.0_60\jre\lib\sunrsasign.jar;D:\Program Files\Java\jdk1.8.0_60\jre\lib\jsse.jar;D:\Program Files\Java\jdk1.8.0_60\jre\lib\jce.jar;D:\Program Files\Java\jdk1.8.0_60\jre\lib\charsets.jar;D:\Program Files\Java\jdk1.8.0_60\jre\lib\jfr.jar;D:\Program Files\Java\jdk1.8.0_60\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="localRepository" value="D:\Program Files\apache-maven-3.3.9\repository"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="sendEmailValidateCode" time="0.08"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="signUpNoEmail" time="0.003"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="signUp" time="0.009"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="changeValidateEmailSend" time="0"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="LoginAndLoginOut" time="0.024"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="changeValidateEmail" time="0.001"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="getPasswordProtected" time="0.032"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="phoneSendToCheckPasswordProtected" time="0.062"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="emailSendToCheckPasswordProtected" time="0.057"/>
+  <testcase classname="cn.SkyShadow.controller.UserControllerTest" name="sendPhoneValidateCode" time="0.033"/>
+</testsuite>

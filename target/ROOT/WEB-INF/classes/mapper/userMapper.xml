@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.SkyShadow.dao.userMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.user">
+		<id column="USER_ID" jdbcType="BIGINT" property="userId" />
+		<result column="USERNAME" jdbcType="VARCHAR" property="username" />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="SEX" jdbcType="CHAR" property="sex" />
+		<result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+		<result column="BOTHDAY" jdbcType="DATE" property="bothday" />
+		<association property="homeplace" column="HOMEPLACE"
+			select="cn.SkyShadow.dao.locationMapper.selectByPrimaryKey"/>
+		<association property="liveplace" column="LIVEPLACE"
+			select="cn.SkyShadow.dao.locationMapper.selectByPrimaryKey"/>
+		<association property="nationality" column="NATIONALITY"
+			select="cn.SkyShadow.dao.countryMapper.selectByPrimaryKey"/>
+		<association property="mailbox" column="USER_ID" select="selectmailbox"/>
+		<collection property="friendgroups" column="USER_ID"
+			select="selectfriendgroups"/>
+		<collection property="ocupationList" column="USER_ID"
+			select="selectoccupations"/>
+		<collection property="user_schools" column="USER_ID"
+			select="selectuser_schools"/>
+		<collection property="exprs" column="USER_ID" select="selectexprs"/>
+	</resultMap>
+	<resultMap id="LoginResultMap" type="cn.SkyShadow.model.result_model.LoginResult">
+		<result column="result" jdbcType="VARCHAR" property="result" />
+		<result column="resultNum" jdbcType="BIGINT" property="resultNum" />
+	</resultMap>
+	<resultMap type="cn.SkyShadow.model.result_model.RegisterResult"
+		id="RegisterResultMap">
+		<result column="result" jdbcType="VARCHAR" property="result" />
+		<result column="t_error" jdbcType="VARCHAR" property="t_error" />
+	</resultMap>
+	<resultMap id="PasswordProtected" type="cn.SkyShadow.dto.user.PasswordProtected">
+		<result column="EMAIL" jdbcType="VARCHAR" property="Email"/>
+		<result column="PHONE" jdbcType="VARCHAR" property="Phone"/>
+		<result column="EMAILVALIDATE" jdbcType="VARCHAR" property="EmailValidate"/>
+		<result column="PHONEVALIDATE" jdbcType="VARCHAR" property="PhoneValidate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		USER_ID, USERNAME, PASSWORD, EMAIL, PHONE, SEX,NICKNAME,
+		NATIONALITY, BOTHDAY,
+		HOMEPLACE,
+		LIVEPLACE
+	</sql>
+	<select id="selectexprs" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.exprMapper.BaseResultMap">
+		select
+		EXPR_ID, IMG_ID, ISPUBLIC
+		from expr
+		where USER =
+		#{userId,jdbcType=BIGINT}
+	</select>
+	<select id="selectuser_schools" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.user_schoolMapper.BaseResultMap">
+		SELECT
+		`user`.USER_ID USER_ID,school.SCHOOL_ID SCHOOL_ID,
+		ADMISSION_TIME
+		FROM
+		`user`
+		LEFT JOIN user_school ON `user`.USER_ID =
+		user_school.USER_ID
+		LEFT JOIN school ON school.SCHOOL_ID =
+		user_school.SCHOOL_ID
+		WHERE `user`.USER_ID =#{userId,jdbcType=BIGINT}
+		AND user_school.SCHOOL_ID IS NOT NULL
+	</select>
+	<select id="selectoccupations" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.occupationMapper.BaseResultMap">
+		SELECT
+		occupation.OCCUPATION_ID OCCUPATION_ID, NAME,
+		ORGANIZATION
+		FROM
+		`user`
+		LEFT JOIN user_occupation ON
+		user_occupation.USER_ID = `user`.USER_ID
+		LEFT JOIN occupation ON
+		occupation.OCCUPATION_ID =
+		user_occupation.OCCUPATION
+		WHERE
+		`user`.USER_ID =#{userId,jdbcType=BIGINT}
+	</select>
+	<select id="selectfriendgroups" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.friendgroupMapper.BaseResultMap">
+		SELECT FRIENDGROUP_ID,`NAME`,`USER` FROM `friendgroup` WHERE
+		friendgroup.`USER` =#{userId,jdbcType=BIGINT}
+	</select>
+	<select id="selectmailbox" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.mailboxMapper.BaseResultMap">
+		select
+		MAILBOX_ID, BELONG_TYPE, OCCUPATION
+		from mailbox
+		where USER =
+		#{userId,jdbcType=BIGINT}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where USER_ID = #{userId,jdbcType=BIGINT}
+	</select>
+	<select id="selectBaseInfo" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		USER_ID,USERNAME,NICKNAME
+		from user
+		where USER_ID =
+		#{userId,jdbcType=BIGINT}
+	</select>
+	<select id="getLoginResult" parameterType="cn.SkyShadow.model.user"
+		resultMap="LoginResultMap">
+		CALL
+		login(#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR});
+	</select>
+	<select id="getRegisterResult" parameterType="cn.SkyShadow.model.user"
+		resultMap="RegisterResultMap">
+		CALL
+		register(#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR})
+	</select>
+	<select id="HasUserName" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT user_HasUsername(#{username,jdbcType=VARCHAR})
+	</select>
+	<select id="HasEmail" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT user_HasEmail(#{email,jdbcType=VARCHAR})
+	</select>
+	<select id="HasPhone" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT user_HasPhone(#{phone,jdbcType=VARCHAR},'zh')
+	</select>
+	<select id="getPasswordProtect" parameterType="java.lang.String" resultMap="PasswordProtected">
+		SELECT EMAIL,PHONE,EMAILVALIDATE,PHONEVALIDATE FROM `user` WHERE USER_ID = #{userId,jdbcType=BIGINT};
+	</select>
+	<update id="validateEmail">
+		UPDATE `user` SET EMAILVALIDATE = 'Y', EMAIL = #{email,jdbcType=VARCHAR} WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
+	</update>
+	<update id="validatePhone">
+		UPDATE `user` SET EMAILVALIDATE = 'Y', PHONE = '+86'+#{phone,jdbcType=VARCHAR} WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
+	</update>
+	<update id="unValidateEmail">
+		UPDATE `user` SET EMAILVALIDATE = 'N',PHONE = NULL WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
+	</update>
+	<update id="unValidatePhone">
+		UPDATE `user` SET PHONEVALIDATE = 'N',PHONE = NULL WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
+	</update>
+	<select id="selectBaseInfoByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		CALL selectBaseInfoByLoginName(#{loginname,jdbcType=VARCHAR})
+	</select>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.user_schoolMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.user_school">
+<!-- 		<id column="USER_ID" property="userId" jdbcType="BIGINT" /> -->
+<!-- 		<id column="SCHOOL_ID" property="schoolId" jdbcType="BIGINT" /> -->
+		<result column="ADMISSION_TIME" property="admissionTime"
+			jdbcType="DATE" />
+		<association column="USER_ID" property="userId"
+			select="cn.SkyShadow.dao.userMapper.selectBaseInfo"></association>
+		<association column="SCHOOL_ID" property="schoolId"
+			select="cn.SkyShadow.dao.schoolMapper.selectBaseInfo"></association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		USER_ID, SCHOOL_ID, ADMISSION_TIME
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user_school
+		where USER_ID = #{userId.userId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="cn.SkyShadow.model.user_schoolKey">
+		delete from
+		user_school
+		where USER_ID = #{userId.userId,jdbcType=BIGINT}
+		and SCHOOL_ID =
+		#{schoolId.schoolId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.user_school">
+		insert into user_school
+		(USER_ID, SCHOOL_ID, ADMISSION_TIME
+		)
+		values (#{userId.userId,jdbcType=BIGINT},
+		#{schoolId.schoolId,jdbcType=BIGINT},
+		#{admissionTime,jdbcType=DATE}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="cn.SkyShadow.model.user_school">
+		update user_school
+		set ADMISSION_TIME = #{admissionTime,jdbcType=DATE}
+		where USER_ID =
+		#{userId.userId,jdbcType=BIGINT}
+		and SCHOOL_ID = #{schoolId.schoolId,jdbcType=BIGINT}
+	</update>
+</mapper>
