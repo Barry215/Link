@@ -31,19 +31,22 @@ import java.util.Date;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
-    private UserCoreService uService;
-    @Autowired
-    private SendEmailService emailService;
-    @Autowired
-    private SendPhoneService phoneService;
-    @Autowired
-    private PublicService pService;
+    private final UserCoreService uService;
+    private final SendEmailService emailService;
+    private final SendPhoneService phoneService;
+    private final PublicService pService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService) {
+        this.pService = pService;
+        this.uService = uService;
+        this.phoneService = phoneService;
+        this.emailService = emailService;
+    }
 
     /**
      * 登陆方法
-     *
      * @param u           包装好的用户信息
      * @param httpSession 会话sessio
      * @return 登录结果信息，如果登录成功，会自动存取session

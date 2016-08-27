@@ -42,12 +42,16 @@ public class PublicController {
 	 * e.getMessage()); } return result;
 	 */
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final PublicService p;
+	private final SendEmailService emailService;
+	private final SendPhoneService phoneService;
+
 	@Autowired
-	private PublicService p;
-	@Autowired
-	private SendEmailService emailService;
-	@Autowired
-	private SendPhoneService phoneService;
+	public PublicController(SendEmailService emailService, PublicService p, SendPhoneService phoneService) {
+		this.emailService = emailService;
+		this.p = p;
+		this.phoneService = phoneService;
+	}
 
 	/**
 	 * 查询手机号是否被使用了

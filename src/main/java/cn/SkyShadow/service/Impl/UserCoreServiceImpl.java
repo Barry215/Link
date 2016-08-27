@@ -14,8 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class UserCoreServiceImpl implements UserCoreService {
-    @Autowired
-    private userMapper userMapper;
+    private final userMapper userMapper;
+
+    @Autowired(required = false)
+    public UserCoreServiceImpl(userMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     public LoginResult getLoginResult(user user) {
         return userMapper.getLoginResult(user);

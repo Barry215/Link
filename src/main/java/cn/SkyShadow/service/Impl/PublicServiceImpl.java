@@ -17,12 +17,16 @@ import java.util.List;
 @Service
 public class PublicServiceImpl implements PublicService {
 
-    @Autowired
-    private userMapper uMapper;
-    @Autowired
-    private cityMapper cityMapper;
-    @Autowired
-    private countryMapper countryMapper;
+    private final userMapper uMapper;
+    private final cityMapper cityMapper;
+    private final countryMapper countryMapper;
+
+    @Autowired(required = false)
+    public PublicServiceImpl(userMapper uMapper, cityMapper cityMapper, countryMapper countryMapper) {
+        this.uMapper = uMapper;
+        this.cityMapper = cityMapper;
+        this.countryMapper = countryMapper;
+    }
 
     public String HasPhone(String Phone) {
         return uMapper.HasPhone(Phone);
