@@ -17,6 +17,15 @@ public class PasswordProtected {
      * 手机号码是否通过验证，Y/N
      */
     private String PhoneValidate;
+    private String PasswoordChangeValidate;
+
+    public String getPasswoordChangeValidate() {
+        return PasswoordChangeValidate;
+    }
+
+    public void setPasswoordChangeValidate(String passwoordChangeValidate) {
+        PasswoordChangeValidate = passwoordChangeValidate;
+    }
 
     public String getPhone() {
         return Phone;
@@ -61,6 +70,7 @@ public class PasswordProtected {
                 "Phone='" + Phone + '\'' +
                 ", Email='" + Email + '\'' +
                 ", PhoneValidate='" + PhoneValidate + '\'' +
+                ", PasswoordChangeValidate='" + PasswoordChangeValidate + '\'' +
                 ", EmailValidate='" + EmailValidate + '\'' +
                 '}';
     }

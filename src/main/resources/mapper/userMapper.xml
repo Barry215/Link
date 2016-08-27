@@ -39,13 +39,8 @@
 		<result column="PHONE" jdbcType="VARCHAR" property="Phone"/>
 		<result column="EMAILVALIDATE" jdbcType="VARCHAR" property="EmailValidate"/>
 		<result column="PHONEVALIDATE" jdbcType="VARCHAR" property="PhoneValidate" />
+		<result column="PASSWORDCHANGEVALIDATE" jdbcType="VARCHAR" property="PasswoordChangeValidate"/>
 	</resultMap>
-	<sql id="Base_Column_List">
-		USER_ID, USERNAME, PASSWORD, EMAIL, PHONE, SEX,NICKNAME,
-		NATIONALITY, BOTHDAY,
-		HOMEPLACE,
-		LIVEPLACE
-	</sql>
 	<select id="selectexprs" parameterType="java.lang.Long"
 		resultMap="cn.SkyShadow.dao.exprMapper.BaseResultMap">
 		select
@@ -99,7 +94,10 @@
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		<include refid="Base_Column_List" />
+			USER_ID, USERNAME, PASSWORD, EMAIL, PHONE, SEX,NICKNAME,
+			NATIONALITY, BOTHDAY,
+			HOMEPLACE,
+			LIVEPLACE
 		from user
 		where USER_ID = #{userId,jdbcType=BIGINT}
 	</select>
@@ -134,7 +132,7 @@
 		SELECT user_HasPhone(#{phone,jdbcType=VARCHAR},'zh')
 	</select>
 	<select id="getPasswordProtect" parameterType="java.lang.Long" resultMap="PasswordProtected">
-		SELECT EMAIL,PHONE,EMAILVALIDATE,PHONEVALIDATE FROM `user` WHERE USER_ID = #{userId,jdbcType=BIGINT};
+		SELECT EMAIL,PHONE,EMAILVALIDATE,PHONEVALIDATE,PASSWORDCHANGEVALIDATE FROM `user` WHERE USER_ID = #{userId,jdbcType=BIGINT};
 	</select>
 	<update id="validateEmail">
 		UPDATE `user` SET EMAILVALIDATE = 'Y', EMAIL = #{email,jdbcType=VARCHAR} WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}

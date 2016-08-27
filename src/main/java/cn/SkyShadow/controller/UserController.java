@@ -354,7 +354,7 @@ public class UserController {
 
     /**
      * 本方法用于，查询用户当前拥有的密保手段，要求用户在登录状态
-     *
+     *返回用户是否可以使用手机验证，用户是否可以使用邮箱验证，修改密码是否需要验证密保//TODO
      * @param session 会话session
      * @return 包装类PasswordProtected
      */
@@ -377,7 +377,6 @@ public class UserController {
 
     /**
      * 发送短信，用于验证密保，要求登录状态
-     *
      * @param session 会话session
      * @return 发送结果
      */
@@ -729,4 +728,47 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 打开（修改密码时验证密保） 需要
+     * 1.用户是登录状态
+     * @param session 会话session
+     * @return 处理结果
+     */
+    @RequestMapping(value = "OpenPasswordChangeValidate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult<String> OpenPasswordChangeValidate(HttpSession session){
+        //TODO
+        return  null;
+    }
+
+    /**
+     * 打开（修改密码时验证密保） 需要
+     * 1.用户是登录状态
+     * 2.用户以验证密保
+     * @param session 会话session
+     * @return 处理结果
+     */
+    @RequestMapping(value = "ClosePasswordChangeValidate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult<String> ClosePasswordChangeValidate(HttpSession session){
+        //TODO
+        return  null;
+    }
+
+    /**
+     * 修改密码，需要用户是登录状态
+     * 1.若用户打开了（修改密码时验证密保），不需要验证旧密码，直接可以设置新密码
+     * 2.若用户关闭了（修改密码时验证密保），需要验证旧密码，然后可以设置新密码
+     * 3.修改后用户需要重新登录
+     * @param session 会话session
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return 处理结果
+     */
+    @RequestMapping(value = "ModifyPassword", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public JsonResult<String> ModifyPassword(HttpSession session,String oldPassword,String newPassword){
+        //TODO
+        return  null;
+    }
 }

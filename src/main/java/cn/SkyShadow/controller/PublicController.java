@@ -1,6 +1,8 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.service.UserCoreService;
+import cn.SkyShadow.dto.tp.EmailValidateResult;
+import cn.SkyShadow.dto.tp.PhoneValidateResult;
+import cn.SkyShadow.dto.user.PasswordProtected;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -229,5 +231,77 @@ public class PublicController {
 		}
 		return result;
 	}
+	/**
+	 * 找回密码时使用
+	 * 返回用户是否可以使用手机验证，用户是否可以使用邮箱验证
+	 * @return 包装类PasswordProtected
+	 */
+	@RequestMapping(value = "//GetPasswordProtectedMethod", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	@ResponseBody
+	public JsonResult<PasswordProtected> GetPasswordProtectedMethod(){
+		//TODO
+		return  new JsonResult<PasswordProtected>(false,"N");
+	}
+	/**
+	 * 发送短信，用于验证密保，要求不登录状态
+	 * @param session 会话session
+	 * @return 发送结果
+	 */
+	@RequestMapping(value = "/PhoneSendToCheckPasswordProtected", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult<String> PhoneSendToCheckPasswordProtected(HttpSession session){
+		//TODO
+		return  new JsonResult<String>(false,"N");
+	}
+	/**
+	 * 发送邮箱验证码，用于验证密保，要求不登录状态
+	 *
+	 * @param session 会话session
+	 * @return 发送结果
+	 */
+	@RequestMapping(value = "/EmailSendToCheckPasswordProtected", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult<String> EmailSendToCheckPasswordProtected(HttpSession session){
+		//TODO
+		return  new JsonResult<String>(false,"N");
+	}
+	/**
+	 * 用邮箱验证密保，要求不登录状态
+	 *
+	 * @param code    验证码
+	 * @param session 会话session
+	 * @return 验证结果
+	 */
+	@RequestMapping(value = "{code}/ValidatePasswordProtectedMethodByEmail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult<EmailValidateResult> ValidatePasswordProtectedMethodByEmail(HttpSession session, @PathVariable("code") String code){
+		//TODO
+		return  new JsonResult<EmailValidateResult>(false,"N");
+	}
+	/**
+	 * 用手机验证密保，要求不登录状态
+	 *
+	 * @param code    验证码
+	 * @param session 会话session
+	 * @return 验证结果
+	 */
+	@RequestMapping(value = "{code}/ValidatePasswordProtectedMethodByPhone", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult<PhoneValidateResult> ValidatePasswordProtectedMethodByPhone(HttpSession session, @PathVariable("code") String code){
+		//TODO
+		return  new JsonResult<PhoneValidateResult>(false,"N");
+	}
 
+	/**
+	 * 重设密码，需要有密保验证的key
+	 * @param session 当前会话
+	 * @param password 新密码
+	 * @return 修改结果
+	 */
+	@RequestMapping(value = "/ResetPassword", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public JsonResult<String> ResetPassword(HttpSession session, String password){
+		//TODO
+		return  new JsonResult<String>(false,"N");
+	}
 }

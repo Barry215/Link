@@ -22,8 +22,8 @@ public class UserControllerTest {
     @Before
     public void setUp(){
         MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
         request.setCharacterEncoding("UTF-8");
-        response = new MockHttpServletResponse();
         session = request.getSession();
     }
     @Autowired
