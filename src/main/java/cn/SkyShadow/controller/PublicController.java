@@ -48,8 +48,6 @@ public class PublicController {
 	private SendEmailService emailService;
 	@Autowired
 	private SendPhoneService phoneService;
-    @Autowired
-    private UserCoreService userCoreService;
 
 	/**
 	 * 查询手机号是否被使用了
