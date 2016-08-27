@@ -33,4 +33,8 @@ public interface userMapper {
     int unValidateEmail(Long userId);
 
     user selectBaseInfoByLoginName(String loginName);
+
+    int OpenOrClosePasswordChangeValidate(Long userId);
+
+    int changePassword(@Param("userId")Long userId,@Param("password")String password);
 }

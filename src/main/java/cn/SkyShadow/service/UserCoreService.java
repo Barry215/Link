@@ -26,4 +26,8 @@ public interface UserCoreService {
 
     PasswordProtected getPasswordProtectByUserId(Long UserId);
 
+    int OpenOrClosePasswordChangeValidate(Long userId);
+
+    int ChangePasword(Long userId,String password);
+
 }

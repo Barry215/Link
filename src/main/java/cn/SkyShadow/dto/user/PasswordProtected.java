@@ -5,6 +5,16 @@ package cn.SkyShadow.dto.user;
  * Created by RichardW on 8/25/2016.
  */
 public class PasswordProtected {
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     /**
      * 手机号码
      */
@@ -17,6 +27,15 @@ public class PasswordProtected {
      * 手机号码是否通过验证，Y/N
      */
     private String PhoneValidate;
+    private String PasswoordChangeValidate;
+
+    public String getPasswoordChangeValidate() {
+        return PasswoordChangeValidate;
+    }
+
+    public void setPasswoordChangeValidate(String passwoordChangeValidate) {
+        PasswoordChangeValidate = passwoordChangeValidate;
+    }
 
     public String getPhone() {
         return Phone;
@@ -61,6 +80,7 @@ public class PasswordProtected {
                 "Phone='" + Phone + '\'' +
                 ", Email='" + Email + '\'' +
                 ", PhoneValidate='" + PhoneValidate + '\'' +
+                ", PasswoordChangeValidate='" + PasswoordChangeValidate + '\'' +
                 ", EmailValidate='" + EmailValidate + '\'' +
                 '}';
     }

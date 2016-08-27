@@ -36,4 +36,6 @@ public interface PublicService {
     List<city> get_ZH_Cities();
 
     PasswordProtected getPasswordProtectByLoginName(String LoginName);
+
+    int ChangePasword(Long userId, String password);
 }

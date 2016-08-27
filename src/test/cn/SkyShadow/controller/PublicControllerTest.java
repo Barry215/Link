@@ -21,7 +21,6 @@ public class PublicControllerTest {
     public void setUp(){
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setCharacterEncoding("UTF-8");
-        response = new MockHttpServletResponse();
         session = request.getSession();
     }
     @Autowired

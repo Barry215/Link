@@ -22,8 +22,8 @@ public class UserControllerTest {
     @Before
     public void setUp(){
         MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
         request.setCharacterEncoding("UTF-8");
-        response = new MockHttpServletResponse();
         session = request.getSession();
     }
     @Autowired
@@ -134,5 +134,23 @@ public class UserControllerTest {
         logger.info("修改邮箱(发送短信)"+code1);
         logger.info("修改邮箱"+userController.ChangeValidateEmail(session,code1));
     }
-
+    @Test
+    public void  ModifyPassword() throws  Exception{
+        user u = new user();
+        u.setUsername("test004");
+        u.setPassword("123456");
+        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录状态："+userController.getLoginState(session));
+        String code = userController.EmailSendToCheckPasswordProtected(session).getData();
+        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
+        logger.info("打开密码更改保护"+userController.OpenPasswordChangeValidate(session));
+        logger.info("修改密码"+userController.ModifyPassword(session,null,"123456789"));
+        u.setPassword("123456789");
+        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录状态："+userController.getLoginState(session));
+        code = userController.EmailSendToCheckPasswordProtected(session).getData();
+        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
+        logger.info("关闭密码更改保护"+userController.ClosePasswordChangeValidate(session));
+        logger.info("修改密码"+userController.ModifyPassword(session,null,"123456"));
+    }
 }
