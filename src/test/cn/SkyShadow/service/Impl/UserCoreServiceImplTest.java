@@ -1,6 +1,5 @@
 package cn.SkyShadow.service.Impl;
 
-import cn.SkyShadow.dao.userMapper;
 import cn.SkyShadow.model.result_model.LoginResult;
 import cn.SkyShadow.model.result_model.RegisterResult;
 import cn.SkyShadow.model.user;
@@ -12,12 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
-
-/**
- * Created by RichardW on 8/26/2016.
- */
+@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:config/spring-dao.xml","classpath:config/spring-service.xml","classpath:config/spring-mvc.xml"})
 public class UserCoreServiceImplTest {
