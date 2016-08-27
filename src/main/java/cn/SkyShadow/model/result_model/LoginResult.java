@@ -35,4 +35,11 @@ public class LoginResult {
 				+ "]";
 	}
 
+	public LoginResult(String result, long resultNum) {
+		this.result = result;
+		this.resultNum = resultNum;
+	}
+
+	public LoginResult() {
+	}
 }

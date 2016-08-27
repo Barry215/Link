@@ -56,6 +56,9 @@ public class UserController {
             LoginResult l = uService.getLoginResult(u);
             result = new JsonResult<LoginResult>(true, l, null);
             user u1 = uService.SelectUserByLogin(u);
+            if (u1==null){
+                return new JsonResult<LoginResult>(true,new LoginResult("登录失败，用户名或密码有误",0),null);
+            }
             u1.setPassword(u.getPassword());
             httpSession.setAttribute("user", u1);
             System.out.println(httpSession.getId());
