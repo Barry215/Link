@@ -737,8 +737,23 @@ public class UserController {
     @RequestMapping(value = "OpenPasswordChangeValidate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<String> OpenPasswordChangeValidate(HttpSession session){
-        //TODO
-        return  null;
+        JsonResult<String> result;
+        try {
+            if (getLoginState(session).getData().getState() != 1) {
+                return new JsonResult<String>(true, PasswordChangeValidateEnum.UN_LOGIN.getInfo(), null);
+            }
+            Long userId = ((user)(session.getAttribute("user"))).getUserId();
+            PasswordProtected p = uService.getPasswordProtectByUserId(userId);
+            if (p.getPasswoordChangeValidate().equals("Y")){
+                return new JsonResult<String>(true, PasswordChangeValidateEnum.Opened.getInfo(), null);
+            }
+            uService.OpenOrClosePasswordChangeValidate(userId);
+            result = new JsonResult<String>(true, PasswordChangeValidateEnum.Success.getInfo(), null);
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = new JsonResult<String>(false, e.getMessage());
+        }
+        return  result;
     }
 
     /**
@@ -751,8 +766,28 @@ public class UserController {
     @RequestMapping(value = "ClosePasswordChangeValidate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<String> ClosePasswordChangeValidate(HttpSession session){
-        //TODO
-        return  null;
+        JsonResult<String> result;
+        try {
+            if (getLoginState(session).getData().getState() != 1) {
+                return new JsonResult<String>(true, PasswordChangeValidateEnum.UN_LOGIN.getInfo(), null);
+            }
+            Long userId = ((user)(session.getAttribute("user"))).getUserId();
+            PasswordProtected p = uService.getPasswordProtectByUserId(userId);
+            if (p.getPasswoordChangeValidate().equals("N")){
+                return new JsonResult<String>(true, PasswordChangeValidateEnum.Closed.getInfo(), null);
+            }
+            PasswordProtectedKey pk =
+                    (PasswordProtectedKey) session.getAttribute("user_validate_password_protected_key");
+            if (pk==null){
+                return new JsonResult<String>(true, PasswordChangeValidateEnum.NeedKey.getInfo(), null);
+            }
+            uService.OpenOrClosePasswordChangeValidate(userId);
+            result = new JsonResult<String>(true, PasswordChangeValidateEnum.Success.getInfo(), null);
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = new JsonResult<String>(false, e.getMessage());
+        }
+        return  result;
     }
 
     /**
@@ -768,7 +803,39 @@ public class UserController {
     @RequestMapping(value = "ModifyPassword", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<String> ModifyPassword(HttpSession session,String oldPassword,String newPassword){
-        //TODO
-        return  null;
+        JsonResult<String> result;
+        try {
+            if(newPassword==null||newPassword.length()>20||newPassword.length()<6){
+                return new JsonResult<String>(true, ModifyPaswordEnum.FORMAT.getInfo(), null);
+            }
+            if (getLoginState(session).getData().getState() != 1) {
+                return new JsonResult<String>(true, ModifyPaswordEnum.UN_LOGIN.getInfo(), null);
+            }
+            user u = ((user)(session.getAttribute("user")));
+            PasswordProtected p = uService.getPasswordProtectByUserId(u.getUserId());
+            if (p.getPasswoordChangeValidate().equals("Y")){
+                PasswordProtectedKey pk =
+                        (PasswordProtectedKey) session.getAttribute("user_validate_password_protected_key");
+                if (pk==null){
+                    return new JsonResult<String>(true, ModifyPaswordEnum.NeedKey.getInfo(), null);
+                }
+                uService.ChangePasword(u.getUserId(),newPassword);
+                session.setAttribute("user_validate_password_protected_key",null);
+                result = new JsonResult<String>(true, ModifyPaswordEnum.Success.getInfo(), null);
+            }else{
+                u.setPassword(oldPassword);
+                LoginResult l = uService.getLoginResult(u);
+                if (l.getResultNum()==1){
+                    uService.ChangePasword(u.getUserId(),newPassword);
+                    result = new JsonResult<String>(true, ModifyPaswordEnum.Success.getInfo(), null);
+                }else{
+                    result = new JsonResult<String>(true, ModifyPaswordEnum.WrongPsd.getInfo(), null);
+                }
+            }
+        }catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = new JsonResult<String>(false, e.getMessage());
+        }
+        return  result;
     }
 }

@@ -52,4 +52,8 @@ public class PublicServiceImpl implements PublicService {
         return null;
     }
 
+    public int ChangePasword(Long userId, String password) {
+        return uMapper.changePassword(userId,password);
+    }
+
 }

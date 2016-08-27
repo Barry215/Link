@@ -35,6 +35,7 @@
 		<result column="t_error" jdbcType="VARCHAR" property="t_error" />
 	</resultMap>
 	<resultMap id="PasswordProtected" type="cn.SkyShadow.dto.user.PasswordProtected">
+        <result column="USER_ID" jdbcType="BIGINT" property="userId"/>
 		<result column="EMAIL" jdbcType="VARCHAR" property="Email"/>
 		<result column="PHONE" jdbcType="VARCHAR" property="Phone"/>
 		<result column="EMAILVALIDATE" jdbcType="VARCHAR" property="EmailValidate"/>
@@ -132,7 +133,7 @@
 		SELECT user_HasPhone(#{phone,jdbcType=VARCHAR},'zh')
 	</select>
 	<select id="getPasswordProtect" parameterType="java.lang.Long" resultMap="PasswordProtected">
-		SELECT EMAIL,PHONE,EMAILVALIDATE,PHONEVALIDATE,PASSWORDCHANGEVALIDATE FROM `user` WHERE USER_ID = #{userId,jdbcType=BIGINT};
+		SELECT USER_ID,EMAIL,PHONE,EMAILVALIDATE,PHONEVALIDATE,PASSWORDCHANGEVALIDATE FROM `user` WHERE USER_ID = #{userId,jdbcType=BIGINT};
 	</select>
 	<update id="validateEmail">
 		UPDATE `user` SET EMAILVALIDATE = 'Y', EMAIL = #{email,jdbcType=VARCHAR} WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
@@ -149,4 +150,10 @@
 	<select id="selectBaseInfoByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
 		CALL selectBaseInfoByLoginName(#{loginname,jdbcType=VARCHAR})
 	</select>
+	<update id="OpenOrClosePasswordChangeValidate">
+		CALL openOrClosePasswordChangeValidate( #{userId,jdbcType=BIGINT})
+	</update>
+    <update id="changePassword">
+        UPDATE user SET PASSWORD = md5(#{password,jdbcType=VARCHAR}) WHERE USER_ID = #{userId,jdbcType=BIGINT}
+    </update>
 </mapper>

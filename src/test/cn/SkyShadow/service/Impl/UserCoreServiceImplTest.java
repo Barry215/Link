@@ -87,4 +87,11 @@ public class UserCoreServiceImplTest {
         logger.info("测试修改手机结果"+userMapper.ChangeValidatePhone(4L,"13834388888"));
     }
 
+    @Test
+    public void  OpenOrClosePasswordChangeValidate() throws  Exception{
+        logger.info("测试"+userMapper.OpenOrClosePasswordChangeValidate(4L));
+        logger.info("测试"+userMapper.OpenOrClosePasswordChangeValidate(4L));
+    }
+
+
 }
