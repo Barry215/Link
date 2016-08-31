@@ -16,19 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:config/spring-dao.xml","classpath:config/spring-service.xml","classpath:config/spring-mvc.xml"})
 public class PublicServiceImplTest {
-    @Autowired
+    @Autowired(required = false)
     private userMapper uMapper;
-    @Autowired
+    @Autowired(required = false)
     private cn.SkyShadow.dao.cityMapper cityMapper;
-    @Autowired
+    @Autowired(required = false)
     private cn.SkyShadow.dao.countryMapper countryMapper;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
     public void hasPhone() throws Exception {
-        logger.info("测试hasPhone:"+uMapper.HasPhone("123456"));
         logger.info("测试hasPhone:"+uMapper.HasPhone("18100174605"));
-        logger.info("测试hasPhone:"+uMapper.HasPhone("18100174520"));
+        logger.info("测试hasPhone:"+uMapper.HasPhone("+8618100174605"));
+        logger.info("测试hasPhone:"+uMapper.HasPhone("+8618100174520"));
     }
 
     @Test

@@ -44,7 +44,7 @@ public class UserControllerTest {
 
     @Test
     public void signUpNoEmail() throws Exception {
-        String code = publicController.sendPhoneValidateCode("18100174600",session).getData();
+        String code = publicController.sendPhoneValidateCode("+8618100174600",session).getData();
         if (!code.equals("ERROR!")){
             user u = new user();
             u.setUsername("test003");
@@ -59,7 +59,7 @@ public class UserControllerTest {
 
     @Test
     public void signUp() throws Exception {
-        String code = publicController.sendPhoneValidateCode("18100174611",session).getData();
+        String code = publicController.sendPhoneValidateCode("+8618100174611",session).getData();
         String code1 = publicController.sendEmailValidateCode("123@aaaa.com",session).getData();
         if (!code.equals("ERROR!")){
             user u = new user();
@@ -93,7 +93,7 @@ public class UserControllerTest {
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = userController.sendPhoneValidateCode("13555555555",session).getData();
+        String code = userController.sendPhoneValidateCode("+8613555555555",session).getData();
         logger.info("绑定手机："+userController.ValidatePhone(session,code));
     }
 
@@ -111,12 +111,12 @@ public class UserControllerTest {
     public void phoneSendToCheckPasswordProtected() throws Exception {
         user u = new user();
         u.setUsername("test004");
-        u.setPassword("123456");
+        u.setPassword("123456789");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
         String code = userController.PhoneSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(手机)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
-        String code1 = userController.ChangeValidatePhoneSend(session,"18100174600").getData();
+        String code1 = userController.ChangeValidatePhoneSend(session,"+8618100174611").getData();
         logger.info("修改手机(发送短信)"+code1);
         logger.info("修改手机"+userController.ChangeValidatePhone(session,code1));
     }

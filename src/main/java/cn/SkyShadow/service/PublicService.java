@@ -10,8 +10,9 @@ import java.util.List;
  * 开放信息
  */
 public interface PublicService {
-    /*
+    /**
      * 检查手机号是否被注册
+     * @param Phone 手机号码
      */
     String HasPhone(String Phone);
 

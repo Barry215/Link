@@ -29,7 +29,7 @@ public class PublicControllerTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Test
     public void hasPhone() throws Exception {
-        logger.info("测试 hasphone:"+publicController.hasPhone("18100174605"));
+        logger.info("测试 hasphone:"+publicController.hasPhone("+8618100174605"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class PublicControllerTest {
 
     @Test
     public void sendPhoneValidateCode() throws Exception {
-        logger.info("测试 sendPhoneValidateCode:"+publicController.sendPhoneValidateCode("18100174605",session));
+        logger.info("测试 sendPhoneValidateCode:"+publicController.sendPhoneValidateCode("+8618100174605",session));
     }
 
     @Test

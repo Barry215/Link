@@ -139,7 +139,7 @@
 		UPDATE `user` SET EMAILVALIDATE = 'Y', EMAIL = #{email,jdbcType=VARCHAR} WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
 	</update>
 	<update id="validatePhone">
-		UPDATE `user` SET PHONEVALIDATE = 'Y', PHONE = CONCAT('+86',#{phone,jdbcType=VARCHAR}) WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
+		UPDATE `user` SET PHONEVALIDATE = 'Y', PHONE = #{phone,jdbcType=VARCHAR} WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
 	</update>
 	<update id="unValidateEmail">
 		UPDATE `user` SET EMAILVALIDATE = 'N',PHONE = NULL WHERE `user`.USER_ID = #{userId,jdbcType=BIGINT}
