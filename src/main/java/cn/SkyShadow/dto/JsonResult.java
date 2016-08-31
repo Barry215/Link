@@ -4,9 +4,6 @@ package cn.SkyShadow.dto;
  *
  */
 public class JsonResult<T> {
-	/**
-	 * 是否出现错误，如出现，返回false，否则返回true
-	 */
 	private boolean success;
 	/**
 	 * 返回的数据
