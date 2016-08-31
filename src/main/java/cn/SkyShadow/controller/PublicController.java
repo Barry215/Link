@@ -5,8 +5,6 @@ import cn.SkyShadow.dto.tp.PhoneValidateResult;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.PasswordProtectedKey;
 import cn.SkyShadow.enums.*;
-import cn.SkyShadow.model.user;
-import cn.SkyShadow.service.UserCoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +30,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/public")
 public class PublicController {
-	/*
-	 * 模版:
-	 * 
-	 * JsonResult<> result; try {
-	 * 
-	 * result = new JsonResult<>(true, , null); } catch (Exception e) {
-	 * logger.error(e.getMessage(), e); result = new JsonResult<>(false,
-	 * e.getMessage()); } return result;
-	 */
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final PublicService p;
 	private final SendEmailService emailService;
@@ -64,10 +53,10 @@ public class PublicController {
 		JsonResult<String> result;
 		try {
 			String hS = p.HasPhone(phone);
-			result = new JsonResult<String>(true, hS, null);
+			result = new JsonResult<>(true, hS, null);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<String>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
@@ -84,10 +73,10 @@ public class PublicController {
 		JsonResult<String> result;
 		try {
 			String hu = p.HasUsername(username);
-			result = new JsonResult<String>(true, hu, null);
+			result = new JsonResult<>(true, hu, null);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<String>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
@@ -103,10 +92,10 @@ public class PublicController {
 		JsonResult<String> result;
 		try {
 			String hu = p.HasEmail(email);
-			result = new JsonResult<String>(true, hu, null);
+			result = new JsonResult<>(true, hu, null);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<String>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
@@ -121,10 +110,10 @@ public class PublicController {
 		JsonResult<List<city>> result;
 		try {
 			List<city> cities = p.get_ZH_Cities();
-			result = new JsonResult<List<city>>(true, cities, null);
+			result = new JsonResult<>(true, cities, null);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<List<city>>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
@@ -139,10 +128,10 @@ public class PublicController {
 		JsonResult<List<country>> result;
 		try {
 			List<country> countries = p.getCountries();
-			result = new JsonResult<List<country>>(true, countries, null);
+			result = new JsonResult<>(true, countries, null);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<List<country>>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
@@ -160,16 +149,16 @@ public class PublicController {
 		JsonResult<String> result;
 		try {
 			if (p.HasEmail(email).equals("ER")) {
-				return new JsonResult<String>(true, "FORMAT!", null);
+				return new JsonResult<>(true, "FORMAT!", null);
 			}
 			if (p.HasEmail(email).equals("Y")) {
-				return new JsonResult<String>(true, "EXITS!", null);
+				return new JsonResult<>(true, "EXITS!", null);
 			}
 			EmailSendSession e = (EmailSendSession) session
 					.getAttribute("public_email");
 			if (e == null) {
 				String r = emailService.SendValidateCode(email);
-				result = new JsonResult<String>(true, r, null);
+				result = new JsonResult<>(true, r, null);
 				if (!r.equals("ERROR!")) {
 					session.setAttribute("public_email", new EmailSendSession(r,email));
 				}
@@ -177,10 +166,10 @@ public class PublicController {
 				Date date = new Date();
 				Date sessiondDate = e.getSendDate();
 				if (date.getTime() - sessiondDate.getTime() < 60000) {
-					result = new JsonResult<String>(true, "OVERCLOCKING!", null);
+					result = new JsonResult<>(true, "OVERCLOCKING!", null);
 				} else {
 					String r = emailService.SendValidateCode(email);
-					result = new JsonResult<String>(true, r, null);
+					result = new JsonResult<>(true, r, null);
 					if (!r.equals("ERROR!")) {
 						session.setAttribute("public_email", new EmailSendSession(r,email));
 					}
@@ -188,7 +177,7 @@ public class PublicController {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<String>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
@@ -206,16 +195,16 @@ public class PublicController {
 		JsonResult<String> result;
 		try {
 			if (p.HasPhone(phone).equals("ER")) {
-				return new JsonResult<String>(true, "FORMAT!", null);
+				return new JsonResult<>(true, "FORMAT!", null);
 			}
 			if (p.HasPhone(phone).equals("Y")) {
-				return new JsonResult<String>(true, "EXITS!", null);
+				return new JsonResult<>(true, "EXITS!", null);
 			}
 			PhoneSendSession e = (PhoneSendSession) session
 					.getAttribute("public_phone");
 			if (e == null) {
 				String r = phoneService.SendValidateCode(phone);
-				result = new JsonResult<String>(true, r, null);
+				result = new JsonResult<>(true, r, null);
 				System.out.print(result);
 				if (!r.equals("ERROR!")) {
 					session.setAttribute("public_phone", new PhoneSendSession(r,phone));
@@ -224,10 +213,10 @@ public class PublicController {
 				Date date = new Date();
 				Date sessiondDate = e.getSendDate();
 				if (date.getTime() - sessiondDate.getTime() < 60000) {
-					result = new JsonResult<String>(true, "OVERCLOCKING!", null);
+					result = new JsonResult<>(true, "OVERCLOCKING!", null);
 				} else {
 					String r = phoneService.SendValidateCode(phone);
-					result = new JsonResult<String>(true, r, null);
+					result = new JsonResult<>(true, r, null);
 					if (!r.equals("ERROR!")) {
 						session.setAttribute("public_phone", new PhoneSendSession(r,phone));
 					}
@@ -235,31 +224,33 @@ public class PublicController {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			result = new JsonResult<String>(false, e.getMessage());
+			result = new JsonResult<>(false, e.getMessage());
 		}
 		return result;
 	}
 	/**
 	 * 找回密码时使用
 	 * 返回用户是否可以使用手机验证，用户是否可以使用邮箱验证,要求不登陆状态
+	 * @param loginName 模糊的名称,支持用户名,验证过的邮箱和手机。
+     * @param session 回话session
 	 * @return 包装类PasswordProtected
 	 */
-	@RequestMapping(value = "//GetPasswordProtectedMethod", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/GetPasswordProtectedMethod", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<PasswordProtected> GetPasswordProtectedMethod(String loginName,HttpSession session){
         JsonResult<PasswordProtected> result;
         try {
             Object user = session.getAttribute("user");
-            if (user==null){
-                return  new JsonResult<PasswordProtected>(true,null,null);
+            if (user!=null){
+                return  new JsonResult<>(true,null,null);
             }
             PasswordProtected pp = p.getPasswordProtectByLoginName(loginName);
             pp.setPasswoordChangeValidate(null);
-            result = new JsonResult<PasswordProtected>(true, pp, null);
+            result = new JsonResult<>(true, pp, null);
             session.setAttribute("PasswordProtectedMethod_GETBACKPSD",pp);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new JsonResult<PasswordProtected>(false, e.getMessage());
+            result = new JsonResult<>(false, e.getMessage());
         }
         return result;
 	}
@@ -274,18 +265,21 @@ public class PublicController {
         JsonResult<String> result;
         try {
             Object user = session.getAttribute("user");
-            if (user==null){
-                return  new JsonResult<String>(true,PhoneSendResultEnum.LOGINED.getInfo(),null);
+            if (user!=null){
+                return  new JsonResult<>(true,PhoneSendResultEnum.LOGINED.getInfo(),null);
             }
             PasswordProtected pp =(PasswordProtected) (session.getAttribute("PasswordProtectedMethod_GETBACKPSD"));
-            if (pp==null||pp.getPhoneValidate().equals("N")) {
-                return new JsonResult<String>(true, PhoneSendResultEnum.UN_VALIDATE.getInfo(), null);
+			if (pp==null){
+				return new JsonResult<>(true, PhoneSendResultEnum.LONGTIMEOVER.getInfo(), null);
+			}
+            if (pp.getPhoneValidate().equals("N")) {
+                return new JsonResult<>(true, PhoneSendResultEnum.UN_VALIDATE.getInfo(), null);
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute("public_validate_password_protected_phone");
             if (e == null) {
                 String r = phoneService.SendValidateCode(pp.getPhone());
-                result = new JsonResult<String>(true, r, null);
+                result = new JsonResult<>(true, r, null);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute("public_validate_password_protected_phone", new PhoneSendSession(r, pp.getPhone()));
                 }
@@ -293,10 +287,10 @@ public class PublicController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<String>(true, PhoneSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = new JsonResult<>(true, PhoneSendResultEnum.OVERCLOCKING.getInfo(), null);
                 } else {
                     String r = phoneService.SendValidateCode(pp.getPhone());
-                    result = new JsonResult<String>(true, r, null);
+                    result = new JsonResult<>(true, r, null);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute("public_validate_password_protected_phone", new PhoneSendSession(r, pp.getPhone()));
                     }
@@ -304,7 +298,7 @@ public class PublicController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new JsonResult<String>(false, e.getMessage());
+            result = new JsonResult<>(false, e.getMessage());
         }
         return result;
 	}
@@ -320,18 +314,21 @@ public class PublicController {
         JsonResult<String> result;
         try {
             Object user = session.getAttribute("user");
-            if (user==null){
-                return  new JsonResult<String>(true,EmailSendResultEnum.LOGINED.getInfo(),null);
+            if (user!=null){
+                return  new JsonResult<>(true,EmailSendResultEnum.LOGINED.getInfo(),null);
             }
             PasswordProtected pp =(PasswordProtected) (session.getAttribute("PasswordProtectedMethod_GETBACKPSD"));
-            if (pp==null||pp.getEmailValidate().equals("N")) {
-                return new JsonResult<String>(true, EmailSendResultEnum.UN_VALIDATE.getInfo(), null);
+            if (p==null){
+				return new JsonResult<>(true, EmailSendResultEnum.LONGTIMEOVER.getInfo(), null);
+			}
+			if (pp.getEmailValidate().equals("N")) {
+                return new JsonResult<>(true, EmailSendResultEnum.UN_VALIDATE.getInfo(), null);
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute("public_validate_password_protected_email");
             if (e == null) {
                 String r = emailService.SendValidateCode(pp.getEmail());
-                result = new JsonResult<String>(true, r, null);
+                result = new JsonResult<>(true, r, null);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute("public_validate_password_protected_email", new EmailSendSession(r, pp.getEmail()));
                 }
@@ -339,10 +336,10 @@ public class PublicController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<String>(true, EmailSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = new JsonResult<>(true, EmailSendResultEnum.OVERCLOCKING.getInfo(), null);
                 } else {
                     String r = emailService.SendValidateCode(pp.getEmail());
-                    result = new JsonResult<String>(true, r, null);
+                    result = new JsonResult<>(true, r, null);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute("public_validate_password_protected_email", new EmailSendSession(r, pp.getEmail()));
                     }
@@ -350,7 +347,7 @@ public class PublicController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new JsonResult<String>(false, e.getMessage());
+            result = new JsonResult<>(false, e.getMessage());
         }
         return result;
 	}
@@ -367,22 +364,22 @@ public class PublicController {
         JsonResult<EmailValidateResult> result;
         try {
             Object user = session.getAttribute("user");
-            if (user==null){
-                return  new JsonResult<EmailValidateResult>(true,new  EmailValidateResult(EmailValidateEnum.LOGINED),null);
+            if (user!=null){
+                return  new JsonResult<>(true,new  EmailValidateResult(EmailValidateEnum.LOGINED),null);
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute("public_validate_password_protected_email");
             if (e != null && e.getValidateCode().equals(code)) {
-                result = new JsonResult<EmailValidateResult>(true, new EmailValidateResult(EmailValidateEnum.SUCCESS), null);
+                result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.SUCCESS), null);
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
             } else if (e == null) {
-                result = new JsonResult<EmailValidateResult>(true, new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL), null);
+                result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL), null);
             } else {
-                result = new JsonResult<EmailValidateResult>(true, new EmailValidateResult(EmailValidateEnum.ERROR_CODE), null);
+                result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.ERROR_CODE), null);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new JsonResult<EmailValidateResult>(false, e.getMessage());
+            result = new JsonResult<>(false, e.getMessage());
         }
         return result;
 	}
@@ -399,22 +396,22 @@ public class PublicController {
         JsonResult<PhoneValidateResult> result;
         try {
             Object user = session.getAttribute("user");
-            if (user==null){
-                return  new JsonResult<PhoneValidateResult>(true,new  PhoneValidateResult(PhoneValidateEnum.LOGINED),null);
+            if (user!=null){
+                return  new JsonResult<>(true,new  PhoneValidateResult(PhoneValidateEnum.LOGINED),null);
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute("public_validate_password_protected_phone");
             if (e != null && e.getValidateCode().equals(code)) {
-                result = new JsonResult<PhoneValidateResult>(true, new PhoneValidateResult(PhoneValidateEnum.SUCCESS), null);
+                result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.SUCCESS), null);
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
             } else if (e == null) {
-                result = new JsonResult<PhoneValidateResult>(true, new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL), null);
+                result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL), null);
             } else {
-                result = new JsonResult<PhoneValidateResult>(true, new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE), null);
+                result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE), null);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new JsonResult<PhoneValidateResult>(false, e.getMessage());
+            result = new JsonResult<>(false, e.getMessage());
         }
         return result;
 	}
@@ -431,22 +428,22 @@ public class PublicController {
         JsonResult<String> result;
         try {
             Object user = session.getAttribute("user");
-            if (user==null){
-                return  new JsonResult<String>(true, ModifyPaswordEnum.LOGINED.getInfo(),null);
+            if (user!=null){
+                return  new JsonResult<>(true, ModifyPaswordEnum.LOGINED.getInfo(),null);
             }
             PasswordProtectedKey pk =
                     (PasswordProtectedKey) session.getAttribute("public_validate_password_protected_key");
             PasswordProtected pp =
                     (PasswordProtected)session.getAttribute("PasswordProtectedMethod_GETBACKPSD");
             if (pk==null||pp==null){
-                return new JsonResult<String>(true, ModifyPaswordEnum.NeedKey.getInfo(), null);
+                return new JsonResult<>(true, ModifyPaswordEnum.NeedKey.getInfo(), null);
             }
             p.ChangePasword(pp.getUserId(),password);
             session.setAttribute("user_validate_password_protected_key",null);
-            result = new JsonResult<String>(true, ModifyPaswordEnum.Success.getInfo(), null);
+            result = new JsonResult<>(true, ModifyPaswordEnum.Success.getInfo(), null);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            result = new JsonResult<String>(false, e.getMessage());
+            result = new JsonResult<>(false, e.getMessage());
         }
         return result;
 	}

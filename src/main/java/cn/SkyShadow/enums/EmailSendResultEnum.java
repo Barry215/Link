@@ -1,10 +1,8 @@
 package cn.SkyShadow.enums;
 
-/**
- * Created by RichardW on 8/25/2016.
- */
 public enum EmailSendResultEnum {
-    FORMAT("FORMAT"),EXITS("EXITS"),UN_LOGIN("UN_LOGIN"),VALIDATED("VALIDATED"),OVERCLOCKING("OVERCLOCKING"),UN_VALIDATE("UN_VALIDATE"), LOGINED("LOGINED");
+    FORMAT("FORMAT"),EXITS("EXITS"),UN_LOGIN("UN_LOGIN"),VALIDATED("VALIDATED"),
+    OVERCLOCKING("OVERCLOCKING"),UN_VALIDATE("UN_VALIDATE"), LOGINED("LOGINED"),LONGTIMEOVER("LONGTIMEOVER");
     private String Info;
 
     public String getInfo() {
@@ -21,7 +19,7 @@ public enum EmailSendResultEnum {
 
     public static EmailSendResultEnum stateof(String index) {
         for (EmailSendResultEnum o : values()) {
-            if (o.getInfo() == index) {
+            if (o.getInfo().equals(index)) {
                 return o;
             }
         }

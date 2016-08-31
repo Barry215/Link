@@ -1,5 +1,6 @@
 package cn.SkyShadow.controller;
 
+import cn.SkyShadow.model.user;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +60,15 @@ public class PublicControllerTest {
 
     @Test
     public void sendPhoneValidateCode() throws Exception {
-        logger.info("测试 sendPhoneValidateCode:"+publicController.sendPhoneValidateCode("127728705@qq.com",session));
+        logger.info("测试 sendPhoneValidateCode:"+publicController.sendPhoneValidateCode("18100174605",session));
+    }
+
+    @Test
+    public void ResetPassword() throws  Exception{
+        logger.info("检测密保"+publicController.GetPasswordProtectedMethod("Richard",session));
+        String code = publicController.PhoneSendToCheckPasswordProtected(session).getData();
+        logger.info(("发送短信")+code);
+        logger.info("验证密保"+publicController.ValidatePasswordProtectedMethodByPhone(session,code));
+        logger.info("重设密码"+publicController.ResetPassword(session,"123456"));
     }
 }

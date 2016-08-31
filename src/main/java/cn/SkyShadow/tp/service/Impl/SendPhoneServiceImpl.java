@@ -17,7 +17,8 @@ public class SendPhoneServiceImpl implements SendPhoneService {
 		Pattern pattern = Pattern
 				.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
 		Matcher matcher = pattern.matcher(Phone);
-		if (!matcher.matches()) {
+        Matcher matcher1 = pattern.matcher(Phone.substring(3));
+		if (!matcher.matches()&&!matcher1.matches()) {
 			return "EROOR!";
 		}
 		int validateCode = new Random().nextInt(899999) + 100000;
