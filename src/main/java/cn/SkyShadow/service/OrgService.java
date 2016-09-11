@@ -1,6 +1,7 @@
 package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.org.Org_usership;
 import cn.SkyShadow.model.Apply;
 import cn.SkyShadow.model.Receipt;
 import cn.SkyShadow.model.organization;
@@ -21,12 +22,19 @@ public interface OrgService {
     Excution CreateNewOrg(organization org);
 
     /**
+     * 获取用户在组织内的职务（是否是创建者或者管理员等等）
+     * @param u 用户
+     * @param o 组织
+     * @return 结果
+     */
+    Org_usership getOrg_usership(user u,organization o);
+    /**
      * 修改组织基本信息
-     *
+     * @param u 用户
      * @param o 组织
      * @return 修改结果
      */
-    Excution ModifyOrg(organization o);
+    Excution ModifyOrg(organization o,user u);
 
     /**
      * 申请父组织
