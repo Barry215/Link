@@ -1,10 +1,17 @@
 package cn.SkyShadow.dto.excution;
 
+/**
+ * 执行结果
+ */
 public class Excution {
 	private int resultNum;
 	private String resultInfo;
 	private Object obj;
 
+    /**
+     * 获取执行结果递交过来的实体类
+     * @return 执行结果递交过来的实体类
+     */
 	public Object getObj() {
 		return obj;
 	}

@@ -6,19 +6,14 @@ import java.util.Date;
  * 邮箱验证码发送信息
  */
 public class EmailSendSession {
-	/**
-	 * 发送时间
-	 */
 	private Date sendDate;
-	/**
-	 * 验证码
-	 */
 	private String ValidateCode;
-	/**
-	 * 邮箱地址
-	 */
 	private String email;
 
+	/**
+	 * 获取邮件地址
+	 * @return 邮件地址
+	 */
 	public String getEmail() {
 		return email;
 	}
@@ -27,6 +22,10 @@ public class EmailSendSession {
 		this.email = email;
 	}
 
+    /**
+     * 获取发送时间
+     * @return 发送时间
+     */
 	public Date getSendDate() {
 		return sendDate;
 	}
@@ -35,6 +34,10 @@ public class EmailSendSession {
 		this.sendDate = sendDate;
 	}
 
+    /**
+     * 获取验证码
+     * @return 验证码
+     */
 	public String getValidateCode() {
 		return ValidateCode;
 	}

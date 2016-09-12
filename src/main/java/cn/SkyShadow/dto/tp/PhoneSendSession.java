@@ -6,19 +6,14 @@ import java.util.Date;
  * 手机验证码发送信息
  */
 public class PhoneSendSession {
-	/**
-	 * 发送时间
-	 */
 	private Date sendDate;
-	/**
-	 * 验证码
-	 */
 	private String ValidateCode;
-	/**
-	 * 手机号码
-	 */
 	private String Phone;
 
+    /**
+     * 获取手机号码
+     * @return 手机号码
+     */
 	public String getPhone() {
 		return Phone;
 	}
@@ -26,6 +21,10 @@ public class PhoneSendSession {
 	public void setPhone(String phone) {
 		Phone = phone;
 	}
+	/**
+	 * 发送时间
+     * @return 发送时间
+	 */
 	public Date getSendDate() {
 		return sendDate;
 	}
@@ -34,6 +33,10 @@ public class PhoneSendSession {
 		this.sendDate = sendDate;
 	}
 
+    /**
+     * 获取验证码信息
+     * @return 验证码信息
+     */
 	public String getValidateCode() {
 		return ValidateCode;
 	}

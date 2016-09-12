@@ -5,15 +5,15 @@ package cn.SkyShadow.dto;
  */
 public class JsonResult<T> {
 	private boolean success;
-	/**
-	 * 返回的数据
-	 */
+
 	private T data;
-	/**
-	 * 返回的错误，若出现错误，返回错误信息，否则为空
-	 */
+
 	private String err;
 
+	/**
+	 * 后台是否发生错误
+	 * @return 是否发生错误
+	 */
 	public boolean isSuccess() {
 		return success;
 	}
@@ -22,6 +22,10 @@ public class JsonResult<T> {
 		this.success = success;
 	}
 
+	/**
+	 * 获取JSON内的数据
+	 * @return 数据
+	 */
 	public T getData() {
 		return data;
 	}
@@ -30,6 +34,10 @@ public class JsonResult<T> {
 		this.data = data;
 	}
 
+	/**
+	 * 获取错误信息
+	 * @return 错误信息
+	 */
 	public String getErr() {
 		return err;
 	}
