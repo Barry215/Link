@@ -4,18 +4,19 @@
 	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.organization">
 		<id column="ORG_ID" property="orgId"  jdbcType="BIGINT" />
 		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
 		<association column="LOCATION" property="location"
-			select="cn.SkyShadow.dao.locationMapper.selectByPrimaryKey"></association>
+			select="cn.SkyShadow.dao.locationMapper.selectByPrimaryKey" />
 		<association column="PARENT_ID" property="parentId"
-			select="cn.SkyShadow.dao.organizationMapper.selectBaseInfo"></association>
+			select="cn.SkyShadow.dao.organizationMapper.selectBaseInfo" />
 		<association column="CREATOR_ID" property="creatorId"
-			select="cn.SkyShadow.dao.userMapper.selectBaseInfo"></association>
-		<collection property="announces" column="ORD_ID" select="selectannounces"></collection>
+			select="cn.SkyShadow.dao.userMapper.selectBaseInfo" />
+		<collection property="announces" column="ORD_ID" select="selectannounces" />
 		<collection property="sonOrganizations" column="ORG_ID"
-			select="selectsonOrganizations"></collection>
+			select="selectsonOrganizations" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ORG_ID, NAME, LOCATION, PARENT_ID, CREATOR_ID
+		ORG_ID, NAME, LOCATION, PARENT_ID, CREATOR_ID,TYPE
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
@@ -27,7 +28,7 @@
 	<select id="selectannounces" resultMap="cn.SkyShadow.dao.announceMapper.BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		ANN_ID, CONTENT_ID, TIME
+		ANN_ID, CONTENT_ID, TIME,TYPE
 		from
 		announce where
 		ORG_ID = #{orgId jdbcType="BIGINT"}
@@ -35,14 +36,14 @@
 	<select id="selectsonOrganizations" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		ORG_ID, NAME, CREATOR_ID
+		ORG_ID, NAME, CREATOR_ID,TYPE
 		from organization
 		where PARENT_ID = #{orgId,jdbcType=BIGINT}
 	</select>
 	<select id="selectBaseInfo" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		ORG_ID, NAME, LOCATION, CREATOR_ID
+		ORG_ID, NAME, LOCATION, CREATOR_ID,TYPE
 		from organization
 		where ORG_ID = #{orgId,jdbcType=BIGINT}
 	</select>
@@ -54,12 +55,13 @@
 	<insert id="insert" parameterType="cn.SkyShadow.model.organization" keyProperty="orgId">
 		insert ignore into
 		organization (ORG_ID, NAME, LOCATION,
-		PARENT_ID, CREATOR_ID)
+		PARENT_ID, CREATOR_ID,TYPE )
 		values
 		(#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
 		#{location.locationId,jdbcType=BIGINT},
 		#{parentId.organizationId,jdbcType=BIGINT},
-		#{creatorId.userId,jdbcType=BIGINT})
+		#{creatorId.userId,jdbcType=BIGINT},
+		#{type,jdbcType=VARCHAR})
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.organization">
 		update organization

@@ -1,10 +1,8 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.excution.Excution;
-import cn.SkyShadow.model.Apply;
-import cn.SkyShadow.model.Receipt;
-import cn.SkyShadow.model.organization;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.dto.file.FileList;
+import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.OrgService;
 
 import java.util.List;
@@ -16,55 +14,118 @@ import java.util.List;
 public class OrgServiceImpl implements OrgService {
 
 
+    @Override
     public Excution CreateNewOrg(organization org) {
         return null;
     }
 
+    @Override
     public Excution ModifyOrg(organization o) {
         return null;
     }
 
-    public Excution ApplyParentOrg(organization o, organization parent, Apply a) {
+    @Override
+    public Excution ApplyParentOrg(Apply a) {
         return null;
     }
 
-    public Excution ApplyParentOrgCallBack(Receipt receipt) {
+    @Override
+    public Excution ApplyParentOrgCallBack(Receipt r) {
         return null;
     }
 
-    public Excution ApplyUnlockParentOrg(organization o, Apply a) {
+    @Override
+    public Excution RollBackApplyParentOrg(Long applyId) {
         return null;
     }
 
+    @Override
+    public Excution ApplyUnlockParentOrg(Apply a) {
+        return null;
+    }
+
+    @Override
+    public Excution RollBackApplyUnlockParentOrg(Long applyId) {
+        return null;
+    }
+
+    @Override
     public Excution ApplyUnlockParentOrgCallBack(Receipt r) {
         return null;
     }
 
-    public Excution DiliverOrgNotWithSonOrg(organization o, user u, Apply a) {
+    @Override
+    public Excution RollBackApplyUnlockParentOrgCallBack(Long applyId) {
         return null;
     }
 
-    public Excution DeliverOrgWithSonOrg(organization o, user u, Apply a) {
+    @Override
+    public Excution DiliverOrgNotWithSonOrg(Apply a) {
         return null;
     }
 
+    @Override
     public Excution CreateDepartment(organization o) {
         return null;
     }
 
-    public Excution ComandDeparementLeader(organization o, user u, Apply a) {
+    @Override
+    public Excution ComandDeparementLeader(Apply a) {
         return null;
     }
 
+    @Override
     public Excution ComandDeparementLeaderCallBack(Receipt r) {
         return null;
     }
 
+    @Override
     public Excution UnlockDeparementLeader(organization o) {
         return null;
     }
 
+    @Override
     public List<organization> SearchOrg(String str) {
+        return null;
+    }
+
+    @Override
+    public Excution DeleteOrg(organization o) {
+        return null;
+    }
+
+    @Override
+    public Excution Announce(announce a, organization o) {
+        return null;
+    }
+
+    @Override
+    public Excution DeleteAnnounce(Long annId) {
+        return null;
+    }
+
+    @Override
+    public Excution UpdateFile(file file) {
+        return null;
+    }
+
+    @Override
+    public Excution UpdateFileGroup(filegroup filegroup) {
+        return null;
+    }
+
+    @Override
+    public FileList GetFileList(organization organization) {
+        return null;
+    }
+
+    @Override
+    public Excution DeleteFile(Long fileId) {
+        return null;
+    }
+
+    @Override
+    public Excution DeleteFileGroup(Long filegroupId) {
         return null;
     }
 }

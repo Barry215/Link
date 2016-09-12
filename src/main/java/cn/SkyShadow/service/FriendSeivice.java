@@ -1,21 +1,34 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.model.content;
-import cn.SkyShadow.model.friendgroup;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.model.*;
 
 import java.util.List;
 
 public interface FriendSeivice {
-	 List<friendgroup> GetFriendGroupList(user user);
+/*
+搜索用户
+加好友申请
+处理加好友申请
+编辑分组
+新建分组
+删除好友
+*/
 
-	 List<user> SearchUser(String str);
+    /**
+     * 搜索用户
+     * @param str 模糊字段
+     * @return 用户信息列表
+     */
+    List<user> Search(String str);
 
-	 void ApplyAddUser(content content);
+    Excution AddFriend(Apply apply);
 
-	 int AddUser(content reply);
+    Excution AddFriendCallBack(Receipt receipt);
 
-	 int CreateNewFriendGroup(user u, friendgroup f);
+    Excution CreateFriendGroup(friendgroup friendgroup);
 
-	 int ModifyFriendGroup(user u, friendgroup f);
+    Excution ModifyFriendGroup(friendgroup friendgroup);
+
+    Excution Deletefriend(user a, user b);
 }

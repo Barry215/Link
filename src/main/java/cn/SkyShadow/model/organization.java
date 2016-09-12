@@ -17,13 +17,24 @@ public class organization {
 
 	private List<organization> sonOrganizations;
 
+	private String type;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public organization(String name, cn.SkyShadow.model.location location,
-			organization parentId, user creatorId) {
+						organization parentId, user creatorId ,String type) {
 		super();
 		this.name = name;
 		this.location = location;
 		this.parentId = parentId;
 		this.creatorId = creatorId;
+        this.type = type;
 	}
 
 	public organization() {
@@ -86,12 +97,17 @@ public class organization {
 		this.creatorId = creatorId;
 	}
 
-	@Override
-	public String toString() {
-		return "organization [orgId=" + orgId + ", name=" + name
-				+ ", location=" + location + ", parentId=" + parentId
-				+ ", creatorId=" + creatorId + ", announces=" + announces
-				+ ", sonOrganizations=" + sonOrganizations + "]";
-	}
-
+    @Override
+    public String toString() {
+        return "organization{" +
+                "orgId=" + orgId +
+                ", name='" + name + '\'' +
+                ", location=" + location +
+                ", parentId=" + parentId +
+                ", creatorId=" + creatorId +
+                ", announces=" + announces +
+                ", sonOrganizations=" + sonOrganizations +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

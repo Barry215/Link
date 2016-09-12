@@ -7,13 +7,12 @@ import cn.SkyShadow.model.user;
 import java.util.List;
 
 public interface MailService {
-	public int SendMail(mail m);
-	public List<mail> GetNewMailList(user u, mailbox mailbox);
-	
-	public List<mail> GetNewMailListAuto(user u);
-	
-	public int Delete1Mail(user u, mail m);
-	
-	public int Delete2Mail(user u, mail m);
+/*
+*接收邮件
+发送邮件，包括以下步骤
+上传必要的文件等等，如音频，视频，文档，其它文件等等。
+发送邮件
+删除邮件
+把未读邮件变成已读邮件 */
 	
 }
