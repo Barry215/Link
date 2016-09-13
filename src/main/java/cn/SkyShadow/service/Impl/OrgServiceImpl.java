@@ -89,43 +89,4 @@ public class OrgServiceImpl implements OrgService {
         return null;
     }
 
-    @Override
-    public Excution DeleteOrg(organization o) {
-        return null;
-    }
-
-    @Override
-    public Excution Announce(announce a, organization o) {
-        return null;
-    }
-
-    @Override
-    public Excution DeleteAnnounce(Long annId) {
-        return null;
-    }
-
-    @Override
-    public Excution UpdateFile(file file) {
-        return null;
-    }
-
-    @Override
-    public Excution UpdateFileGroup(filegroup filegroup) {
-        return null;
-    }
-
-    @Override
-    public FileList GetFileList(organization organization) {
-        return null;
-    }
-
-    @Override
-    public Excution DeleteFile(Long fileId) {
-        return null;
-    }
-
-    @Override
-    public Excution DeleteFileGroup(Long filegroupId) {
-        return null;
-    }
 }

@@ -6,14 +6,6 @@ import cn.SkyShadow.model.*;
 import java.util.List;
 
 public interface FriendSeivice {
-/*
-搜索用户
-加好友申请
-处理加好友申请
-编辑分组
-新建分组
-删除好友
-*/
 
     /**
      * 搜索用户
@@ -22,13 +14,39 @@ public interface FriendSeivice {
      */
     List<user> Search(String str);
 
+    /**
+     * 加好友申请
+     * @param apply 申请
+     * @return 执行结果
+     */
     Excution AddFriend(Apply apply);
 
+    /**
+     * 处理加好友申请
+     * @param receipt 回执
+     * @return 执行结果
+     */
     Excution AddFriendCallBack(Receipt receipt);
 
+    /**
+     * 创建好友分组
+     * @param friendgroup 好友分组
+     * @return 执行结果
+     */
     Excution CreateFriendGroup(friendgroup friendgroup);
 
+    /**
+     * 编辑好友分组
+     * @param friendgroup 好友分组信息
+     * @return 执行结果
+     */
     Excution ModifyFriendGroup(friendgroup friendgroup);
 
+    /**
+     * 删除好友
+     * @param a 用户A
+     * @param b 用户B
+     * @return 执行结果
+     */
     Excution Deletefriend(user a, user b);
 }

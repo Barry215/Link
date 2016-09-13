@@ -9,6 +9,16 @@ public class occupation {
 
 	private mailbox mailbox;
 
+	private Occupation_Power occupation_power;
+
+	public Occupation_Power getOccupation_power() {
+		return occupation_power;
+	}
+
+	public void setOccupation_power(Occupation_Power occupation_power) {
+		this.occupation_power = occupation_power;
+	}
+
 	public occupation(String name, cn.SkyShadow.model.organization organization) {
 		super();
 		this.name = name;

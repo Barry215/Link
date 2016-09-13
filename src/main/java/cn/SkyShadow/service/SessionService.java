@@ -15,34 +15,6 @@ public interface SessionService {
     List<session> GetAllSession(Long userId);
 
     /**
-     * 上传音频
-     * @param voice 语音
-     * @return 执行结果
-     */
-    Excution UpdateVoice(voice voice);
-
-    /**
-     * 上传视频
-     * @param video 视频
-     * @return 执行结果
-     */
-    Excution UpdateVideo(video video);
-
-    /**
-     * 上传图片
-     * @param imagine 图片
-     * @return 执行结果
-     */
-    Excution UpdateImage(imagine imagine);
-
-    /**
-     * 上传表情
-     * @param expr 表情
-     * @return 执行结果
-     */
-    Excution UpdateExpr(expr expr);
-
-    /**
      * 发送消息
      * @param message 信息
      * @return 执行结果

@@ -17,26 +17,6 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Excution UpdateVoice(voice voice) {
-        return null;
-    }
-
-    @Override
-    public Excution UpdateVideo(video video) {
-        return null;
-    }
-
-    @Override
-    public Excution UpdateImage(imagine imagine) {
-        return null;
-    }
-
-    @Override
-    public Excution UpdateExpr(expr expr) {
-        return null;
-    }
-
-    @Override
     public Excution SendMessage(message message) {
         return null;
     }
