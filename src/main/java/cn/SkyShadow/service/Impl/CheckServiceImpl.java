@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 @Service
 public class CheckServiceImpl implements CheckService {
     private final UserCoreService uService;
+
     @Autowired
     public CheckServiceImpl(UserCoreService uService) {
         this.uService = uService;
@@ -47,24 +48,14 @@ public class CheckServiceImpl implements CheckService {
     }
 
     @Override
-    public void RemoveSession(HttpSession session, SessionNameEnum sessionNameEnum) {
-        session.removeAttribute(sessionNameEnum.getSessionName());
-    }
-
-    @Override
-    public boolean CheckPhoneCode(HttpSession session, SessionNameEnum sessionNameEnum, String UserCode,String Phone) {
+    public boolean CheckPhoneCode(HttpSession session, SessionNameEnum sessionNameEnum, String UserCode, String Phone) {
         PhoneSendSession phoneSendSession = (PhoneSendSession) session.getAttribute(sessionNameEnum.getSessionName());
         return (phoneSendSession != null) && phoneSendSession.getValidateCode().equals(UserCode) && phoneSendSession.getPhone().equals(Phone);
     }
 
     @Override
-    public boolean CheckEmailCode(HttpSession session, SessionNameEnum sessionNameEnum, String UserCode,String Email) {
+    public boolean CheckEmailCode(HttpSession session, SessionNameEnum sessionNameEnum, String UserCode, String Email) {
         EmailSendSession emailSendSession = (EmailSendSession) session.getAttribute(sessionNameEnum.getSessionName());
         return (emailSendSession != null) && emailSendSession.getValidateCode().equals(UserCode) && emailSendSession.getEmail().equals(Email);
-    }
-
-    @Override
-    public void AddSession(HttpSession session, Object object, SessionNameEnum sessionNameEnum) {
-        session.setAttribute(sessionNameEnum.getSessionName(),object);
     }
 }

@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+//import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import  cn.SkyShadow.model.user;
@@ -22,7 +22,7 @@ public class UserControllerTest {
     @Before
     public void setUp(){
         MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
+        //MockHttpServletResponse response = new MockHttpServletResponse();
         request.setCharacterEncoding("UTF-8");
         session = request.getSession();
     }
@@ -82,7 +82,7 @@ public class UserControllerTest {
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = userController.sendEmailValidateCode("789@qq.com",session).getData();
+        String code = (String) userController.sendEmailValidateCode("789@qq.com",session).getData();
         logger.info("绑定邮箱："+userController.ValidateEmail(session,code));
     }
 
@@ -93,7 +93,7 @@ public class UserControllerTest {
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = userController.sendPhoneValidateCode("+8613555555555",session).getData();
+        String code = (String) userController.sendPhoneValidateCode("+8613555555555",session).getData();
         logger.info("绑定手机："+userController.ValidatePhone(session,code));
     }
 
@@ -114,9 +114,9 @@ public class UserControllerTest {
         u.setPassword("123456789");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = userController.PhoneSendToCheckPasswordProtected(session).getData();
+        String code = (String) userController.PhoneSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(手机)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
-        String code1 = userController.ChangeValidatePhoneSend(session,"+8618100174611").getData();
+        String code1 = (String) userController.ChangeValidatePhoneSend(session,"+8618100174611").getData();
         logger.info("修改手机(发送短信)"+code1);
         logger.info("修改手机"+userController.ChangeValidatePhone(session,code1));
     }
@@ -128,9 +128,9 @@ public class UserControllerTest {
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = userController.EmailSendToCheckPasswordProtected(session).getData();
+        String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
-        String code1 = userController.ChangeValidateEmailSend(session,"1523@qq.com").getData();
+        String code1 = (String) userController.ChangeValidateEmailSend(session,"1523@qq.com").getData();
         logger.info("修改邮箱(发送短信)"+code1);
         logger.info("修改邮箱"+userController.ChangeValidateEmail(session,code1));
     }
@@ -141,14 +141,14 @@ public class UserControllerTest {
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = userController.EmailSendToCheckPasswordProtected(session).getData();
+        String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
         logger.info("打开密码更改保护"+userController.OpenPasswordChangeValidate(session));
         logger.info("修改密码"+userController.ModifyPassword(session,null,"123456789"));
         u.setPassword("123456789");
         logger.info("登录："+userController.getLoginResult(u,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        code = userController.EmailSendToCheckPasswordProtected(session).getData();
+        code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
         logger.info("关闭密码更改保护"+userController.ClosePasswordChangeValidate(session));
         logger.info("修改密码"+userController.ModifyPassword(session,null,"123456"));

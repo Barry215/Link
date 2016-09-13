@@ -19,8 +19,7 @@ public interface OrgService {
     Excution CreateNewOrg(organization org);
 
     /**
-     * 获取用户在组织内的职务（是否是创建者或者管理员等等）
-     * @param u 用户
+     * 修改父组织
      * @param o 组织
      * @return 结果
      */
@@ -124,5 +123,12 @@ public interface OrgService {
      * @param o 组织
      * @return 执行结果
      */
+    Excution DeleteOrg(Long ID);
 
+    /**
+     * 检查是否有这个组织名
+     * @param Name 组织名
+     * @return 结果
+     */
+    boolean HasOrgName(String Name);
 }

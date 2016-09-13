@@ -20,6 +20,10 @@ public class Excution {
 		this.obj = obj;
 	}
 
+	/**
+	 * 获取返回值，低于等于0代表用户的输入有错误，高于零代表正常
+	 * @return
+	 */
 	public int getResultNum() {
 		return resultNum;
 	}
