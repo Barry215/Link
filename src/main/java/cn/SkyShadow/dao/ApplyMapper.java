@@ -7,8 +7,8 @@ import cn.SkyShadow.model.Apply;
  * Created by RichardW on 9/13/2016.
  */
 public interface ApplyMapper {
-    int Create(Apply apply);
-    int OverTime(Long applyId);
-    int Remove(Long applyId);
-    int Finish(Long applyId);
+    int Create(Apply apply);//TODO
+    int OverTime(Long applyId);//TODO
+    int Remove(Long applyId);//TODO
+    int Finish(Long applyId);//TODO
 }

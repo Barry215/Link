@@ -13,7 +13,9 @@ public class RegisterResult {
 	 */
 	private int t_error;
 
-	public String getResult() {
+
+
+    public String getResult() {
 		return result;
 	}
 
@@ -35,7 +37,7 @@ public class RegisterResult {
 				+ "]";
 	}
 
-	public RegisterResult(String result, int t_error) {
+	public RegisterResult(int t_error,String result) {
 		this.result = result;
 		this.t_error = t_error;
 	}

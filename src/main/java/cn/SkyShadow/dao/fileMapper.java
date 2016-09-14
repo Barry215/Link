@@ -37,4 +37,20 @@ public interface fileMapper {
      * @return 执行结果
      */
     int updateByPrimaryKey(file record);
+
+    /**
+     * 向组织上传文件
+     * @param orgId 组织
+     * @param fileId 文件ID
+     * @return 执行结果
+     */
+    int AddFileToOrg(Long orgId, Long fileId);//TODO
+
+    /**
+     * 从组织移除文件
+     * @param orgId 组织ID
+     * @param fileId 文件ID
+     * @return 执行结果
+     */
+    int RemoveFileFromOrg(Long orgId, Long fileId);//todo
 }

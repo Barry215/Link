@@ -1,5 +1,9 @@
 package cn.SkyShadow.controller;
 
+import cn.SkyShadow.dto.factory.JsonResultFactory;
+import cn.SkyShadow.dto.factory.LoginResultFactory;
+import cn.SkyShadow.dto.factory.LoginStateFactory;
+import cn.SkyShadow.dto.factory.RegisterResultFactory;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.EmailValidateResult;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
@@ -10,7 +14,6 @@ import cn.SkyShadow.dto.user.SignUpForm;
 import cn.SkyShadow.enums.*;
 import cn.SkyShadow.model.result_model.RegisterResult;
 import cn.SkyShadow.service.CheckService;
-import cn.SkyShadow.service.JsonResultFactory;
 import cn.SkyShadow.service.PublicService;
 import cn.SkyShadow.tp.service.SendEmailService;
 import cn.SkyShadow.tp.service.SendPhoneService;
@@ -37,17 +40,15 @@ public class UserController {
     private final SendPhoneService phoneService;
     private final PublicService pService;
     private final CheckService checkService;
-    private final JsonResultFactory jsonResultFactory;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService,CheckService checkService,JsonResultFactory jsonResultFactory) {
+    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService,CheckService checkService) {
         this.pService = pService;
         this.uService = uService;
         this.phoneService = phoneService;
         this.emailService = emailService;
         this.checkService = checkService;
-        this.jsonResultFactory = jsonResultFactory;
     }
 
     /**
@@ -63,17 +64,17 @@ public class UserController {
         try {
             user u1 = uService.SelectUserByLogin(u);
             if (u1==null){
-                result = new LoginResult("登录失败，用户名或密码有误",0);
-                return jsonResultFactory.CreateJsonResult_True(result);
+                result = LoginResultFactory.GetLoginResult(LoginResultEnum.SUCCESS);
+                return JsonResultFactory.CreateJsonResult_True(result);
             }
             u1.setPassword(u.getPassword());
             httpSession.setAttribute(SessionNameEnum.user.getSessionName(),u1);
-            result = new LoginResult("登录成功",1);
-            return jsonResultFactory.CreateJsonResult_True(result);
+            result = LoginResultFactory.GetLoginResult(LoginResultEnum.SUCCESS);
+            return JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             httpSession.removeAttribute(SessionNameEnum.user.getSessionName());
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
 
@@ -90,10 +91,10 @@ public class UserController {
         try {
             session.removeAttribute(SessionNameEnum.user.getSessionName());
             result = "Y";
-            return jsonResultFactory.CreateJsonResult_True(result);
+            return JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
 
@@ -109,15 +110,15 @@ public class UserController {
         LoginState loginState;
         try {
             if (!checkService.LoginState(session)){
-                loginState = new LoginState(1,"在线",checkService.LoginSate(session));
+                loginState = LoginStateFactory.GetLoginstate(LoginStateEnum.ONLINE,checkService.LoginSate(session));
             }
             else{
-                loginState = new LoginState(0,"离线",null);
+                loginState = LoginStateFactory.GetLoginstate(LoginStateEnum.ONLINE);
             }
-            return jsonResultFactory.CreateJsonResult_True(loginState);
+            return JsonResultFactory.CreateJsonResult_True(loginState);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
 
@@ -136,14 +137,14 @@ public class UserController {
             if (checkService.HasThisSessionRecord(session,SessionNameEnum.public_phone)
                     &&checkService.CheckPhoneCode(session,SessionNameEnum.public_phone,signUpForm.getPhoneCode(),signUpForm.getUser().getPhone())){
                 result = uService.getRegisterResult_NOEMAIL(signUpForm.getUser());
-                return jsonResultFactory.CreateJsonResult_True(result);
+                return JsonResultFactory.CreateJsonResult_True(result);
             }else{
-                result = new RegisterResult("手机验证码不正确", 2);
-                return jsonResultFactory.CreateJsonResult_True(result);
+                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.PHONEVALIDATE);
+                return JsonResultFactory.CreateJsonResult_True(result);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
 
@@ -159,17 +160,18 @@ public class UserController {
     public JsonResult<?> signUp(HttpSession session, @RequestBody SignUpForm signUpForm) {
         RegisterResult result;
         try {
-            if (checkService.CheckEmailCode(session,SessionNameEnum.public_email,signUpForm.getEmailCode(),signUpForm.getUser().getEmail())
-                    &&
-                    checkService.CheckPhoneCode(session,SessionNameEnum.public_phone,signUpForm.getPhoneCode(),signUpForm.getUser().getPhone())) {
-                result= uService.getRegisterResult(signUpForm.getUser());
-            } else {
-                result = new RegisterResult("手机验证码不正确或者邮箱验证码不正确",3);
+            if (!checkService.CheckEmailCode(session,SessionNameEnum.public_email,signUpForm.getEmailCode(),signUpForm.getUser().getEmail())){
+                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.EMAILVALIDATE);
             }
-            return jsonResultFactory.CreateJsonResult_True(result);
+            else if (!checkService.CheckPhoneCode(session,SessionNameEnum.public_phone,signUpForm.getPhoneCode(),signUpForm.getUser().getPhone())) {
+                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.PHONEVALIDATE);
+            }else{
+                result= uService.getRegisterResult(signUpForm.getUser());
+            }
+            return JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
 
@@ -184,27 +186,27 @@ public class UserController {
     @ResponseBody
     public JsonResult<?> sendEmailValidateCode(
             @PathVariable("email") String email, HttpSession session) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (pService.HasEmail(email).equals("ER")) {
-                return new JsonResult<>(true, EmailSendResultEnum.FORMAT.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.FORMAT.getInfo());
             }
             else if (pService.HasEmail(email).equals("Y")) {
-                return new JsonResult<>(true, EmailSendResultEnum.EXITS.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.EXITS.getInfo());
             }
             else if (!checkService.LoginState(session)) {
-                result = new JsonResult<>(true, EmailSendResultEnum.UN_LOGIN.getInfo(), null);
+                result = JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_LOGIN.getInfo());
                 return result;
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
             if (p.getEmailValidate().equals("Y")) {
-                return new JsonResult<>(true, EmailSendResultEnum.VALIDATED.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.VALIDATED.getInfo());
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute(SessionNameEnum.user_email.getSessionName());
             if (e == null) {
                 String r = emailService.SendValidateCode(email);
-                result = new JsonResult<>(true, r, null);
+                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute(SessionNameEnum.user_email.getSessionName(),new EmailSendSession(r, email));
                 }
@@ -212,10 +214,10 @@ public class UserController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<>(true, EmailSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = emailService.SendValidateCode(email);
-                    result = new JsonResult<>(true, r, null);
+                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.removeAttribute(SessionNameEnum.user_email.getSessionName());
                     }
@@ -223,7 +225,7 @@ public class UserController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -239,27 +241,27 @@ public class UserController {
     @ResponseBody
     public JsonResult<?> sendPhoneValidateCode(
             @PathVariable("phone") String phone, HttpSession session) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (pService.HasPhone(phone).equals("ER")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.FORMAT.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.FORMAT.getInfo());
             }
             if (pService.HasPhone(phone).equals("Y")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.EXITS.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.EXITS.getInfo());
             }
             if (!checkService.LoginState(session)) {
-                result = new JsonResult<>(true, PhoneSendResultEnum.UN_LOGIN.getInfo(), null);
+                result = JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.UN_LOGIN.getInfo());
                 return result;
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
             if (p.getPhoneValidate().equals("Y")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.VALIDATED.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.VALIDATED.getInfo());
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute(SessionNameEnum.user_phone.getSessionName());
             if (e == null) {
                 String r = phoneService.SendValidateCode(phone);
-                result = new JsonResult<>(true, r, null);
+                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute(SessionNameEnum.user_phone.getSessionName(), new PhoneSendSession(r, phone));
                 }
@@ -267,10 +269,10 @@ public class UserController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<>(true, PhoneSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = phoneService.SendValidateCode(phone);
-                    result = new JsonResult<>(true, r, null);
+                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute(SessionNameEnum.user_phone.getSessionName(), new PhoneSendSession(r, phone));
                     }
@@ -278,7 +280,7 @@ public class UserController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -293,27 +295,27 @@ public class UserController {
     @RequestMapping(value = "/{code}/ValidatePhone", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ValidatePhone(HttpSession session, @PathVariable("code") String code) {
-        JsonResult<PhoneValidateResult> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
                 PhoneSendSession p = (PhoneSendSession) session.getAttribute(SessionNameEnum.user_phone.getSessionName());
                 if (p == null) {
                     PhoneValidateResult phoneValidateResult = new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL);
-                    result = new JsonResult<>(true, phoneValidateResult, null);
+                    result = JsonResultFactory.CreateJsonResult_True(phoneValidateResult);
                 } else if (p.getValidateCode().equals(code)) {
                     uService.ValidatePhone(((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId(), p.getPhone());
-                    result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.SUCCESS), null);
+                    result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.SUCCESS));
                 } else {
                     PhoneValidateResult phoneValidateResult = new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE);
-                    result = new JsonResult<>(true, phoneValidateResult, null);
+                    result = JsonResultFactory.CreateJsonResult_True(phoneValidateResult);
                 }
             } else {
                 PhoneValidateResult phoneValidateResult = new PhoneValidateResult(PhoneValidateEnum.LOGIN_FAIL);
-                result = new JsonResult<>(true, phoneValidateResult, null);
+                result = JsonResultFactory.CreateJsonResult_True(phoneValidateResult);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -328,29 +330,29 @@ public class UserController {
     @RequestMapping(value = "/{code}/ValidateEmail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ValidateEmail(HttpSession session, @PathVariable("code") String code) {
-        JsonResult<EmailValidateResult> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
                 EmailSendSession e = (EmailSendSession) session.getAttribute(SessionNameEnum.user_email.getSessionName());
                 if (e == null) {
                     EmailValidateResult emailValidateResult = new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL);
-                    result = new JsonResult<>(true, emailValidateResult, null);
+                    result = JsonResultFactory.CreateJsonResult_True(emailValidateResult);
                 } else {
                     if (e.getValidateCode().equals(code)) {
                         uService.ValidateEmail(((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId(), e.getEmail());
-                        result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.SUCCESS), null);
+                        result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.SUCCESS));
                     } else {
                         EmailValidateResult emailValidateResult = new EmailValidateResult(EmailValidateEnum.ERROR_CODE);
-                        result = new JsonResult<>(true, emailValidateResult, null);
+                        result = JsonResultFactory.CreateJsonResult_True(emailValidateResult);
                     }
                 }
             } else {
                 EmailValidateResult emailValidateResult = new EmailValidateResult(EmailValidateEnum.LOGIN_FAIL);
-                result = new JsonResult<>(true, emailValidateResult, null);
+                result = JsonResultFactory.CreateJsonResult_True(emailValidateResult);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -364,16 +366,16 @@ public class UserController {
     @RequestMapping(value = "/GetPasswordProtectedMethod", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> getPasswordProtected(HttpSession session) {
-        JsonResult<PasswordProtected> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
                 loginout(session);
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
-            result = new JsonResult<>(true, p, null);
+            result = JsonResultFactory.CreateJsonResult_True(p);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -386,20 +388,20 @@ public class UserController {
     @RequestMapping(value = "/PhoneSendToCheckPasswordProtected", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> PhoneSendToCheckPasswordProtected(HttpSession session) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, PhoneSendResultEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.UN_LOGIN.getInfo());
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
             if (p.getPhoneValidate().equals("N")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.UN_VALIDATE.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.UN_VALIDATE.getInfo());
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute(SessionNameEnum.user_validate_password_protected_phone.getSessionName());
             if (e == null) {
                 String r = phoneService.SendValidateCode(p.getPhone());
-                result = new JsonResult<>(true, r, null);
+                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute(SessionNameEnum.user_validate_password_protected_phone.getSessionName(), new PhoneSendSession(r, p.getPhone()));
                 }
@@ -407,11 +409,11 @@ public class UserController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<>(true, PhoneSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r;
                     r = phoneService.SendValidateCode(p.getPhone());
-                    result = new JsonResult<>(true, r, null);
+                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute(SessionNameEnum.user_validate_password_protected_phone.getSessionName(), new PhoneSendSession(r, p.getPhone()));
                     }
@@ -419,7 +421,7 @@ public class UserController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -433,20 +435,20 @@ public class UserController {
     @RequestMapping(value = "/EmailSendToCheckPasswordProtected", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> EmailSendToCheckPasswordProtected(HttpSession session) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, EmailSendResultEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_LOGIN.getInfo());
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
             if (p.getEmailValidate().equals("N")) {
-                return new JsonResult<>(true, EmailSendResultEnum.UN_VALIDATE.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_VALIDATE.getInfo());
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute(SessionNameEnum.user_validate_password_protected_email.getSessionName());
             if (e == null) {
                 String r = emailService.SendValidateCode(p.getEmail());
-                result = new JsonResult<>(true, r, null);
+                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute(SessionNameEnum.user_validate_password_protected_email.getSessionName(), new EmailSendSession(r, p.getEmail()));
                 }
@@ -454,10 +456,10 @@ public class UserController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<>(true, EmailSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = emailService.SendValidateCode(p.getEmail());
-                    result = new JsonResult<>(true, r, null);
+                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute(SessionNameEnum.user_validate_password_protected_email.getSessionName(), new EmailSendSession(r, p.getEmail()));
                     }
@@ -465,7 +467,7 @@ public class UserController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -480,24 +482,24 @@ public class UserController {
     @RequestMapping(value = "{code}/ValidatePasswordProtectedMethodByEmail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ValidatePasswordProtectedMethodByEmail(HttpSession session, @PathVariable("code") String code) {
-        JsonResult<EmailValidateResult> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.LOGIN_FAIL), null);
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.LOGIN_FAIL));
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute(SessionNameEnum.user_validate_password_protected_email.getSessionName());
             if (e != null && e.getValidateCode().equals(code)) {
-                result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.SUCCESS), null);
+                result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.SUCCESS));
                 session.setAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName(), new PasswordProtectedKey());
             } else if (e == null) {
-                result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL), null);
+                result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL));
             } else {
-                result = new JsonResult<>(true, new EmailValidateResult(EmailValidateEnum.ERROR_CODE), null);
+                result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.ERROR_CODE));
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -512,24 +514,24 @@ public class UserController {
     @RequestMapping(value = "{code}/ValidatePasswordProtectedMethodByPhone", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ValidatePasswordProtectedMethodByPhone(HttpSession session, @PathVariable("code") String code) {
-        JsonResult<PhoneValidateResult> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.LOGIN_FAIL), null);
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.LOGIN_FAIL));
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute(SessionNameEnum.user_validate_password_protected_phone.getSessionName());
             if (e != null && e.getValidateCode().equals(code)) {
-                result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.SUCCESS), null);
+                result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.SUCCESS));
                 session.setAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName(), new PasswordProtectedKey());
             } else if (e == null) {
-                result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL), null);
+                result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL));
             } else {
-                result = new JsonResult<>(true, new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE), null);
+                result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE));
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -544,25 +546,25 @@ public class UserController {
     @RequestMapping(value = "/{phone}/ChangeValidatePhoneSend", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ChangeValidatePhoneSend(HttpSession session, @PathVariable("phone") String phone) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, PhoneSendResultEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.UN_LOGIN.getInfo());
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId());
             if (p.getPhoneValidate().equals("N")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.UN_VALIDATE.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.UN_VALIDATE.getInfo());
             }
             if (pService.HasPhone(phone).equals("ER")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.FORMAT.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.FORMAT.getInfo());
             }
             if (pService.HasPhone(phone).equals("Y")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.EXITS.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.EXITS.getInfo());
             }
             PhoneSendSession e = (PhoneSendSession) session.getAttribute(SessionNameEnum.user_phone_by_validated.getSessionName());
             if (e == null) {
                 String r = phoneService.SendValidateCode(phone);
-                result = new JsonResult<>(true, r, null);
+                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute(SessionNameEnum.user_phone_by_validated.getSessionName(), new PhoneSendSession(r, phone));
                 }
@@ -570,10 +572,10 @@ public class UserController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<>(true, PhoneSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = phoneService.SendValidateCode(phone);
-                    result = new JsonResult<>(true, r, null);
+                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute(SessionNameEnum.user_phone_by_validated.getSessionName(), new PhoneSendSession(r, phone));
                     }
@@ -581,7 +583,7 @@ public class UserController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -596,25 +598,25 @@ public class UserController {
     @RequestMapping(value = "/{email}/ChangeValidateEmailSend", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ChangeValidateEmailSend(HttpSession session, @PathVariable("email") String email) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, EmailSendResultEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_LOGIN.getInfo());
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId());
             if (p.getEmailValidate().equals("N")) {
-                return new JsonResult<>(true, EmailSendResultEnum.UN_VALIDATE.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_VALIDATE.getInfo());
             }
             if (pService.HasEmail(email).equals("ER")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.FORMAT.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.FORMAT.getInfo());
             }
             if (pService.HasEmail(email).equals("Y")) {
-                return new JsonResult<>(true, PhoneSendResultEnum.EXITS.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.EXITS.getInfo());
             }
             EmailSendSession e = (EmailSendSession) session.getAttribute(SessionNameEnum.user_email_by_validated.getSessionName());
             if (e == null) {
                 String r = emailService.SendValidateCode(email);
-                result = new JsonResult<>(true, r, null);
+                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute(SessionNameEnum.user_email_by_validated.getSessionName(), new PhoneSendSession(r, email));
                 }
@@ -622,10 +624,10 @@ public class UserController {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = new JsonResult<>(true, PhoneSendResultEnum.OVERCLOCKING.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = emailService.SendValidateCode(email);
-                    result = new JsonResult<>(true, r, null);
+                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute(SessionNameEnum.user_email_by_validated.getSessionName(), new PhoneSendSession(r, email));
                     }
@@ -633,7 +635,7 @@ public class UserController {
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -648,10 +650,10 @@ public class UserController {
     @RequestMapping(value = "{code}/ChangeValidateEmail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ChangeValidateEmail(HttpSession session, @PathVariable("code") String code) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, EmailModifyResultEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(EmailModifyResultEnum.UN_LOGIN.getInfo());
             }
             PasswordProtectedKey p = (PasswordProtectedKey) session.getAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName());
             if (p==null){
@@ -664,23 +666,23 @@ public class UserController {
                 if (e != null && e.getValidateCode().equals(code)) {
                     String email = e.getEmail();
                     if (pService.HasEmail(email).equals("ER")) {
-                        return new JsonResult<>(true, EmailModifyResultEnum.FORMAT.getInfo(), null);
+                        return JsonResultFactory.CreateJsonResult_True(EmailModifyResultEnum.FORMAT.getInfo());
                     }
                     if (pService.HasEmail(email).equals("Y")) {
-                        return new JsonResult<>(true, EmailModifyResultEnum.EXITS.getInfo(), null);
+                        return JsonResultFactory.CreateJsonResult_True(EmailModifyResultEnum.EXITS.getInfo());
                     }
-                    result = new JsonResult<>(true, EmailModifyResultEnum.SUCCESS.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(EmailModifyResultEnum.SUCCESS.getInfo());
                     uService.ChangeValidateEmail(((user)(session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId(),email);
-                    session.setAttribute(SessionNameEnum.user_email_by_validated.getSessionName(), null);
+                    session.removeAttribute(SessionNameEnum.user_email_by_validated.getSessionName());
                 } else if (e == null) {
-                    result = new JsonResult<>(true, EmailModifyResultEnum.MESSAGE_FALL.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(EmailModifyResultEnum.MESSAGE_FALL.getInfo());
                 } else {
-                    result = new JsonResult<>(true, EmailModifyResultEnum.ERROR_CODE.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(EmailModifyResultEnum.ERROR_CODE.getInfo());
                 }
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -695,10 +697,10 @@ public class UserController {
     @RequestMapping(value = "{code}/ChangeValidatePhone", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ChangeValidatePhone(HttpSession session, @PathVariable("code") String code) {
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, PhoneModifyResultEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PhoneModifyResultEnum.UN_LOGIN.getInfo());
             }
             PasswordProtectedKey p = (PasswordProtectedKey) session.getAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName());
             if (p==null){
@@ -711,23 +713,23 @@ public class UserController {
                 if (ps != null && ps.getValidateCode().equals(code)) {
                     String phone = ps.getPhone();
                     if (pService.HasPhone(phone).equals("ER")) {
-                        return new JsonResult<>(true, PhoneModifyResultEnum.FORMAT.getInfo(), null);
+                        return JsonResultFactory.CreateJsonResult_True(PhoneModifyResultEnum.FORMAT.getInfo());
                     }
                     if (pService.HasPhone(phone).equals("Y")) {
-                        return new JsonResult<>(true, PhoneModifyResultEnum.EXITS.getInfo(), null);
+                        return JsonResultFactory.CreateJsonResult_True(PhoneModifyResultEnum.EXITS.getInfo());
                     }
-                    result = new JsonResult<>(true, PhoneModifyResultEnum.SUCCESS.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneModifyResultEnum.SUCCESS.getInfo());
                     uService.ChangeValidatePhone(((user)(session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId(),phone);
-                    session.setAttribute(SessionNameEnum.user_phone_by_validated.getSessionName(), null);
+                    session.removeAttribute(SessionNameEnum.user_phone_by_validated.getSessionName());
                 } else if (ps == null) {
-                    result = new JsonResult<>(true, PhoneModifyResultEnum.MESSAGE_FALL.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneModifyResultEnum.MESSAGE_FALL.getInfo());
                 } else {
-                    result = new JsonResult<>(true, PhoneModifyResultEnum.ERROR_CODE.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(PhoneModifyResultEnum.ERROR_CODE.getInfo());
                 }
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return result;
     }
@@ -741,21 +743,21 @@ public class UserController {
     @RequestMapping(value = "OpenPasswordChangeValidate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> OpenPasswordChangeValidate(HttpSession session){
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, PasswordChangeValidateEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.UN_LOGIN.getInfo());
             }
             Long userId = ((user)(session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId();
             PasswordProtected p = uService.getPasswordProtectByUserId(userId);
             if (p.getPasswoordChangeValidate().equals("Y")){
-                return new JsonResult<>(true, PasswordChangeValidateEnum.Opened.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.Opened.getInfo());
             }
             uService.OpenOrClosePasswordChangeValidate(userId);
-            result = new JsonResult<>(true, PasswordChangeValidateEnum.Success.getInfo(), null);
+            result = JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.Success.getInfo());
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return  result;
     }
@@ -770,26 +772,26 @@ public class UserController {
     @RequestMapping(value = "ClosePasswordChangeValidate", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ClosePasswordChangeValidate(HttpSession session){
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, PasswordChangeValidateEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.UN_LOGIN.getInfo());
             }
             Long userId = ((user)(session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId();
             PasswordProtected p = uService.getPasswordProtectByUserId(userId);
             if (p.getPasswoordChangeValidate().equals("N")){
-                return new JsonResult<>(true, PasswordChangeValidateEnum.Closed.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.Closed.getInfo());
             }
             PasswordProtectedKey pk =
                     (PasswordProtectedKey) session.getAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName());
             if (pk==null){
-                return new JsonResult<>(true, PasswordChangeValidateEnum.NeedKey.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.NeedKey.getInfo());
             }
             uService.OpenOrClosePasswordChangeValidate(userId);
-            result = new JsonResult<>(true, PasswordChangeValidateEnum.Success.getInfo(), null);
+            result = JsonResultFactory.CreateJsonResult_True(PasswordChangeValidateEnum.Success.getInfo());
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return  result;
     }
@@ -807,13 +809,13 @@ public class UserController {
     @RequestMapping(value = "ModifyPassword", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> ModifyPassword(HttpSession session,String oldPassword,String newPassword){
-        JsonResult<String> result;
+        JsonResult<?> result;
         try {
             if(newPassword==null||newPassword.length()>20||newPassword.length()<6){
-                return new JsonResult<>(true, ModifyPaswordEnum.FORMAT.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.FORMAT.getInfo());
             }
             if (!checkService.LoginState(session)) {
-                return new JsonResult<>(true, ModifyPaswordEnum.UN_LOGIN.getInfo(), null);
+                return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.UN_LOGIN.getInfo());
             }
             user u = ((user)(session.getAttribute(SessionNameEnum.user.getSessionName())));
             PasswordProtected p = uService.getPasswordProtectByUserId(u.getUserId());
@@ -821,24 +823,24 @@ public class UserController {
                 PasswordProtectedKey pk =
                         (PasswordProtectedKey) session.getAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName());
                 if (pk==null){
-                    return new JsonResult<>(true, ModifyPaswordEnum.NeedKey.getInfo(), null);
+                    return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.NeedKey.getInfo());
                 }
                 uService.ChangePasword(u.getUserId(),newPassword);
                 session.removeAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName());
-                result = new JsonResult<>(true, ModifyPaswordEnum.Success.getInfo(), null);
+                result = JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.Success.getInfo());
             }else{
                 u.setPassword(oldPassword);
                 LoginResult l = uService.getLoginResult(u);
                 if (l.getResultNum()==1){
                     uService.ChangePasword(u.getUserId(),newPassword);
-                    result = new JsonResult<>(true, ModifyPaswordEnum.Success.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.Success.getInfo());
                 }else{
-                    result = new JsonResult<>(true, ModifyPaswordEnum.WrongPsd.getInfo(), null);
+                    result = JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.WrongPsd.getInfo());
                 }
             }
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return jsonResultFactory.CreateJsonResult_False(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
         return  result;
     }

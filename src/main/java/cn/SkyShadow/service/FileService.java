@@ -51,10 +51,10 @@ public interface FileService {
     Excution UpdateFileGroup(filegroup filegroup);
     /**
      * 特定角色获取组织/部门文件列表
-     * @param organization 组织
+     * @param organizationID 组织
      * @return 执行结果
      */
-    FileList GetFileList(organization organization);
+    FileList GetFileList(Long organizationID);
 
     /**
      * 特定角色删除组织/部门文件
@@ -68,4 +68,35 @@ public interface FileService {
      * @return 执行结果
      */
     Excution DeleteFileGroup(Long filegroupId);
+
+    /**
+     * 向组织公共区域上传文件
+     * @param orgId 组织ID
+     * @param fileId 文件ID
+     * @return 执行结果
+     */
+    Excution UpdateFileToOrg(Long orgId,Long fileId);
+
+    /**
+     * 移除组织的文件
+     * @param orgId 组织ID
+     * @param fileId 文件ID
+     * @return 执行结果
+     */
+    Excution RemoveFileFromOrg(Long orgId,Long fileId);
+    /**
+     * 向组织公共区域上传文件组
+     * @param orgId 组织ID
+     * @param fileGroupId 文件ID
+     * @return 执行结果
+     */
+    Excution UpdateFileGroupToOrg(Long orgId,Long fileGroupId);
+
+    /**
+     * 移除组织的文件组
+     * @param orgId 组织ID
+     * @param fileGroupId 文件ID
+     * @return 执行结果
+     */
+    Excution RemoveFileGroupFromOrg(Long orgId,Long fileGroupId);
 }

@@ -53,4 +53,8 @@ public class Excution {
 		this.resultInfo = resultInfo;
 	}
 
+	public Excution(int resultNum) {
+		this.resultNum = resultNum;
+		this.resultInfo = "执行已经完成";
+	}
 }

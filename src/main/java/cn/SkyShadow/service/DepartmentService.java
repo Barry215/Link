@@ -17,15 +17,14 @@ public interface DepartmentService {
      * @param o 组织
      * @return 执行结果
      */
-    Excution CreateDepartment(organization o,organization father);
+    Excution CreateDepartment(organization o);
 
     /**
      * 特定角色为一个部门指定一个最高管理者提交申请
-     * @param user 用户
-     * @param o 组织
+     * @param apply 申请
      * @return 执行结果
      */
-    Excution MakeAdmin(user user,organization o);
+    Excution AddAdmin(Apply apply);
 
     /**
      * 处理部门指定最高管理者的申请
@@ -39,8 +38,8 @@ public interface DepartmentService {
      * @param ApplyId 申请
      * @return 执行结果
      */
-    Excution MakeAdmin(Long ApplyId);
-
+    Excution RollBackAddAdmin(Long ApplyId);
+    Excution RemoveAdmin(Long depId,Long userid);
     /**
      * 特定角色为组织的创建者转移子部门的创建者提交申请
      * @param a 申请

@@ -50,6 +50,11 @@ public class LoginState {
 		this.baseUser = baseUser;
 	}
 
+	public LoginState(int state, String stateinfo) {
+		this.state = state;
+		this.stateinfo = stateinfo;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginState{" +

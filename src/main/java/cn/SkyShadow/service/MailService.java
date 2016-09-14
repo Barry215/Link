@@ -33,5 +33,5 @@ public interface MailService {
      * @param IdList ID列表
      * @return 执行结果
      */
-    Excution ReadMail(List<String> IdList);
+    Excution ReadMail(List<Long> IdList);
 }

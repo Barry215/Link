@@ -70,4 +70,10 @@ public class Apply {
         this.objectB = objectB;
     }
 
+    public Apply(String key) {
+        this.key = key;
+    }
+
+    public Apply() {
+    }
 }
