@@ -18,17 +18,19 @@ import javax.servlet.http.HttpSession;
 public class KaptchaServiceImpl implements KaptchaService {
     @Override
     public boolean check(HttpSession session, String userCode,MaxWrongNumEnum m) {
-        if (m == null) {
+        if (m == null){
             //// TODO: 9/15/2016
             return false;
         }
         int failNum = 0;
         String realCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         Object failNumObj = session.getAttribute(SessionNameEnum.WrongNumEnum.getSessionName());
-        if (failNumObj != null) {
-            failNum = (int) failNumObj;
+        if (failNumObj!=null){
+            failNum = (int)failNumObj;
         }
-        return failNum < m.getNum() || realCode != null && userCode != null && realCode.equals(userCode);
+        if (failNum < m.getNum()){
+            return true;
+        }else return realCode != null && userCode != null && realCode.equals(userCode);
     }
 
     @Override

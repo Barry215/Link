@@ -1,31 +1,16 @@
 package cn.SkyShadow.controller;
 
+import cn.SkyShadow.base.SpringBase;
 import cn.SkyShadow.dto.user.SignUpForm;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-//import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import  cn.SkyShadow.model.user;
 
 import javax.servlet.http.HttpSession;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/spring-dao.xml","classpath:config/spring-service.xml","classpath:config/spring-mvc.xml"})
-public class UserControllerTest {
-    private HttpSession session;
-    @Before
-    public void setUp(){
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        //MockHttpServletResponse response = new MockHttpServletResponse();
-        request.setCharacterEncoding("UTF-8");
-        session = request.getSession();
-    }
+public class UserControllerTest extends SpringBase{
+    private HttpSession session = getSession();
     @Autowired
     private UserController userController;
     @Autowired
