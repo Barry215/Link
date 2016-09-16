@@ -32,4 +32,18 @@ public interface occupationMapper {
      */
     int updateByPrimaryKeySelective(occupation record);
 
+    /**
+     * 添加成员
+     * @param occId 职业ID
+     * @param userId 成员ID
+     * @return 执行结果
+     */
+    int addUser(Long occId,Long userId);
+    /**
+     * 去除成员
+     * @param occId 职业ID
+     * @param userId 成员ID
+     * @return 执行结果
+     */
+    int removeUser(Long occId,Long userId);
 }

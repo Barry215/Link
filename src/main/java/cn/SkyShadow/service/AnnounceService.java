@@ -14,7 +14,7 @@ public interface AnnounceService {
     /**
      * 发布组织/部门公告
      * @param a 公告
-     * @param o 组织
+     * @param organizationID 组织
      * @return 执行结果
      */
     Excution Announce(announce a, Long organizationID);

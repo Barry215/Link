@@ -6,6 +6,8 @@ import cn.SkyShadow.model.result_model.RegisterResult;
 import cn.SkyShadow.model.user;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface userMapper {
     /**
      * 获取登录结果
@@ -114,4 +116,10 @@ public interface userMapper {
      * @return 执行结果
      */
     int changePassword(@Param("userId")Long userId,@Param("password")String password);
+    /**
+     * 搜索用户
+     * @param str 模糊字段
+     * @return 用户信息列表
+     */
+    List<user> Search(String str);// TODO: 9/16/2016
 }

@@ -8,11 +8,15 @@ import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 部门管理
  * Created by RichardW on 9/12/2016.
  */
+@Transactional
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
     private final organizationMapper organizationMapper;
     private final ApplyMapper applyMapper;
@@ -36,10 +40,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Excution MakeAdminCallback(Receipt r) {
-        organization organization = (cn.SkyShadow.model.organization) r.getApply().getObjectA();
-        user user = (cn.SkyShadow.model.user) r.getApply().getObjectB();
         if (r.isSuccess()){
-            organizationMapper.AddAdmin(organization.getOrgId(),user.getUserId());
+            organizationMapper.AddAdmin(r.getApply().getIDA(),r.getApply().getIDB());
         }
         return ExcutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
     }
@@ -66,10 +68,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Excution DeliverDepartmentCreatorCallback(Receipt r) {
-        organization organization = (cn.SkyShadow.model.organization) r.getApply().getObjectA();
-        user user = (cn.SkyShadow.model.user) r.getApply().getObjectB();
         if (r.isSuccess()){
-            organizationMapper.ModifyCreator(organization.getOrgId(),user.getUserId());
+            organizationMapper.ModifyCreator(r.getApply().getIDA(),r.getApply().getIDB());
         }
         return ExcutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
     }

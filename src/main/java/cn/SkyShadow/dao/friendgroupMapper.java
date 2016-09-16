@@ -23,4 +23,11 @@ public interface friendgroupMapper {
      * @return 执行结果
      */
     friendgroup selectByPrimaryKey(Long friendgroupId);
+
+    /**
+     * 更新好友分组
+     * @param friendgroup 好友分组
+     * @return 执行结果
+     */
+    int update(friendgroup friendgroup);// TODO: 9/16/2016
 }

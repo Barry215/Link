@@ -9,6 +9,8 @@ import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ import java.util.List;
  * Created by Richard on 16/8/31.
  * 组织管理器
  */
+@Transactional
+@Service
 public class OrgServiceImpl implements OrgService {
 
     private final organizationMapper organizationMapper;
@@ -79,73 +83,82 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public Excution ApplyParentOrgCallBack(Receipt r) {
+        if (r.isSuccess()){
+            organizationMapper.ModifyParent(r.getApply().getIDA(),r.getApply().getIDB());
+        }
         int result = receiptMapper.Create(r);
         return ExcutionFactory.GetExcutionByResultCode(result,"操作已执行");
     }
 
     @Override
     public Excution RollBackApplyParentOrg(Long applyId) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
     public Excution ApplyUnlockParentOrg(Apply a) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
     public Excution RollBackApplyUnlockParentOrg(Long applyId) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
     public Excution ApplyUnlockParentOrgCallBack(Receipt r) {
-        return null;
+        if (r.isSuccess()){
+            organizationMapper.ModifyParent(r.getApply().getIDA(),r.getApply().getIDB());
+        }
+        return ExcutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
     }
 
     @Override
     public Excution RollBackApplyUnlockParentOrgCallBack(Long applyId) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
     public Excution DiliverOrgNotWithSonOrg(Apply a) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
     public Excution CreateDepartment(organization o) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(organizationMapper.insert(o));
     }
 
     @Override
     public Excution ComandDeparementLeader(Apply a) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
     public Excution ComandDeparementLeaderCallBack(Receipt r) {
-        return null;
+        if (r.isSuccess()){
+            organizationMapper.AddAdmin(r.getApply().getIDA(),r.getApply().getIDB());
+        }
+        return ExcutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
     }
 
     @Override
-    public Excution UnlockDeparementLeader(organization o) {
-        return null;
+    public Excution UnlockDeparementLeader(Long orgId,Long userId) {
+        return ExcutionFactory.GetExcutionByResultCode(organizationMapper.RemoveAdmin(orgId,userId));
     }
 
     @Override
     public List<organization> SearchOrg(String str) {
-        return null;
+        return organizationMapper.SearchOrg(str);
     }
 
     @Override
     public Excution DeleteOrg(Long ID) {
-        return null;
+        return ExcutionFactory.GetExcutionByResultCode(organizationMapper.deleteByPrimaryKey(ID));
     }
 
     @Override
     public boolean HasOrgName(String Name) {
-        return false;
+        return organizationMapper.HasOrgoName(Name);
     }
 
 }

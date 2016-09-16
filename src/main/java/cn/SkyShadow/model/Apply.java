@@ -8,10 +8,19 @@ public class Apply {
     private Long id;
     private user A;
     private user B;
-    private Object objectA;
-    private Object objectB;
+    private Long IDA;
+    private Long IDB;
     private String state;
     private String key;
+    private Object objectA;
+
+    public Object getObjectA() {
+        return objectA;
+    }
+
+    public void setObjectA(Object objectA) {
+        this.objectA = objectA;
+    }
 
     public String getKey() {
         return key;
@@ -54,20 +63,20 @@ public class Apply {
         B = b;
     }
 
-    public Object getObjectA() {
-        return objectA;
+    public Long getIDA() {
+        return IDA;
     }
 
-    public void setObjectA(Object objectA) {
-        this.objectA = objectA;
+    public void setIDA(Long IDA) {
+        this.IDA = IDA;
     }
 
-    public Object getObjectB() {
-        return objectB;
+    public Long getIDB() {
+        return IDB;
     }
 
-    public void setObjectB(Object objectB) {
-        this.objectB = objectB;
+    public void setIDB(Long IDB) {
+        this.IDB = IDB;
     }
 
     public Apply(String key) {

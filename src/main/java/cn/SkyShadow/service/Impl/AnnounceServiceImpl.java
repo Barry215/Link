@@ -6,6 +6,8 @@ import cn.SkyShadow.model.announce;
 import cn.SkyShadow.dao.announceMapper;
 import cn.SkyShadow.service.AnnounceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,9 +15,11 @@ import java.util.List;
  * 公告管理器
  * Created by Richard on 16/9/13.
  */
+@Transactional
+@Service
 public class AnnounceServiceImpl implements AnnounceService {
     private final announceMapper announceMapper;
-    @Autowired
+    @Autowired(required = false)
     public AnnounceServiceImpl(cn.SkyShadow.dao.announceMapper announceMapper) {
         this.announceMapper = announceMapper;
     }

@@ -44,9 +44,15 @@ public interface FriendSeivice {
 
     /**
      * 删除好友
-     * @param a 用户A
-     * @param b 用户B
+     * @param friendId 好友关系ID
      * @return 执行结果
      */
-    Excution Deletefriend(user a, user b);
+    Excution Deletefriend(Long friendId);
+
+    /**
+     * 删除好友分组
+     * @param friendGroupId 好友分组ID
+     * @return 执行结果
+     */
+    Excution deleteFriendGroup(Long friendGroupId);
 }

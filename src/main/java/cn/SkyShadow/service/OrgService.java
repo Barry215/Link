@@ -1,7 +1,6 @@
 package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.excution.Excution;
-import cn.SkyShadow.dto.file.FileList;
 import cn.SkyShadow.model.*;
 
 import java.util.List;
@@ -106,10 +105,11 @@ public interface OrgService {
 
     /**
      * 解除组织最高管理者
-     * @param o 组织
+     * @param orgId 组织ID
+     * @param userId  用户ID
      * @return 执行结果
      */
-    Excution UnlockDeparementLeader(organization o);
+    Excution UnlockDeparementLeader(Long orgId,Long userId);
 
     /**
      * 搜索组织
@@ -120,7 +120,7 @@ public interface OrgService {
 
     /**
      * 删除组织
-     * @param o 组织
+     * @param ID 组织
      * @return 执行结果
      */
     Excution DeleteOrg(Long ID);

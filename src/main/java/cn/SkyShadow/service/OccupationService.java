@@ -1,8 +1,8 @@
 package cn.SkyShadow.service;
 
+import cn.SkyShadow.dto.excution.Excution;
 import cn.SkyShadow.model.*;
 
-import java.util.List;
 
 /**
  * 职位管理器
@@ -11,58 +11,58 @@ public interface OccupationService {
 
     /**
      * 特定用户创建一个职位，并赋予职位权限，职位分为组织级别和部门级别。
-     * @param occupation
-     * @return
+     * @param occupation 职位
+     * @return 执行结果
      */
-	Exception CreateOccupation(occupation occupation);
+	Excution CreateOccupation(occupation occupation);
 
     /**
      * 特定用户删除职位
-     * @param occupationId
-     * @return
+     * @param occupationId 职位ID
+     * @return 执行结果
      */
-    Exception DeleteOccupation(Long occupationId);
+    Excution DeleteOccupation(Long occupationId);
 
     /**
      * 特定用户修改职位的信息
-     * @param occupation
-     * @return
+     * @param occupation 职位
+     * @return 执行结果
      */
-    Exception ModifyOccupation(occupation occupation);
+    Excution ModifyOccupation(occupation occupation);
 
     /**
      * 特定用户修改职位的权限
-     * @param occupation
-     * @return
+     * @param occupation 职位
+     * @return 执行结果
      */
-    Exception ModifyOccupation_Power(occupation occupation);
+    Excution ModifyOccupation_Power(occupation occupation);
 
     /**
      * 特定用户将用户加入职位（申请）
-     * @param apply
-     * @return
+     * @param apply 申请
+     * @return 执行结果
      */
-    Exception AddUserToOccupation(Apply apply);
+    Excution AddUserToOccupation(Apply apply);
 
     /**
      * 撤销将用户加入职位
-     * @param ApplyId
-     * @return
+     * @param ApplyId 职位ID
+     * @return 执行结果
      */
-    Exception RollBackAddUserToOccupation(Long ApplyId);
+    Excution RollBackAddUserToOccupation(Long ApplyId);
 
     /**
      * 处理将用户加入职位的申请
-     * @param receipt
-     * @return
+     * @param receipt 回执
+     * @return 执行结果
      */
-    Exception AddUserToOccupationCallBcak(Receipt receipt);
+    Excution AddUserToOccupationCallBcak(Receipt receipt);
 
     /**
      * 特定用户将用户开除出职位
-     * @param userId
-     * @param occuId
-     * @return
+     * @param userId 用户ID
+     * @param occuId 职位
+     * @return 执行结果
      */
-    Exception RemoveUser(Long userId,Long occuId);
+    Excution RemoveUser(Long userId,Long occuId);
 }

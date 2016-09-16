@@ -10,7 +10,8 @@ public enum RegisterResultEnum {
     ERROR(1,"注册失败，内部错误，请稍候重试"),
     SUCCESS(0,"注册成功"),
     PHONEVALIDATE(2,"手机验证码不正确"),
-    EMAILVALIDATE(3,"邮箱验证码不正确");
+    EMAILVALIDATE(3,"邮箱验证码不正确"),
+    IMGCODE(4,"图形验证码错误");
     private int code;
     private String info;
 

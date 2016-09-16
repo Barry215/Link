@@ -8,9 +8,12 @@ import cn.SkyShadow.dto.excution.Excution;
  */
 public class ExcutionFactory {
     public static Excution GetExcutionByResultCode(int resultCode){
-        return  ExcutionFactory.GetExcutionByResultCode(resultCode);
+        return new Excution(resultCode,"操作已执行");
     }
     public static Excution GetExcutionByResultCode(int resultCode,String info){
-        return  ExcutionFactory.GetExcutionByResultCode(resultCode,info);
+        return new Excution(resultCode,info);
+    }
+    public static Excution GetExcutionByResultCode(int resultCode,String info,Object obj){
+        return new Excution(resultCode,info,obj);
     }
 }

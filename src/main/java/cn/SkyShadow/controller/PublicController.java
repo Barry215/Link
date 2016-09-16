@@ -1,13 +1,12 @@
 package cn.SkyShadow.controller;
 
+import cn.SkyShadow.basic_component.Impl.AjaxController;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
 import cn.SkyShadow.dto.tp.EmailValidateResult;
 import cn.SkyShadow.dto.tp.PhoneValidateResult;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.PasswordProtectedKey;
 import cn.SkyShadow.enums.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,17 +29,18 @@ import java.util.List;
 @Transactional
 @Controller
 @RequestMapping("/public")
-public class PublicController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class PublicController{
 	private final PublicService p;
 	private final SendEmailService emailService;
 	private final SendPhoneService phoneService;
+	private final AjaxController ajaxController;
 
 	@Autowired
 	public PublicController(SendEmailService emailService, PublicService p, SendPhoneService phoneService) {
 		this.emailService = emailService;
 		this.p = p;
 		this.phoneService = phoneService;
+		this.ajaxController = new AjaxController(PublicController.class);
 	}
 
 	/**
@@ -51,15 +51,13 @@ public class PublicController {
 	@RequestMapping(value = "/{phone}/hasPhone", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> hasPhone(@PathVariable("phone") String phone) {
-		JsonResult<?> result;
 		try {
 			String hS = p.HasPhone(phone);
-			result = JsonResultFactory.CreateJsonResult_True(hS);
+			return JsonResultFactory.CreateJsonResult_True(hS);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			result = JsonResultFactory.CreateJsonResult_False(e);
+			ajaxController.ExceptionHandle(e);
+			return JsonResultFactory.CreateJsonResult_False(e);
 		}
-		return result;
 	}
 
 	/**
@@ -71,15 +69,13 @@ public class PublicController {
 	@ResponseBody
 	public JsonResult<?> hasUserName(
 			@PathVariable("username") String username) {
-		JsonResult<?> result;
 		try {
 			String hu = p.HasUsername(username);
-			result = JsonResultFactory.CreateJsonResult_True(hu);
+			return JsonResultFactory.CreateJsonResult_True(hu);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			result = JsonResultFactory.CreateJsonResult_False(e);
+			ajaxController.ExceptionHandle(e);
+			return JsonResultFactory.CreateJsonResult_False(e);
 		}
-		return result;
 	}
 
 	/**
@@ -90,15 +86,13 @@ public class PublicController {
 	@RequestMapping(value = "/{email}/hasEmail", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> hasEmail(@PathVariable("email") String email) {
-		JsonResult<?> result;
 		try {
 			String hu = p.HasEmail(email);
-			result = JsonResultFactory.CreateJsonResult_True(hu);
+			return JsonResultFactory.CreateJsonResult_True(hu);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			result = JsonResultFactory.CreateJsonResult_False(e);
+			ajaxController.ExceptionHandle(e);
+			return JsonResultFactory.CreateJsonResult_False(e);
 		}
-		return result;
 	}
 
 	/**
@@ -108,15 +102,14 @@ public class PublicController {
 	@RequestMapping(value = "/cityList_zh", produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> getCityList_zh() {
-		JsonResult<?> result;
+		
 		try {
 			List<city> cities = p.get_ZH_Cities();
-			result = JsonResultFactory.CreateJsonResult_True(cities);
+			return JsonResultFactory.CreateJsonResult_True(cities);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			result = JsonResultFactory.CreateJsonResult_False(e);
+			ajaxController.ExceptionHandle(e);
+			return JsonResultFactory.CreateJsonResult_False(e);
 		}
-		return result;
 	}
 
 	/**
@@ -126,15 +119,13 @@ public class PublicController {
 	@RequestMapping(value = "/countryList", produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> getCountryList() {
-		JsonResult<?> result;
 		try {
 			List<country> countries = p.getCountries();
-			result = JsonResultFactory.CreateJsonResult_True(countries);
+			return JsonResultFactory.CreateJsonResult_True(countries);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			result = JsonResultFactory.CreateJsonResult_False(e);
+			ajaxController.ExceptionHandle(e);
+			return JsonResultFactory.CreateJsonResult_False(e);
 		}
-		return result;
 	}
 
 	/**
@@ -177,7 +168,7 @@ public class PublicController {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			ajaxController.ExceptionHandle(e);
 			result = JsonResultFactory.CreateJsonResult_False(e);
 		}
 		return result;
@@ -193,7 +184,7 @@ public class PublicController {
 	@ResponseBody
 	public JsonResult<?> sendPhoneValidateCode(
 			@PathVariable("phone") String phone, HttpSession session) {
-		JsonResult<?> result;
+		
 		try {
 			if (p.HasPhone(phone).equals("ER")) {
 				return JsonResultFactory.CreateJsonResult_True("FORMAT!");
@@ -205,29 +196,27 @@ public class PublicController {
 					.getAttribute("public_phone");
 			if (e == null) {
 				String r = phoneService.SendValidateCode(phone);
-				result = JsonResultFactory.CreateJsonResult_True(r);
-				System.out.print(result);
 				if (!r.equals("ERROR!")) {
 					session.setAttribute("public_phone", new PhoneSendSession(r,phone));
 				}
-			} else {
+                return JsonResultFactory.CreateJsonResult_True(r);
+            } else {
 				Date date = new Date();
 				Date sessiondDate = e.getSendDate();
 				if (date.getTime() - sessiondDate.getTime() < 60000) {
-					result = JsonResultFactory.CreateJsonResult_True("OVERCLOCKING!");
+					return JsonResultFactory.CreateJsonResult_True("OVERCLOCKING!");
 				} else {
 					String r = phoneService.SendValidateCode(phone);
-					result = JsonResultFactory.CreateJsonResult_True(r);
 					if (!r.equals("ERROR!")) {
 						session.setAttribute("public_phone", new PhoneSendSession(r,phone));
 					}
-				}
+                    return JsonResultFactory.CreateJsonResult_True(r);
+                }
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			result = JsonResultFactory.CreateJsonResult_False(e);
+			ajaxController.ExceptionHandle(e);
+			return JsonResultFactory.CreateJsonResult_False(e);
 		}
-		return result;
 	}
 	/**
 	 * 找回密码时使用
@@ -239,7 +228,6 @@ public class PublicController {
 	@RequestMapping(value = "/GetPasswordProtectedMethod", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> GetPasswordProtectedMethod(String loginName,HttpSession session){
-        JsonResult<?> result;
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
@@ -247,13 +235,12 @@ public class PublicController {
             }
             PasswordProtected pp = p.getPasswordProtectByLoginName(loginName);
             pp.setPasswoordChangeValidate(null);
-            result = JsonResultFactory.CreateJsonResult_True(pp);
             session.setAttribute("PasswordProtectedMethod_GETBACKPSD",pp);
+            return JsonResultFactory.CreateJsonResult_True(pp);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = JsonResultFactory.CreateJsonResult_False(e);
+            ajaxController.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
-        return result;
 	}
 	/**
 	 * 发送短信，用于验证密保，要求不登录状态
@@ -263,7 +250,6 @@ public class PublicController {
 	@RequestMapping(value = "/PhoneSendToCheckPasswordProtected", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult<?> PhoneSendToCheckPasswordProtected(HttpSession session){
-        JsonResult<?> result;
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
@@ -280,28 +266,27 @@ public class PublicController {
                     .getAttribute("public_validate_password_protected_phone");
             if (e == null) {
                 String r = phoneService.SendValidateCode(pp.getPhone());
-                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute("public_validate_password_protected_phone", new PhoneSendSession(r, pp.getPhone()));
                 }
+                return JsonResultFactory.CreateJsonResult_True(r);
             } else {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
+                    return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = phoneService.SendValidateCode(pp.getPhone());
-                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute("public_validate_password_protected_phone", new PhoneSendSession(r, pp.getPhone()));
                     }
+                    return JsonResultFactory.CreateJsonResult_True(r);
                 }
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = JsonResultFactory.CreateJsonResult_False(e);
+            ajaxController.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
-        return result;
 	}
 	/**
 	 * 发送邮箱验证码，用于验证密保，要求不登录状态
@@ -312,7 +297,6 @@ public class PublicController {
 	@RequestMapping(value = "/EmailSendToCheckPasswordProtected", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult<?> EmailSendToCheckPasswordProtected(HttpSession session){
-        JsonResult<?> result;
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
@@ -329,28 +313,27 @@ public class PublicController {
                     .getAttribute("public_validate_password_protected_email");
             if (e == null) {
                 String r = emailService.SendValidateCode(pp.getEmail());
-                result = JsonResultFactory.CreateJsonResult_True(r);
                 if (!r.equals("ERROR!")) {
                     session.setAttribute("public_validate_password_protected_email", new EmailSendSession(r, pp.getEmail()));
                 }
+                return JsonResultFactory.CreateJsonResult_True(r);
             } else {
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    result = JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
+                    return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
                 } else {
                     String r = emailService.SendValidateCode(pp.getEmail());
-                    result = JsonResultFactory.CreateJsonResult_True(r);
                     if (!r.equals("ERROR!")) {
                         session.setAttribute("public_validate_password_protected_email", new EmailSendSession(r, pp.getEmail()));
                     }
+                    return JsonResultFactory.CreateJsonResult_True(r);
                 }
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = JsonResultFactory.CreateJsonResult_False(e);
+            ajaxController.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
-        return result;
 	}
 	/**
 	 * 用邮箱验证密保，要求不登录状态
@@ -362,7 +345,6 @@ public class PublicController {
 	@RequestMapping(value = "{code}/ValidatePasswordProtectedMethodByEmail", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult<?> ValidatePasswordProtectedMethodByEmail(HttpSession session, @PathVariable("code") String code){
-        JsonResult<?> result;
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
@@ -371,18 +353,18 @@ public class PublicController {
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute("public_validate_password_protected_email");
             if (e != null && e.getValidateCode().equals(code)) {
-                result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.SUCCESS));
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.SUCCESS));
+
             } else if (e == null) {
-                result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL));
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL));
             } else {
-                result = JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.ERROR_CODE));
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.ERROR_CODE));
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = JsonResultFactory.CreateJsonResult_False(e);
+            ajaxController.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
-        return result;
 	}
 	/**
 	 * 用手机验证密保
@@ -394,7 +376,6 @@ public class PublicController {
 	@RequestMapping(value = "{code}/ValidatePasswordProtectedMethodByPhone", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult<?> ValidatePasswordProtectedMethodByPhone(HttpSession session, @PathVariable("code") String code){
-        JsonResult<?> result;
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
@@ -403,18 +384,17 @@ public class PublicController {
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute("public_validate_password_protected_phone");
             if (e != null && e.getValidateCode().equals(code)) {
-                result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.SUCCESS));
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.SUCCESS));
             } else if (e == null) {
-                result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL));
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL));
             } else {
-                result = JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE));
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE));
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = JsonResultFactory.CreateJsonResult_False(e);
+            ajaxController.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
-        return result;
 	}
 
 	/**
@@ -426,7 +406,6 @@ public class PublicController {
 	@RequestMapping(value = "/ResetPassword", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public JsonResult<?> ResetPassword(HttpSession session, String password){
-        JsonResult<?> result;
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
@@ -441,11 +420,10 @@ public class PublicController {
             }
             p.ChangePasword(pp.getUserId(),password);
             session.setAttribute("user_validate_password_protected_key",null);
-            result = JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.Success.getInfo());
+            return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.Success.getInfo());
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = JsonResultFactory.CreateJsonResult_False(e);
+            ajaxController.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
         }
-        return result;
 	}
 }

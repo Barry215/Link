@@ -7,11 +7,15 @@ import cn.SkyShadow.model.*;
 import cn.SkyShadow.dao.*;
 import cn.SkyShadow.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 文件管理器
  * Created by Richard on 16/9/13.
  */
+@Transactional
+@Service
 public class FileServiceImpl implements FileService {
     private final voiceMapper voiceMapper;
     private final videoMapper videoMapper;

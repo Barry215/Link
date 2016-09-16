@@ -35,8 +35,15 @@ public class UserControllerTest {
     public void LoginAndLoginOut()throws Exception{
         user u = new user();
         u.setUsername("test001");
+        u.setPassword("123456789");
+        logger.info("登录："+userController.getLoginResult(u,null,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         u.setPassword("123456");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
+        u.setPassword("123456789");
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         logger.info("退出："+userController.loginout(session));
         logger.info("登录状态："+userController.getLoginState(session));
@@ -44,7 +51,7 @@ public class UserControllerTest {
 
     @Test
     public void signUpNoEmail() throws Exception {
-        String code = publicController.sendPhoneValidateCode("+8618100174600",session).getData();
+        String code = (String) publicController.sendPhoneValidateCode("+8618100174600",session).getData();
         if (!code.equals("ERROR!")){
             user u = new user();
             u.setUsername("test003");
@@ -59,8 +66,8 @@ public class UserControllerTest {
 
     @Test
     public void signUp() throws Exception {
-        String code = publicController.sendPhoneValidateCode("+8618100174611",session).getData();
-        String code1 = publicController.sendEmailValidateCode("123@aaaa.com",session).getData();
+        String code = (String) publicController.sendPhoneValidateCode("+8618100174611",session).getData();
+        String code1 = (String) publicController.sendEmailValidateCode("123@aaaa.com",session).getData();
         if (!code.equals("ERROR!")){
             user u = new user();
             u.setUsername("test004");
@@ -80,7 +87,7 @@ public class UserControllerTest {
         user u = new user();
         u.setUsername("test003");
         u.setPassword("123456");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         String code = (String) userController.sendEmailValidateCode("789@qq.com",session).getData();
         logger.info("绑定邮箱："+userController.ValidateEmail(session,code));
@@ -91,7 +98,7 @@ public class UserControllerTest {
         user u = new user();
         u.setUsername("test004");
         u.setPassword("123456");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         String code = (String) userController.sendPhoneValidateCode("+8613555555555",session).getData();
         logger.info("绑定手机："+userController.ValidatePhone(session,code));
@@ -102,7 +109,7 @@ public class UserControllerTest {
         user u = new user();
         u.setUsername("test003");
         u.setPassword("123456");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         logger.info("密保手段："+userController.getPasswordProtected(session));
     }
@@ -112,7 +119,7 @@ public class UserControllerTest {
         user u = new user();
         u.setUsername("test004");
         u.setPassword("123456789");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         String code = (String) userController.PhoneSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(手机)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
@@ -126,7 +133,7 @@ public class UserControllerTest {
         user u = new user();
         u.setUsername("test004");
         u.setPassword("123456");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
@@ -139,14 +146,14 @@ public class UserControllerTest {
         user u = new user();
         u.setUsername("test004");
         u.setPassword("123456");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
         logger.info("打开密码更改保护"+userController.OpenPasswordChangeValidate(session));
         logger.info("修改密码"+userController.ModifyPassword(session,null,"123456789"));
         u.setPassword("123456789");
-        logger.info("登录："+userController.getLoginResult(u,session));
+        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
         logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));

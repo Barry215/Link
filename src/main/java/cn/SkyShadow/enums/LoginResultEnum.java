@@ -6,8 +6,9 @@ package cn.SkyShadow.enums;
  */
 public enum LoginResultEnum {
     SUCCESS(1,"登陆成功"),
-    FAIL(2,"登录失败，用户名或密码有误")
-    ;
+    FAIL(2,"登录失败，用户名或密码有误"),
+    IMGCODE(3,"图形验证码错误");
+
     private int code;
     private String info;
 

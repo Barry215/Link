@@ -1,6 +1,5 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.model.user;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -66,7 +64,7 @@ public class PublicControllerTest {
     @Test
     public void ResetPassword() throws  Exception{
         logger.info("检测密保"+publicController.GetPasswordProtectedMethod("Richard",session));
-        String code = publicController.PhoneSendToCheckPasswordProtected(session).getData();
+        String code = (String) publicController.PhoneSendToCheckPasswordProtected(session).getData();
         logger.info(("发送短信")+code);
         logger.info("验证密保"+publicController.ValidatePasswordProtectedMethodByPhone(session,code));
         logger.info("重设密码"+publicController.ResetPassword(session,"123456"));

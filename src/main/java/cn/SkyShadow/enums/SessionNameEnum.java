@@ -17,7 +17,9 @@ public enum SessionNameEnum {
     user_phone_by_validated("user_phone_by_validated","用于密保验证完成后，修改手机号码时，向手机发送短信，要求用户是登录状态"),
     user_email_by_validated("user_email_by_validated","用于密保验证完成后，修改邮箱时，向邮箱发送验证码，要求用户是登录状态"),
     public_phone("public_phone","注册手机"),
-    public_email("public_email","注册邮箱" );
+    public_email("public_email","注册邮箱" ),
+    WrongNumEnum("WrongNumEnum","用户当前操作的失败次数");
+
     private String sessionName;
     private String info;
 

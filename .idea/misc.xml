@@ -45,7 +45,7 @@
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Link_doc" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../Link_doc" />
     <option name="OPTION_SCOPE" value="protected" />
     <option name="OPTION_HIERARCHY" value="true" />
     <option name="OPTION_NAVIGATOR" value="true" />

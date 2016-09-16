@@ -1,6 +1,7 @@
 package cn.SkyShadow.dto.user;
 import  cn.SkyShadow.model.user;
 /**
+ * 注册填写表单
  * Created by RichardW on 8/23/2016.
  */
 public class SignUpForm {
@@ -16,6 +17,15 @@ public class SignUpForm {
      * 包装的用户报名信息
      */
     private user user;
+    private String imgcode;
+
+    public String getImgcode() {
+        return imgcode;
+    }
+
+    public void setImgcode(String imgcode) {
+        this.imgcode = imgcode;
+    }
 
     public String getPhoneCode() {
         return PhoneCode;
