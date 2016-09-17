@@ -7,7 +7,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.SkyShadow.basic_component.Impl.AjaxController;
+import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +25,11 @@ import com.google.code.kaptcha.Producer;
 @RequestMapping("/")
 public class KaptchaController {
     private final Producer captchaProducer;
-    private final AjaxController ajaxController;
+    private final AjaxCommonComponent ajaxCommonComponent;
     @Autowired(required = false)
     public KaptchaController(Producer captchaProducer) {
         this.captchaProducer = captchaProducer;
-        this.ajaxController = new AjaxController(KaptchaController.class);
+        this.ajaxCommonComponent = new AjaxCommonComponent(KaptchaController.class);
     }
 
 
@@ -57,7 +57,7 @@ public class KaptchaController {
             out.flush();
             out.close();
         } catch (IOException e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
         }
         return null;
     }

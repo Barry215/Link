@@ -121,5 +121,5 @@ public interface userMapper {
      * @param str 模糊字段
      * @return 用户信息列表
      */
-    List<user> Search(String str);// TODO: 9/16/2016
+    List<user> Search(String str);
 }

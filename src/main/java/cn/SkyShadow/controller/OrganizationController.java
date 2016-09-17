@@ -1,6 +1,6 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.basic_component.Impl.AjaxController;
+import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
 import cn.SkyShadow.dto.JsonResult;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
 import cn.SkyShadow.service.OrgService;
@@ -21,20 +21,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/org")
 public class OrganizationController {
     private final OrgService orgService;
-    private final AjaxController ajaxController;
+    private final AjaxCommonComponent ajaxCommonComponent;
     @Autowired
     public OrganizationController(OrgService orgService) {
         this.orgService = orgService;
-        this.ajaxController = new AjaxController(this.getClass());
+        this.ajaxCommonComponent = new AjaxCommonComponent(this.getClass());
     }
     @RequestMapping(value = "/{name}/hasOrgName", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
     @ResponseBody
     public JsonResult<?> HasOrgName(@PathVariable("name") String name){
         try {
-            String result = orgService.HasOrgName(name)?"Y":"N";
+            String result = orgService.HasOrgName(name);
             return  JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -44,7 +44,7 @@ public class OrganizationController {
         try {
 
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }*/

@@ -1,7 +1,7 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.*;
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.FriendSeivice;
@@ -38,12 +38,12 @@ public class FriendSeiviceImpl implements FriendSeivice {
     }
 
     @Override
-    public Excution AddFriend(Apply apply) {
+    public Execution AddFriend(Apply apply) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
-    public Excution AddFriendCallBack(Receipt receipt) {
+    public Execution AddFriendCallBack(Receipt receipt) {
         if (receipt.isSuccess()){
             friendMapper.insert((friend) receipt.getApply().getObjectA());
         }
@@ -51,22 +51,22 @@ public class FriendSeiviceImpl implements FriendSeivice {
     }
 
     @Override
-    public Excution CreateFriendGroup(friendgroup friendgroup) {
+    public Execution CreateFriendGroup(friendgroup friendgroup) {
         return ExcutionFactory.GetExcutionByResultCode(friendgroupMapper.insert(friendgroup));
     }
 
     @Override
-    public Excution ModifyFriendGroup(friendgroup friendgroup) {
+    public Execution ModifyFriendGroup(friendgroup friendgroup) {
         return ExcutionFactory.GetExcutionByResultCode(friendgroupMapper.update(friendgroup));
     }
 
     @Override
-    public Excution Deletefriend(Long friendId) {
+    public Execution Deletefriend(Long friendId) {
         return ExcutionFactory.GetExcutionByResultCode(friendMapper.deleteByPrimaryKey(friendId));
     }
 
     @Override
-    public Excution deleteFriendGroup(Long friendGroupId) {
+    public Execution deleteFriendGroup(Long friendGroupId) {
         return ExcutionFactory.GetExcutionByResultCode(friendgroupMapper.deleteByPrimaryKey(friendGroupId));
     }
 }

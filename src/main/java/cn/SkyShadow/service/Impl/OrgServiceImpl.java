@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.ApplyMapper;
 import cn.SkyShadow.dao.ReceiptMapper;
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dao.organizationMapper;
 import cn.SkyShadow.dao.locationMapper;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
@@ -39,7 +39,7 @@ public class OrgServiceImpl implements OrgService {
 
 
     @Override
-    public Excution CreateNewOrg(organization org) {
+    public Execution CreateNewOrg(organization org) {
         if (org == null) {
             return ExcutionFactory.GetExcutionByResultCode(0, "组织信息为空");
         }
@@ -49,7 +49,7 @@ public class OrgServiceImpl implements OrgService {
         if (org.getName().length() > 255 || org.getName().length() < 6) {
             return ExcutionFactory.GetExcutionByResultCode(-2, "组织姓名长度为6-255个字符");
         }
-        if (HasOrgName(org.getName())) {
+        if (HasOrgName(org.getName()).equals("N")) {
             return ExcutionFactory.GetExcutionByResultCode(-3, "组织名被占用");
         }
         if (org.getOrgId() != 0L) {
@@ -70,19 +70,19 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public Excution ModifyOrg(organization o) {
+    public Execution ModifyOrg(organization o) {
         int result = organizationMapper.updateByPrimaryKeySelective(o);
         return ExcutionFactory.GetExcutionByResultCode(result,"操作已执行");
     }
 
     @Override
-    public Excution ApplyParentOrg(Apply a) {
+    public Execution ApplyParentOrg(Apply a) {
         int result = applyMapper.Create(a);
         return ExcutionFactory.GetExcutionByResultCode(result,"操作已执行");
     }
 
     @Override
-    public Excution ApplyParentOrgCallBack(Receipt r) {
+    public Execution ApplyParentOrgCallBack(Receipt r) {
         if (r.isSuccess()){
             organizationMapper.ModifyParent(r.getApply().getIDA(),r.getApply().getIDB());
         }
@@ -91,22 +91,22 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public Excution RollBackApplyParentOrg(Long applyId) {
+    public Execution RollBackApplyParentOrg(Long applyId) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
-    public Excution ApplyUnlockParentOrg(Apply a) {
+    public Execution ApplyUnlockParentOrg(Apply a) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
-    public Excution RollBackApplyUnlockParentOrg(Long applyId) {
+    public Execution RollBackApplyUnlockParentOrg(Long applyId) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
-    public Excution ApplyUnlockParentOrgCallBack(Receipt r) {
+    public Execution ApplyUnlockParentOrgCallBack(Receipt r) {
         if (r.isSuccess()){
             organizationMapper.ModifyParent(r.getApply().getIDA(),r.getApply().getIDB());
         }
@@ -114,27 +114,27 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public Excution RollBackApplyUnlockParentOrgCallBack(Long applyId) {
+    public Execution RollBackApplyUnlockParentOrgCallBack(Long applyId) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
-    public Excution DiliverOrgNotWithSonOrg(Apply a) {
+    public Execution DiliverOrgNotWithSonOrg(Apply a) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
-    public Excution CreateDepartment(organization o) {
+    public Execution CreateDepartment(organization o) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.insert(o));
     }
 
     @Override
-    public Excution ComandDeparementLeader(Apply a) {
+    public Execution ComandDeparementLeader(Apply a) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
-    public Excution ComandDeparementLeaderCallBack(Receipt r) {
+    public Execution ComandDeparementLeaderCallBack(Receipt r) {
         if (r.isSuccess()){
             organizationMapper.AddAdmin(r.getApply().getIDA(),r.getApply().getIDB());
         }
@@ -142,7 +142,7 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public Excution UnlockDeparementLeader(Long orgId,Long userId) {
+    public Execution UnlockDeparementLeader(Long orgId, Long userId) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.RemoveAdmin(orgId,userId));
     }
 
@@ -152,13 +152,13 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public Excution DeleteOrg(Long ID) {
+    public Execution DeleteOrg(Long ID) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.deleteByPrimaryKey(ID));
     }
 
     @Override
-    public boolean HasOrgName(String Name) {
-        return organizationMapper.HasOrgoName(Name);
+    public String HasOrgName(String Name) {
+        return organizationMapper.HasOrgName(Name);
     }
 
 }

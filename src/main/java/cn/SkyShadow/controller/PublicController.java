@@ -1,6 +1,6 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.basic_component.Impl.AjaxController;
+import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
 import cn.SkyShadow.dto.tp.EmailValidateResult;
 import cn.SkyShadow.dto.tp.PhoneValidateResult;
@@ -33,14 +33,14 @@ public class PublicController{
 	private final PublicService p;
 	private final SendEmailService emailService;
 	private final SendPhoneService phoneService;
-	private final AjaxController ajaxController;
+	private final AjaxCommonComponent ajaxCommonComponent;
 
 	@Autowired
 	public PublicController(SendEmailService emailService, PublicService p, SendPhoneService phoneService) {
 		this.emailService = emailService;
 		this.p = p;
 		this.phoneService = phoneService;
-		this.ajaxController = new AjaxController(PublicController.class);
+		this.ajaxCommonComponent = new AjaxCommonComponent(PublicController.class);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class PublicController{
 			String hS = p.HasPhone(phone);
 			return JsonResultFactory.CreateJsonResult_True(hS);
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			return JsonResultFactory.CreateJsonResult_False(e);
 		}
 	}
@@ -73,7 +73,7 @@ public class PublicController{
 			String hu = p.HasUsername(username);
 			return JsonResultFactory.CreateJsonResult_True(hu);
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			return JsonResultFactory.CreateJsonResult_False(e);
 		}
 	}
@@ -90,7 +90,7 @@ public class PublicController{
 			String hu = p.HasEmail(email);
 			return JsonResultFactory.CreateJsonResult_True(hu);
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			return JsonResultFactory.CreateJsonResult_False(e);
 		}
 	}
@@ -107,7 +107,7 @@ public class PublicController{
 			List<city> cities = p.get_ZH_Cities();
 			return JsonResultFactory.CreateJsonResult_True(cities);
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			return JsonResultFactory.CreateJsonResult_False(e);
 		}
 	}
@@ -123,7 +123,7 @@ public class PublicController{
 			List<country> countries = p.getCountries();
 			return JsonResultFactory.CreateJsonResult_True(countries);
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			return JsonResultFactory.CreateJsonResult_False(e);
 		}
 	}
@@ -168,7 +168,7 @@ public class PublicController{
 				}
 			}
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			result = JsonResultFactory.CreateJsonResult_False(e);
 		}
 		return result;
@@ -214,7 +214,7 @@ public class PublicController{
                 }
 			}
 		} catch (Exception e) {
-			ajaxController.ExceptionHandle(e);
+			ajaxCommonComponent.ExceptionHandle(e);
 			return JsonResultFactory.CreateJsonResult_False(e);
 		}
 	}
@@ -238,7 +238,7 @@ public class PublicController{
             session.setAttribute("PasswordProtectedMethod_GETBACKPSD",pp);
             return JsonResultFactory.CreateJsonResult_True(pp);
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 	}
@@ -284,7 +284,7 @@ public class PublicController{
                 }
             }
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 	}
@@ -331,7 +331,7 @@ public class PublicController{
                 }
             }
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 	}
@@ -362,7 +362,7 @@ public class PublicController{
                 return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.ERROR_CODE));
             }
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 	}
@@ -392,7 +392,7 @@ public class PublicController{
                 return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE));
             }
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 	}
@@ -422,7 +422,7 @@ public class PublicController{
             session.setAttribute("user_validate_password_protected_key",null);
             return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.Success.getInfo());
         } catch (Exception e) {
-            ajaxController.ExceptionHandle(e);
+            ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 	}

@@ -1,5 +1,6 @@
 package cn.SkyShadow.service;
 
+import cn.SkyShadow.dto.Exception.NoMaxWrongNumEnumException;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 
 import javax.servlet.http.HttpSession;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpSession;
  * Created by RichardW on 9/15/2016.
  */
 public interface KaptchaService {
-    boolean check(HttpSession session,String UserCode,MaxWrongNumEnum m);
+    boolean check(HttpSession session,String UserCode,MaxWrongNumEnum m) throws NoMaxWrongNumEnumException;
     void addFailNum(HttpSession session);
     void removeFailNum(HttpSession session);
 }

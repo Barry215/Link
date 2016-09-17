@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.ApplyMapper;
 import cn.SkyShadow.dao.ReceiptMapper;
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dao.organizationMapper;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.*;
@@ -29,17 +29,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Excution CreateDepartment(organization o) {
+    public Execution CreateDepartment(organization o) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.insert(o));
     }
 
     @Override
-    public Excution AddAdmin(Apply apply) {
+    public Execution AddAdmin(Apply apply) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
-    public Excution MakeAdminCallback(Receipt r) {
+    public Execution MakeAdminCallback(Receipt r) {
         if (r.isSuccess()){
             organizationMapper.AddAdmin(r.getApply().getIDA(),r.getApply().getIDB());
         }
@@ -47,27 +47,27 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
         
     @Override
-    public Excution RollBackAddAdmin(Long ApplyId) {
+    public Execution RollBackAddAdmin(Long ApplyId) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(ApplyId));
     }
 
     @Override
-    public Excution RemoveAdmin(Long depId, Long userid) {
+    public Execution RemoveAdmin(Long depId, Long userid) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.RemoveAdmin(depId,userid));
     }
 
     @Override
-    public Excution DeliverDepartmentCreator(Apply a) {
+    public Execution DeliverDepartmentCreator(Apply a) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
-    public Excution RollBackDeliverDepartmentCreator(Long applyId) {
+    public Execution RollBackDeliverDepartmentCreator(Long applyId) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
-    public Excution DeliverDepartmentCreatorCallback(Receipt r) {
+    public Execution DeliverDepartmentCreatorCallback(Receipt r) {
         if (r.isSuccess()){
             organizationMapper.ModifyCreator(r.getApply().getIDA(),r.getApply().getIDB());
         }
@@ -75,12 +75,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Excution DeleteDepartment(Long DepId) {
+    public Execution DeleteDepartment(Long DepId) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.deleteByPrimaryKey(DepId));
     }
 
     @Override
-    public Excution ModifyDepart(organization o) {
+    public Execution ModifyDepart(organization o) {
         return ExcutionFactory.GetExcutionByResultCode(organizationMapper.updateByPrimaryKeySelective(o));
     }
 }

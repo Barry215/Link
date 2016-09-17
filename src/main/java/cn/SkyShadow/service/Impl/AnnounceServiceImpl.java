@@ -1,6 +1,6 @@
 package cn.SkyShadow.service.Impl;
 
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.announce;
 import cn.SkyShadow.dao.announceMapper;
@@ -25,12 +25,12 @@ public class AnnounceServiceImpl implements AnnounceService {
     }
 
     @Override
-    public Excution Announce(announce a, Long organizationID) {
+    public Execution Announce(announce a, Long organizationID) {
         return ExcutionFactory.GetExcutionByResultCode(announceMapper.insert(a,organizationID));
     }
 
     @Override
-    public Excution DeleteAnnounce(Long annId) {
+    public Execution DeleteAnnounce(Long annId) {
         return ExcutionFactory.GetExcutionByResultCode(announceMapper.deleteByPrimaryKey(annId));
     }
 

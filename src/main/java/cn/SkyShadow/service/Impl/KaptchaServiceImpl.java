@@ -1,5 +1,6 @@
 package cn.SkyShadow.service.Impl;
 
+import cn.SkyShadow.dto.Exception.NoMaxWrongNumEnumException;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.SessionNameEnum;
 import cn.SkyShadow.service.KaptchaService;
@@ -17,20 +18,17 @@ import javax.servlet.http.HttpSession;
 @Service
 public class KaptchaServiceImpl implements KaptchaService {
     @Override
-    public boolean check(HttpSession session, String userCode,MaxWrongNumEnum m) {
-        if (m == null){
-            //// TODO: 9/15/2016
-            return false;
+    public boolean check(HttpSession session, String userCode,MaxWrongNumEnum m) throws NoMaxWrongNumEnumException{
+        if (m == null) {
+            throw new NoMaxWrongNumEnumException("没有设置MaxWrongNumEnum");
         }
         int failNum = 0;
         String realCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         Object failNumObj = session.getAttribute(SessionNameEnum.WrongNumEnum.getSessionName());
-        if (failNumObj!=null){
-            failNum = (int)failNumObj;
+        if (failNumObj != null) {
+            failNum = (int) failNumObj;
         }
-        if (failNum < m.getNum()){
-            return true;
-        }else return realCode != null && userCode != null && realCode.equals(userCode);
+        return failNum < m.getNum() || realCode != null && userCode != null && realCode.equals(userCode);
     }
 
     @Override

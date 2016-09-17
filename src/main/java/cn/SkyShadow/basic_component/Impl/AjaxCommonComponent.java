@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
  * AJAX前端处理器
  * Created by RichardW on 9/15/2016.
  */
-public class AjaxController implements ExceptionHandller{
+public class AjaxCommonComponent implements ExceptionHandller{
     private Logger logger;
     private Class controllerClass;
 
-    public AjaxController(Class controllerClass) {
+    public AjaxCommonComponent(Class controllerClass) {
         this.controllerClass = controllerClass;
     }
 

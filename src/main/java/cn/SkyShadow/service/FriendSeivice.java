@@ -1,6 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.model.*;
 
 import java.util.List;
@@ -19,40 +19,40 @@ public interface FriendSeivice {
      * @param apply 申请
      * @return 执行结果
      */
-    Excution AddFriend(Apply apply);
+    Execution AddFriend(Apply apply);
 
     /**
      * 处理加好友申请
      * @param receipt 回执
      * @return 执行结果
      */
-    Excution AddFriendCallBack(Receipt receipt);
+    Execution AddFriendCallBack(Receipt receipt);
 
     /**
      * 创建好友分组
      * @param friendgroup 好友分组
      * @return 执行结果
      */
-    Excution CreateFriendGroup(friendgroup friendgroup);
+    Execution CreateFriendGroup(friendgroup friendgroup);
 
     /**
      * 编辑好友分组
      * @param friendgroup 好友分组信息
      * @return 执行结果
      */
-    Excution ModifyFriendGroup(friendgroup friendgroup);
+    Execution ModifyFriendGroup(friendgroup friendgroup);
 
     /**
      * 删除好友
      * @param friendId 好友关系ID
      * @return 执行结果
      */
-    Excution Deletefriend(Long friendId);
+    Execution Deletefriend(Long friendId);
 
     /**
      * 删除好友分组
      * @param friendGroupId 好友分组ID
      * @return 执行结果
      */
-    Excution deleteFriendGroup(Long friendGroupId);
+    Execution deleteFriendGroup(Long friendGroupId);
 }

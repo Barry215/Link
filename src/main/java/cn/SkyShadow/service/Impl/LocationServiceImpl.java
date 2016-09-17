@@ -1,6 +1,6 @@
 package cn.SkyShadow.service.Impl;
 
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.location;
 import cn.SkyShadow.service.LocationService;
@@ -23,17 +23,17 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Excution Add(location location) {
+    public Execution Add(location location) {
         return ExcutionFactory.GetExcutionByResultCode(locationMapper.CreateNewLocation(location));
     }
 
     @Override
-    public Excution Remove(Long locationId) {
+    public Execution Remove(Long locationId) {
         return ExcutionFactory.GetExcutionByResultCode(locationMapper.RemoveLocation(locationId));
     }
 
     @Override
-    public Excution Modify(location location) {
+    public Execution Modify(location location) {
         return ExcutionFactory.GetExcutionByResultCode(locationMapper.Modifylocation(location));
     }
 }

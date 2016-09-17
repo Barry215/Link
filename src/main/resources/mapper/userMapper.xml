@@ -156,4 +156,10 @@
     <update id="changePassword">
         UPDATE user SET PASSWORD = md5(#{password,jdbcType=VARCHAR}) WHERE USER_ID = #{userId,jdbcType=BIGINT}
     </update>
+	<select id="Search" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+			DISTINCT USER_ID,USERNAME,NICKNAME
+		from user
+		WHERE NICKNAME LIKE CONCAT('%',#{str,jdbcType=VARCHAR},'%') OR user.USERNAME LIKE CONCAT('%',#{str,jdbcType=VARCHAR},'%')
+	</select>
 </mapper>

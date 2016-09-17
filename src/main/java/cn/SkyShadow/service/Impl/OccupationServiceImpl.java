@@ -3,7 +3,7 @@ package cn.SkyShadow.service.Impl;
 import cn.SkyShadow.dao.ApplyMapper;
 import cn.SkyShadow.dao.ReceiptMapper;
 import cn.SkyShadow.dao.occupationMapper;
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.Apply;
 import cn.SkyShadow.model.Receipt;
@@ -31,37 +31,37 @@ public class OccupationServiceImpl implements OccupationService {
     }
 
     @Override
-    public Excution CreateOccupation(occupation occupation) {
+    public Execution CreateOccupation(occupation occupation) {
         return ExcutionFactory.GetExcutionByResultCode(occupationMapper.insert(occupation));
     }
 
     @Override
-    public Excution DeleteOccupation(Long occupationId) {
+    public Execution DeleteOccupation(Long occupationId) {
         return ExcutionFactory.GetExcutionByResultCode(occupationMapper.deleteByPrimaryKey(occupationId));
     }
 
     @Override
-    public Excution ModifyOccupation(occupation occupation) {
+    public Execution ModifyOccupation(occupation occupation) {
         return ExcutionFactory.GetExcutionByResultCode(occupationMapper.updateByPrimaryKeySelective(occupation));
     }
 
     @Override
-    public Excution ModifyOccupation_Power(occupation occupation) {
+    public Execution ModifyOccupation_Power(occupation occupation) {
         return ExcutionFactory.GetExcutionByResultCode(occupationMapper.updateByPrimaryKeySelective(occupation));
     }
 
     @Override
-    public Excution AddUserToOccupation(Apply apply) {
+    public Execution AddUserToOccupation(Apply apply) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
-    public Excution RollBackAddUserToOccupation(Long ApplyId) {
+    public Execution RollBackAddUserToOccupation(Long ApplyId) {
         return ExcutionFactory.GetExcutionByResultCode(applyMapper.Remove(ApplyId));
     }
 
     @Override
-    public Excution AddUserToOccupationCallBcak(Receipt receipt) {
+    public Execution AddUserToOccupationCallBcak(Receipt receipt) {
         if (receipt.isSuccess()){
             occupationMapper.addUser(receipt.getApply().getIDA(),receipt.getApply().getIDB());
         }
@@ -69,7 +69,7 @@ public class OccupationServiceImpl implements OccupationService {
     }
 
     @Override
-    public Excution RemoveUser(Long userId, Long occuId) {
+    public Execution RemoveUser(Long userId, Long occuId) {
         return ExcutionFactory.GetExcutionByResultCode(occupationMapper.removeUser(occuId,userId));
     }
 }

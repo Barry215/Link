@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.messageMapper;
 import cn.SkyShadow.dao.sessionMapper;
-import cn.SkyShadow.dto.excution.Excution;
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.SessionService;
@@ -33,12 +33,12 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Excution SendMessage(message message) {
+    public Execution SendMessage(message message) {
         return ExcutionFactory.GetExcutionByResultCode(messageMapper.insert(message));
     }
 
     @Override
-    public Excution RollBackMessage(Long messageId) {
+    public Execution RollBackMessage(Long messageId) {
         return ExcutionFactory.GetExcutionByResultCode(messageMapper.deleteByPrimaryKey(messageId));
     }
 
@@ -53,7 +53,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Excution ReadMessage(List<String> IdList) {
+    public Execution ReadMessage(List<String> IdList) {
         return ExcutionFactory.GetExcutionByResultCode(messageMapper.ReadMessage(IdList));
     }
 }
