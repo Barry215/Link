@@ -1,7 +1,7 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.excution.Execution;
-import cn.SkyShadow.dto.factory.ExcutionFactory;
+import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.model.mail;
 import cn.SkyShadow.dao.mailMapper;
 import cn.SkyShadow.service.MailService;
@@ -32,18 +32,18 @@ public class MailServiceImpl implements MailService {
     @Override
     public Execution SendMail(mail mail) {
         if (mail==null){
-            return ExcutionFactory.GetExcutionByResultCode(0,"邮件不能为空");
+            return ExecutionFactory.GetExcutionByResultCode(0,"邮件不能为空");
         }
-        return ExcutionFactory.GetExcutionByResultCode(mailMapper.insertSelective(mail));
+        return ExecutionFactory.GetExcutionByResultCode(mailMapper.insertSelective(mail));
     }
 
     @Override
     public Execution DeleteMail(Long mailId) {
-        return ExcutionFactory.GetExcutionByResultCode(mailMapper.deleteByPrimaryKey(mailId));
+        return ExecutionFactory.GetExcutionByResultCode(mailMapper.deleteByPrimaryKey(mailId));
     }
 
     @Override
     public Execution ReadMail(List<Long> IdList) {
-        return ExcutionFactory.GetExcutionByResultCode(mailMapper.ReadMail(IdList));
+        return ExecutionFactory.GetExcutionByResultCode(mailMapper.ReadMail(IdList));
     }
 }

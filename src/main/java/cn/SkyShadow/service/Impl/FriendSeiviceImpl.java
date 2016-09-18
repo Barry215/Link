@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.*;
 import cn.SkyShadow.dto.excution.Execution;
-import cn.SkyShadow.dto.factory.ExcutionFactory;
+import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.FriendSeivice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class FriendSeiviceImpl implements FriendSeivice {
 
     @Override
     public Execution AddFriend(Apply apply) {
-        return ExcutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
+        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
@@ -47,26 +47,26 @@ public class FriendSeiviceImpl implements FriendSeivice {
         if (receipt.isSuccess()){
             friendMapper.insert((friend) receipt.getApply().getObjectA());
         }
-        return ExcutionFactory.GetExcutionByResultCode(receiptMapper.Create(receipt));
+        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(receipt));
     }
 
     @Override
     public Execution CreateFriendGroup(friendgroup friendgroup) {
-        return ExcutionFactory.GetExcutionByResultCode(friendgroupMapper.insert(friendgroup));
+        return ExecutionFactory.GetExcutionByResultCode(friendgroupMapper.insert(friendgroup));
     }
 
     @Override
     public Execution ModifyFriendGroup(friendgroup friendgroup) {
-        return ExcutionFactory.GetExcutionByResultCode(friendgroupMapper.update(friendgroup));
+        return ExecutionFactory.GetExcutionByResultCode(friendgroupMapper.update(friendgroup));
     }
 
     @Override
     public Execution Deletefriend(Long friendId) {
-        return ExcutionFactory.GetExcutionByResultCode(friendMapper.deleteByPrimaryKey(friendId));
+        return ExecutionFactory.GetExcutionByResultCode(friendMapper.deleteByPrimaryKey(friendId));
     }
 
     @Override
     public Execution deleteFriendGroup(Long friendGroupId) {
-        return ExcutionFactory.GetExcutionByResultCode(friendgroupMapper.deleteByPrimaryKey(friendGroupId));
+        return ExecutionFactory.GetExcutionByResultCode(friendgroupMapper.deleteByPrimaryKey(friendGroupId));
     }
 }

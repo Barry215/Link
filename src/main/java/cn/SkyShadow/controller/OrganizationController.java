@@ -2,8 +2,8 @@ package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
 import cn.SkyShadow.dto.JsonResult;
+import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
-import cn.SkyShadow.dto.factory.OrganizationFactory;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.OrgCreateResultEnum;
 import cn.SkyShadow.model.organization;
@@ -49,9 +49,9 @@ public class OrganizationController {
     public JsonResult<?> CreateOrganization(HttpSession session,@PathVariable("code") String code, @RequestBody organization organization){
         try {
             if (kaptchaService.check(session,code, MaxWrongNumEnum.CREATE_ORG)){
-
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.IMG_CODE));
             }
-             return  null;
+            return  JsonResultFactory.CreateJsonResult_True(orgService.CreateNewOrg(organization));
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);

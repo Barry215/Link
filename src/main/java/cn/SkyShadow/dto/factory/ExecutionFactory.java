@@ -9,7 +9,7 @@ import cn.SkyShadow.model.organization;
  * Excution工厂
  * Created by RichardW on 9/14/2016.
  */
-public class ExcutionFactory {
+public class ExecutionFactory {
     public static Execution GetExcutionByResultCode(int resultCode){
         return new Execution(resultCode,"操作已执行");
     }
@@ -25,4 +25,5 @@ public class ExcutionFactory {
     public static OrgCreateExecution getOrgCreateExecution_False(OrgCreateResultEnum orgCreateResultEnum){
         return new OrgCreateExecution(orgCreateResultEnum.getCode(),orgCreateResultEnum.getInfo(),false);
     }
+
 }

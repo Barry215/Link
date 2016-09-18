@@ -56,7 +56,8 @@ public class UserController{
     /**
      * 登陆方法
      * @param u           包装好的用户信息
-     * @param httpSession 会话sessio
+     * @param httpSession 会话session
+     * @param imgCode 图像验证码
      * @return 登录结果信息，如果登录成功，会自动存取session
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})

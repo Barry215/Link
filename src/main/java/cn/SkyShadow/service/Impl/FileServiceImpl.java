@@ -1,7 +1,7 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.excution.Execution;
-import cn.SkyShadow.dto.factory.ExcutionFactory;
+import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.dto.file.FileList;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.dao.*;
@@ -37,32 +37,32 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Execution UpdateVoice(voice voice) {
-        return ExcutionFactory.GetExcutionByResultCode(voiceMapper.insert(voice));
+        return ExecutionFactory.GetExcutionByResultCode(voiceMapper.insert(voice));
     }
 
     @Override
     public Execution UpdateVideo(video video) {
-        return ExcutionFactory.GetExcutionByResultCode(videoMapper.insert(video));
+        return ExecutionFactory.GetExcutionByResultCode(videoMapper.insert(video));
     }
 
     @Override
     public Execution UpdateImage(imagine imagine) {
-        return ExcutionFactory.GetExcutionByResultCode(imagineMapper.insertSelective(imagine));
+        return ExecutionFactory.GetExcutionByResultCode(imagineMapper.insertSelective(imagine));
     }
 
     @Override
     public Execution UpdateExpr(expr expr) {
-        return ExcutionFactory.GetExcutionByResultCode(exprMapper.insert(expr));
+        return ExecutionFactory.GetExcutionByResultCode(exprMapper.insert(expr));
     }
 
     @Override
     public Execution UpdateFile(file file) {
-        return ExcutionFactory.GetExcutionByResultCode(fileMapper.insert(file));
+        return ExecutionFactory.GetExcutionByResultCode(fileMapper.insert(file));
     }
 
     @Override
     public Execution UpdateFileGroup(filegroup filegroup) {
-        return ExcutionFactory.GetExcutionByResultCode(filegroupMapper.insert(filegroup));
+        return ExecutionFactory.GetExcutionByResultCode(filegroupMapper.insert(filegroup));
     }
 
     @Override
@@ -72,31 +72,31 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Execution DeleteFile(Long fileId) {
-        return ExcutionFactory.GetExcutionByResultCode(fileMapper.deleteByPrimaryKey(fileId));
+        return ExecutionFactory.GetExcutionByResultCode(fileMapper.deleteByPrimaryKey(fileId));
     }
 
     @Override
     public Execution DeleteFileGroup(Long filegroupId) {
-        return ExcutionFactory.GetExcutionByResultCode(filegroupMapper.deleteByPrimaryKey(filegroupId));
+        return ExecutionFactory.GetExcutionByResultCode(filegroupMapper.deleteByPrimaryKey(filegroupId));
     }
 
     @Override
     public Execution UpdateFileToOrg(Long orgId, Long fileId) {
-        return ExcutionFactory.GetExcutionByResultCode(fileMapper.AddFileToOrg(orgId,fileId));
+        return ExecutionFactory.GetExcutionByResultCode(fileMapper.AddFileToOrg(orgId,fileId));
     }
 
     @Override
     public Execution RemoveFileFromOrg(Long orgId, Long fileId) {
-        return ExcutionFactory.GetExcutionByResultCode(fileMapper.RemoveFileFromOrg(orgId,fileId));
+        return ExecutionFactory.GetExcutionByResultCode(fileMapper.RemoveFileFromOrg(orgId,fileId));
     }
 
     @Override
     public Execution UpdateFileGroupToOrg(Long orgId, Long fileGroupId) {
-        return ExcutionFactory.GetExcutionByResultCode(fileMapper.AddFileToOrg(orgId,fileGroupId));
+        return ExecutionFactory.GetExcutionByResultCode(fileMapper.AddFileToOrg(orgId,fileGroupId));
     }
 
     @Override
     public Execution RemoveFileGroupFromOrg(Long orgId, Long fileGroupId) {
-        return ExcutionFactory.GetExcutionByResultCode(fileMapper.RemoveFileFromOrg(orgId, fileGroupId));
+        return ExecutionFactory.GetExcutionByResultCode(fileMapper.RemoveFileFromOrg(orgId, fileGroupId));
     }
 }

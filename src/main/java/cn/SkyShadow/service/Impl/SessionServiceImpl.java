@@ -3,7 +3,7 @@ package cn.SkyShadow.service.Impl;
 import cn.SkyShadow.dao.messageMapper;
 import cn.SkyShadow.dao.sessionMapper;
 import cn.SkyShadow.dto.excution.Execution;
-import cn.SkyShadow.dto.factory.ExcutionFactory;
+import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,12 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public Execution SendMessage(message message) {
-        return ExcutionFactory.GetExcutionByResultCode(messageMapper.insert(message));
+        return ExecutionFactory.GetExcutionByResultCode(messageMapper.insert(message));
     }
 
     @Override
     public Execution RollBackMessage(Long messageId) {
-        return ExcutionFactory.GetExcutionByResultCode(messageMapper.deleteByPrimaryKey(messageId));
+        return ExecutionFactory.GetExcutionByResultCode(messageMapper.deleteByPrimaryKey(messageId));
     }
 
     @Override
@@ -54,6 +54,6 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public Execution ReadMessage(List<String> IdList) {
-        return ExcutionFactory.GetExcutionByResultCode(messageMapper.ReadMessage(IdList));
+        return ExecutionFactory.GetExcutionByResultCode(messageMapper.ReadMessage(IdList));
     }
 }
