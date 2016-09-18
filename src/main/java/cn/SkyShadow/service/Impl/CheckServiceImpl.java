@@ -58,4 +58,14 @@ public class CheckServiceImpl implements CheckService {
         EmailSendSession emailSendSession = (EmailSendSession) session.getAttribute(sessionNameEnum.getSessionName());
         return (emailSendSession != null) && emailSendSession.getValidateCode().equals(UserCode) && emailSendSession.getEmail().equals(Email);
     }
+
+    @Override
+    public Long getUserId(HttpSession session) {
+        if (LoginState(session)){
+            return ((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId();
+        }
+        else{
+            return 0L;
+        }
+    }
 }

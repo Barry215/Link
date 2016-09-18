@@ -1,12 +1,15 @@
 package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
+import cn.SkyShadow.basic_component.OperationInterceptor;
 import cn.SkyShadow.dto.JsonResult;
 import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
+import cn.SkyShadow.enums.OperationByAuthorityEnum;
 import cn.SkyShadow.enums.OrgCreateResultEnum;
 import cn.SkyShadow.model.organization;
+import cn.SkyShadow.service.CheckService;
 import cn.SkyShadow.service.KaptchaService;
 import cn.SkyShadow.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +30,14 @@ public class OrganizationController {
     private final OrgService orgService;
     private final AjaxCommonComponent ajaxCommonComponent;
     private final KaptchaService kaptchaService;
+    private final CheckService checkService;
+    private final OperationInterceptor operationInterceptor;
     @Autowired
-    public OrganizationController(OrgService orgService, KaptchaService kaptchaService) {
+    public OrganizationController(OrgService orgService, KaptchaService kaptchaService, CheckService checkService, OperationInterceptor operationInterceptor) {
         this.orgService = orgService;
         this.kaptchaService = kaptchaService;
+        this.checkService = checkService;
+        this.operationInterceptor = operationInterceptor;
         this.ajaxCommonComponent = new AjaxCommonComponent(this.getClass());
     }
     @RequestMapping(value = "/{name}/hasOrgName", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
@@ -48,10 +55,40 @@ public class OrganizationController {
     @ResponseBody
     public JsonResult<?> CreateOrganization(HttpSession session,@PathVariable("code") String code, @RequestBody organization organization){
         try {
+            if (!checkService.LoginState(session)){
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.NO_LOGIN));
+            }
             if (kaptchaService.check(session,code, MaxWrongNumEnum.CREATE_ORG)){
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.IMG_CODE));
             }
             return  JsonResultFactory.CreateJsonResult_True(orgService.CreateNewOrg(organization));
+        } catch (Exception e) {
+            ajaxCommonComponent.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
+        }
+    }
+    @RequestMapping(value = "/{code}/ModifyOrg", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+    @ResponseBody
+    public JsonResult<?> ModifyOrg(HttpSession session,@PathVariable("code") String code, @RequestBody organization organization){
+        try {
+            if (kaptchaService.check(session,code,MaxWrongNumEnum.MODIFY_ORG)){
+
+            }
+            if (!checkService.LoginState(session)){
+
+            }
+            OperationByAuthorityEnum op = OperationByAuthorityEnum.MODIFY_ORGANIZATION;
+            Long userId = checkService.getUserId(session);
+            if (operationInterceptor.checkFull(userId,op)){
+
+            }
+            if (operationInterceptor.checkApply_AVAIl(userId,op)){
+
+            }
+            if (operationInterceptor.checkNULL(userId,op)){
+
+            }
+            return null;
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
