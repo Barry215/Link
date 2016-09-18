@@ -5,14 +5,11 @@
     <id column="SESSION_ID" property="sessionId" jdbcType="BIGINT" />
     <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
-    <association column="USERGROUP_ID" property="usergroupId" select="cn.SkyShadow.dao.usergroupMapper.selectUsergroup"></association>
+    <association column="USERGROUP_ID" property="usergroupId" select="cn.SkyShadow.dao.usergroupMapper.selectUsergroup" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    SESSION_ID, USERGROUP_ID, START_TIME, END_TIME
-  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
+    select
+      SESSION_ID, USERGROUP_ID, START_TIME, END_TIME
     from session
     where SESSION_ID = #{sessionId,jdbcType=BIGINT}
   </select>
@@ -24,4 +21,7 @@
     insert into session (USERGROUP_ID)
     values (#{usergroupId.groupId,jdbcType=BIGINT})
   </insert>
+  <select id="GetAllSession" parameterType="java.lang.Long" resultMap="BaseResultMap">
+
+  </select>
 </mapper>

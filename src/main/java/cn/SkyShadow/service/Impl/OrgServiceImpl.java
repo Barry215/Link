@@ -5,7 +5,9 @@ import cn.SkyShadow.dao.ReceiptMapper;
 import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.dao.organizationMapper;
 import cn.SkyShadow.dao.locationMapper;
+import cn.SkyShadow.dto.excution.OrgCreateExecution;
 import cn.SkyShadow.dto.factory.ExcutionFactory;
+import cn.SkyShadow.enums.OrgCreateResultEnum;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,34 +41,39 @@ public class OrgServiceImpl implements OrgService {
 
 
     @Override
-    public Execution CreateNewOrg(organization org) {
+    public OrgCreateExecution CreateNewOrg(organization org) {
         if (org == null) {
-            return ExcutionFactory.GetExcutionByResultCode(0, "组织信息为空");
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.NULL_ORG);
         }
         if (org.getCreatorId() == null || org.getCreatorId().getUserId() == 0L) {
-            return ExcutionFactory.GetExcutionByResultCode(-1, "用户名为空");
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.NULL_USERID);
         }
         if (org.getName().length() > 255 || org.getName().length() < 6) {
-            return ExcutionFactory.GetExcutionByResultCode(-2, "组织姓名长度为6-255个字符");
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.FORMAT_NAME);
         }
-        if (HasOrgName(org.getName()).equals("N")) {
-            return ExcutionFactory.GetExcutionByResultCode(-3, "组织名被占用");
+        if (HasOrgName(org.getName()).equals("Y")) {
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.ILLEGAL_NAME);
         }
         if (org.getOrgId() != 0L) {
             organization fatherOrg = organizationMapper.selectBaseInfo(org.getOrgId());
             if (fatherOrg == null) {
-                return ExcutionFactory.GetExcutionByResultCode(-4, "父组织不存在");
+                return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.ILLEGAL_PARENT);
             }
         }
         if (org.getLocation() == null) {
-            return ExcutionFactory.GetExcutionByResultCode(-5, "请填写地点");
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.NULL_LOCATION);
         }
         location location = lMapper.selectByPrimaryKey(org.getLocation().getLocationId());
         if (location == null){
-            return ExcutionFactory.GetExcutionByResultCode(-6, "地点不存在");
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.ILLEGAL_LOCATION);
         }
         int result = organizationMapper.insert(org);
-        return ExcutionFactory.GetExcutionByResultCode(result,"操作已执行");
+        if (result==1) {
+            return ExcutionFactory.getOrgCreateExecution_True(OrgCreateResultEnum.SUCCESS,org);
+        }
+        else{
+            return ExcutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.DB_ERROR);
+        }
     }
 
     @Override

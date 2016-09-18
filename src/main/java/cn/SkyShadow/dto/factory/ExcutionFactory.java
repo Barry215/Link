@@ -1,6 +1,9 @@
 package cn.SkyShadow.dto.factory;
 
 import cn.SkyShadow.dto.excution.Execution;
+import cn.SkyShadow.dto.excution.OrgCreateExecution;
+import cn.SkyShadow.enums.OrgCreateResultEnum;
+import cn.SkyShadow.model.organization;
 
 /**
  * Excution工厂
@@ -15,5 +18,11 @@ public class ExcutionFactory {
     }
     public static Execution GetExcutionByResultCode(int resultCode, String info, Object obj){
         return new Execution(resultCode,info,obj);
+    }
+    public static OrgCreateExecution getOrgCreateExecution_True(OrgCreateResultEnum orgCreateResultEnum, organization o){
+        return new OrgCreateExecution(orgCreateResultEnum.getCode(),orgCreateResultEnum.getInfo(),o,true);
+    }
+    public static OrgCreateExecution getOrgCreateExecution_False(OrgCreateResultEnum orgCreateResultEnum){
+        return new OrgCreateExecution(orgCreateResultEnum.getCode(),orgCreateResultEnum.getInfo(),false);
     }
 }

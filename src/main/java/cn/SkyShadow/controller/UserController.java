@@ -1,10 +1,9 @@
 package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
+import cn.SkyShadow.dto.excution.LoginStateExecution;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
-import cn.SkyShadow.dto.factory.LoginResultFactory;
-import cn.SkyShadow.dto.factory.LoginStateFactory;
-import cn.SkyShadow.dto.factory.RegisterResultFactory;
+import cn.SkyShadow.dto.factory.UserFactory;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.EmailValidateResult;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import cn.SkyShadow.dto.JsonResult;
-import cn.SkyShadow.dto.user.LoginState;
 import cn.SkyShadow.model.result_model.LoginResult;
 import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.UserCoreService;
@@ -67,19 +65,19 @@ public class UserController{
         LoginResult result;
         try {
             if (!kaptchaService.check(httpSession,imgCode,MaxWrongNumEnum.LOGIN)){
-                result = LoginResultFactory.GetLoginResult(LoginResultEnum.IMGCODE);
-                kaptchaService.removeFailNum(httpSession);
+                result = UserFactory.GetLoginResult(LoginResultEnum.IMG_CODE);
                 return JsonResultFactory.CreateJsonResult_True(result);
             }
             user u1 = uService.SelectUserByLogin(u);
             if (u1 == null) {
-                result = LoginResultFactory.GetLoginResult(LoginResultEnum.FAIL);
+                result = UserFactory.GetLoginResult(LoginResultEnum.FAIL);
                 kaptchaService.addFailNum(httpSession);
                 return JsonResultFactory.CreateJsonResult_True(result);
             }
             u1.setPassword(u.getPassword());
             httpSession.setAttribute(SessionNameEnum.user.getSessionName(), u1);
-            result = LoginResultFactory.GetLoginResult(LoginResultEnum.SUCCESS);
+            result = UserFactory.GetLoginResult(LoginResultEnum.SUCCESS);
+            kaptchaService.removeFailNum(httpSession);
             return JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
@@ -118,12 +116,12 @@ public class UserController{
     @RequestMapping(value = "/loginState", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public JsonResult<?> getLoginState(HttpSession session) {
-        LoginState loginState;
         try {
+            LoginStateExecution loginState;
             if (checkService.LoginState(session)) {
-                loginState = LoginStateFactory.GetLoginstate(LoginStateEnum.ONLINE, checkService.LoginSate(session));
+                loginState = UserFactory.getLoginStateExecution(LoginStateEnum.ONLINE, checkService.LoginSate(session));
             } else {
-                loginState = LoginStateFactory.GetLoginstate(LoginStateEnum.OFFLINE);
+                loginState = UserFactory.getLoginStateExecution(LoginStateEnum.OFFLINE);
             }
             return JsonResultFactory.CreateJsonResult_True(loginState);
         } catch (Exception e) {
@@ -145,7 +143,7 @@ public class UserController{
         RegisterResult result;
         try {
             if (!kaptchaService.check(session,signUpForm.getImgcode(),MaxWrongNumEnum.REGISTER)){
-                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.IMGCODE);
+                result = UserFactory.GetRegisterResult(RegisterResultEnum.IMGCODE);
                 return JsonResultFactory.CreateJsonResult_True(result);
             }
             if (checkService.HasThisSessionRecord(session, SessionNameEnum.public_phone)
@@ -153,7 +151,7 @@ public class UserController{
                 result = uService.getRegisterResult_NOEMAIL(signUpForm.getUser());
                 return JsonResultFactory.CreateJsonResult_True(result);
             } else {
-                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.PHONEVALIDATE);
+                result = UserFactory.GetRegisterResult(RegisterResultEnum.PHONEVALIDATE);
                 return JsonResultFactory.CreateJsonResult_True(result);
             }
         } catch (Exception e) {
@@ -175,13 +173,13 @@ public class UserController{
         RegisterResult result;
         try {
             if (!kaptchaService.check(session,signUpForm.getImgcode(),MaxWrongNumEnum.REGISTER)){
-                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.IMGCODE);
+                result = UserFactory.GetRegisterResult(RegisterResultEnum.IMGCODE);
                 return JsonResultFactory.CreateJsonResult_True(result);
             }
             if (!checkService.CheckEmailCode(session, SessionNameEnum.public_email, signUpForm.getEmailCode(), signUpForm.getUser().getEmail())) {
-                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.EMAILVALIDATE);
+                result = UserFactory.GetRegisterResult(RegisterResultEnum.EMAILVALIDATE);
             } else if (!checkService.CheckPhoneCode(session, SessionNameEnum.public_phone, signUpForm.getPhoneCode(), signUpForm.getUser().getPhone())) {
-                result = RegisterResultFactory.GetRegisterResult(RegisterResultEnum.PHONEVALIDATE);
+                result = UserFactory.GetRegisterResult(RegisterResultEnum.PHONEVALIDATE);
             } else {
                 result = uService.getRegisterResult(signUpForm.getUser());
             }

@@ -1,7 +1,7 @@
 package cn.SkyShadow.basic_component.Impl;
 
 import cn.SkyShadow.basic_component.CheckOrgName;
-import cn.SkyShadow.dto.factory.CheckOrgNameResultFactory;
+import cn.SkyShadow.dto.factory.OrganizationFactory;
 import cn.SkyShadow.dto.org.CheckOrgNameResult;
 import cn.SkyShadow.enums.CheckOrgNameResultEnum;
 
@@ -12,6 +12,6 @@ import cn.SkyShadow.enums.CheckOrgNameResultEnum;
 public class CheckOrgNameComponent implements CheckOrgName{
     @Override
     public CheckOrgNameResult check(String name) {
-        return CheckOrgNameResultFactory.CreateResult(CheckOrgNameResultEnum.SUCCESS);
+        return OrganizationFactory.CreateResult(CheckOrgNameResultEnum.SUCCESS);
     }
 }

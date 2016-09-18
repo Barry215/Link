@@ -1,5 +1,6 @@
 package cn.SkyShadow.dto.org;
 
+import cn.SkyShadow.dto.excution.Execution;
 import cn.SkyShadow.enums.CheckOrgNameResultEnum;
 
 /**
@@ -8,8 +9,5 @@ import cn.SkyShadow.enums.CheckOrgNameResultEnum;
  */
 public class CheckOrgNameResult {
     private CheckOrgNameResultEnum checkOrgNameResultEnum;
-
-    public CheckOrgNameResult(CheckOrgNameResultEnum checkOrgNameResultEnum) {
-        this.checkOrgNameResultEnum = checkOrgNameResultEnum;
-    }
+    private Execution execution;
 }
