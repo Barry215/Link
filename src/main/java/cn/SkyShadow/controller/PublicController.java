@@ -253,14 +253,14 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return  JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.LOGINED.getInfo());
+                return  JsonResultFactory.CreateJsonResult_True(ResultMapper.User_LoginING);
             }
             PasswordProtected pp =(PasswordProtected) (session.getAttribute("PasswordProtectedMethod_GETBACKPSD"));
 			if (pp==null){
-				return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.LONGTIMEOVER.getInfo());
+				return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_OverTime);
 			}
             if (pp.getPhoneValidate().equals("N")) {
-                return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.UN_VALIDATE.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_UnValidated);
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute("public_validate_password_protected_phone");
@@ -274,7 +274,7 @@ public class PublicController{
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.OVERCLOCKING.getInfo());
+                    return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_OverLocking);
                 } else {
                     String r = phoneService.SendValidateCode(pp.getPhone());
                     if (!r.equals("ERROR!")) {
@@ -348,18 +348,18 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return  JsonResultFactory.CreateJsonResult_True(new  EmailValidateResult(EmailValidateEnum.LOGINED));
+                return  JsonResultFactory.CreateJsonResult_True(new  EmailValidateResult(ResultMapper.User_LoginING));
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute("public_validate_password_protected_email");
             if (e != null && e.getValidateCode().equals(code)) {
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
-                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.SUCCESS));
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(ResultMapper.SUCCESS));
 
             } else if (e == null) {
-                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.MESSAGE_FALL));
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(ResultMapper.Public_Email_MessageSendFail));
             } else {
-                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(EmailValidateEnum.ERROR_CODE));
+                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(ResultMapper.Public_Email_Error_code));
             }
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
@@ -379,17 +379,17 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.LOGINED));
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.User_LoginING));
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute("public_validate_password_protected_phone");
             if (e != null && e.getValidateCode().equals(code)) {
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.SUCCESS));
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.SUCCESS));
             } else if (e == null) {
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.MESSAGE_FALL));
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.Public_Phone_MessageSendFail));
             } else {
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(PhoneValidateEnum.ERROR_CODE));
+                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.Public_Phone_Error_code));
             }
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
@@ -409,18 +409,18 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return  JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.LOGINED.getInfo());
+                return  JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
             PasswordProtectedKey pk =
                     (PasswordProtectedKey) session.getAttribute("public_validate_password_protected_key");
             PasswordProtected pp =
                     (PasswordProtected)session.getAttribute("PasswordProtectedMethod_GETBACKPSD");
             if (pk==null||pp==null){
-                return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.NeedKey.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_No_PasswordProtectedKey);
             }
             p.ChangePasword(pp.getUserId(),password);
             session.setAttribute("user_validate_password_protected_key",null);
-            return JsonResultFactory.CreateJsonResult_True(ModifyPaswordEnum.Success.getInfo());
+            return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);

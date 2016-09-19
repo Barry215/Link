@@ -1,6 +1,6 @@
 package cn.SkyShadow.dto.tp;
 
-import cn.SkyShadow.enums.PhoneValidateEnum;
+import cn.SkyShadow.enums.ResultMapper;
 
 /**
  * 手机验证信息
@@ -22,21 +22,9 @@ public class PhoneValidateResult {
         this.result = result;
     }
 
-    /**
-     * 获取验证结果信息
-     * @return 验证结果信息
-     */
-    public String getResultInfo() {
-        return resultInfo;
-    }
-
-    public void setResultInfo(String resultInfo) {
-        this.resultInfo = resultInfo;
-    }
-
-    public PhoneValidateResult(PhoneValidateEnum phoneValidateEnum) {
-        this.result = phoneValidateEnum.getState();
-        this.resultInfo = phoneValidateEnum.getStateInfo();
+    public PhoneValidateResult(ResultMapper ResultMapper) {
+        this.result = ResultMapper.getCode();
+        this.resultInfo = ResultMapper.getInfo();
     }
 
     @Override

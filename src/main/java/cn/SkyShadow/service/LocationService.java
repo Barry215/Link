@@ -1,6 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.execution.Execution;
+import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.location;
 
 /**
@@ -13,18 +13,18 @@ public interface LocationService {
      * @param location 地点
      * @return 执行结果
      */
-    Execution Add(location location);
+    BaseExecution Add(location location);
 
     /**
      * 删除地点
      * @param locationId 地点ID
      * @return 执行结果
      */
-    Execution Remove(Long locationId);
+    BaseExecution Remove(Long locationId);
     /**
      * 修改地点
      * @param location 地点
      * @return 执行结果
      */
-    Execution Modify(location location);
+    BaseExecution Modify(location location);
 }

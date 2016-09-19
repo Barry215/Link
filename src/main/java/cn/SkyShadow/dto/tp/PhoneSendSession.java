@@ -28,21 +28,12 @@ public class PhoneSendSession {
 	public Date getSendDate() {
 		return sendDate;
 	}
-
-	public void setSendDate(Date sendDate) {
-		this.sendDate = sendDate;
-	}
-
     /**
      * 获取验证码信息
      * @return 验证码信息
      */
 	public String getValidateCode() {
 		return ValidateCode;
-	}
-
-	public void setValidateCode(String validateCode) {
-		ValidateCode = validateCode;
 	}
 
 	public PhoneSendSession(String validateCode,String phone) {

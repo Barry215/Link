@@ -30,20 +30,12 @@ public class EmailSendSession {
 		return sendDate;
 	}
 
-	public void setSendDate(Date sendDate) {
-		this.sendDate = sendDate;
-	}
-
     /**
      * 获取验证码
      * @return 验证码
      */
 	public String getValidateCode() {
 		return ValidateCode;
-	}
-
-	public void setValidateCode(String validateCode) {
-		ValidateCode = validateCode;
 	}
 
 	public EmailSendSession(String validateCode,String email) {

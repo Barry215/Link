@@ -1,6 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.execution.Execution;
+import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
 
 
@@ -14,49 +14,49 @@ public interface OccupationService {
      * @param occupation 职位
      * @return 执行结果
      */
-	Execution CreateOccupation(occupation occupation);
+	BaseExecution CreateOccupation(occupation occupation);
 
     /**
      * 特定用户删除职位
      * @param occupationId 职位ID
      * @return 执行结果
      */
-    Execution DeleteOccupation(Long occupationId);
+    BaseExecution DeleteOccupation(Long occupationId);
 
     /**
      * 特定用户修改职位的信息
      * @param occupation 职位
      * @return 执行结果
      */
-    Execution ModifyOccupation(occupation occupation);
+    BaseExecution ModifyOccupation(occupation occupation);
 
     /**
      * 特定用户修改职位的权限
      * @param occupation 职位
      * @return 执行结果
      */
-    Execution ModifyOccupation_Power(occupation occupation);
+    BaseExecution ModifyOccupation_Power(occupation occupation);
 
     /**
      * 特定用户将用户加入职位（申请）
      * @param apply 申请
      * @return 执行结果
      */
-    Execution AddUserToOccupation(Apply apply);
+    BaseExecution AddUserToOccupation(Apply apply);
 
     /**
      * 撤销将用户加入职位
      * @param ApplyId 职位ID
      * @return 执行结果
      */
-    Execution RollBackAddUserToOccupation(Long ApplyId);
+    BaseExecution RollBackAddUserToOccupation(Long ApplyId);
 
     /**
      * 处理将用户加入职位的申请
      * @param receipt 回执
      * @return 执行结果
      */
-    Execution AddUserToOccupationCallBcak(Receipt receipt);
+    BaseExecution AddUserToOccupationCallBcak(Receipt receipt);
 
     /**
      * 特定用户将用户开除出职位
@@ -64,5 +64,5 @@ public interface OccupationService {
      * @param occuId 职位
      * @return 执行结果
      */
-    Execution RemoveUser(Long userId, Long occuId);
+    BaseExecution RemoveUser(Long userId, Long occuId);
 }

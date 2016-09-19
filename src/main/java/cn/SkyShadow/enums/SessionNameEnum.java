@@ -6,9 +6,9 @@ package cn.SkyShadow.enums;
  */
 public enum SessionNameEnum {
     /**
-     * 用户登录保持
+     * user
      */
-    user("user","用户登录保持"),
+    user("user","用户信息保持"),
     user_email("user_email","用户在邮箱为空时，发送邮箱一条验证码，要求在登录状态"),
     user_phone("user_phone","用户在手机信息为空时，发送手机一条验证码，要求在登录状态"),
     user_validate_password_protected_phone("user_validate_password_protected_phone","发送短信，用于验证密保，要求登录状态"),

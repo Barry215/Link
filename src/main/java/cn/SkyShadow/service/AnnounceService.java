@@ -1,6 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.execution.Execution;
+import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.announce;
 
 import java.util.List;
@@ -16,14 +16,14 @@ public interface AnnounceService {
      * @param organizationID 组织
      * @return 执行结果
      */
-    Execution Announce(announce a, Long organizationID);
+    BaseExecution Announce(announce a, Long organizationID);
 
     /**
      * 删除公告
      * @param annId 公告ID
      * @return 执行结果
      */
-    Execution DeleteAnnounce(Long annId);
+    BaseExecution DeleteAnnounce(Long annId);
 
     /**
      * 查询组织/部门的公告

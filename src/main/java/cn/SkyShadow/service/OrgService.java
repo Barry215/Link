@@ -1,7 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.execution.Execution;
-import cn.SkyShadow.dto.execution.OrgCreateExecution;
+import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface OrgService {
      * @param org 创建一个新组织
      * @return 创建结果
      */
-    OrgCreateExecution CreateNewOrg(organization org);
+    BaseExecution CreateNewOrg(organization org);
 
     /**
      * 获取基本信息
@@ -30,27 +29,27 @@ public interface OrgService {
      * @param o 组织
      * @return 结果
      */
-    Execution ModifyOrg(organization o);
+    BaseExecution ModifyOrg(organization o);
     /**
      * 申请父组织
      * @param a 申请
      * @return 申请结果
      */
-    Execution ApplyParentOrg(Apply a);
+    BaseExecution ApplyParentOrg(Apply a);
     /**
      * 申请父组织(回调函数）
      *
      * @param r 回执
      * @return 执行结果
      */
-    Execution ApplyParentOrgCallBack(Receipt r);
+    BaseExecution ApplyParentOrgCallBack(Receipt r);
 
     /**
      * 撤回向外申请父组织
      * @param applyId 申请ID
      * @return 执行结果
      */
-    Execution RollBackApplyParentOrg(Long applyId);
+    BaseExecution RollBackApplyParentOrg(Long applyId);
 
     /**
      * 解除父组织
@@ -58,28 +57,28 @@ public interface OrgService {
      * @param a 申请
      * @return 执行结果
      */
-    Execution ApplyUnlockParentOrg(Apply a);
+    BaseExecution ApplyUnlockParentOrg(Apply a);
 
     /**
      * 撤回向外申请解除父组织
      * @param applyId 申请ID
      * @return 执行结果
      */
-    Execution RollBackApplyUnlockParentOrg(Long applyId);
+    BaseExecution RollBackApplyUnlockParentOrg(Long applyId);
     /**
      * 申请解除父组织回调函数
      *
      * @param r 回执
      * @return 执行结果
      */
-    Execution ApplyUnlockParentOrgCallBack(Receipt r);
+    BaseExecution ApplyUnlockParentOrgCallBack(Receipt r);
 
     /**
      * 撤回申请转让组织的创建者
      * @param applyId 申请ID
      * @return 执行结果
      */
-    Execution RollBackApplyUnlockParentOrgCallBack(Long applyId);
+    BaseExecution RollBackApplyUnlockParentOrgCallBack(Long applyId);
 
     /**
      * 转让组织的创建者(最高权限),不附带子部门
@@ -87,7 +86,7 @@ public interface OrgService {
      * @param a 申请
      * @return 执行结果
      */
-    Execution DiliverOrgNotWithSonOrg(Apply a);
+    BaseExecution DiliverOrgNotWithSonOrg(Apply a);
 
     /**
      * 转让组织的创建者(最高权限),附带子部门
@@ -95,21 +94,21 @@ public interface OrgService {
      * @param o 组织
      * @return 执行结果
      */
-    Execution CreateDepartment(organization o);
+    BaseExecution CreateDepartment(organization o);
 
     /**
      * 创建组织最高管理者
      * @param a 申请
      * @return 执行结果
      */
-    Execution ComandDeparementLeader(Apply a);
+    BaseExecution ComandDeparementLeader(Apply a);
 
     /**
      * 创建组织最高管理者
      * @param r 回执
      * @return 执行结果
      */
-    Execution ComandDeparementLeaderCallBack(Receipt r);
+    BaseExecution ComandDeparementLeaderCallBack(Receipt r);
 
     /**
      * 解除组织最高管理者
@@ -117,7 +116,7 @@ public interface OrgService {
      * @param userId  用户ID
      * @return 执行结果
      */
-    Execution UnlockDeparementLeader(Long orgId, Long userId);
+    BaseExecution UnlockDeparementLeader(Long orgId, Long userId);
 
     /**
      * 搜索组织
@@ -131,7 +130,7 @@ public interface OrgService {
      * @param ID 组织
      * @return 执行结果
      */
-    Execution DeleteOrg(Long ID);
+    BaseExecution DeleteOrg(Long ID);
 
     /**
      * 检查是否有这个组织名

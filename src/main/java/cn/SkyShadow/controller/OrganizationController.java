@@ -9,7 +9,7 @@ import cn.SkyShadow.dto.factory.OperaFactory;
 import cn.SkyShadow.dto.opera.OperaObject;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.OperationByAuthorityEnum;
-import cn.SkyShadow.enums.OrgCreateResultEnum;
+import cn.SkyShadow.enums.ResultMapper;
 import cn.SkyShadow.model.organization;
 import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.CheckService;
@@ -59,10 +59,10 @@ public class OrganizationController {
     public JsonResult<?> CreateOrganization(HttpSession session,@PathVariable("code") String code, @RequestBody organization organization){
         try {
             if (!checkService.LoginState(session)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.NO_LOGIN));
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution_False(ResultMapper.User_UnLogin));
             }
             if (kaptchaService.check(session,code, MaxWrongNumEnum.CREATE_ORG)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getOrgCreateExecution_False(OrgCreateResultEnum.IMG_CODE));
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution_False(ResultMapper.Public_IMG_CODE_Error));
             }
             return  JsonResultFactory.CreateJsonResult_True(orgService.CreateNewOrg(organization));
         } catch (Exception e) {

@@ -1,6 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.execution.Execution;
+import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public interface SessionService {
      * @param message 信息
      * @return 执行结果
      */
-    Execution SendMessage(message message);
+    BaseExecution SendMessage(message message);
 
     /**
      * 撤回消息
@@ -29,7 +29,7 @@ public interface SessionService {
      * @param messageId 信息ID
      * @return 执行结果
      */
-    Execution RollBackMessage(Long messageId);
+    BaseExecution RollBackMessage(Long messageId);
 
 
     /**
@@ -54,5 +54,5 @@ public interface SessionService {
      * @param IdList 一群ID
      * @return 执行结果
      */
-    Execution ReadMessage(List<String> IdList);
+    BaseExecution ReadMessage(List<String> IdList);
 }
