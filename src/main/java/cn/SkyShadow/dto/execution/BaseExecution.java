@@ -9,7 +9,7 @@ public class BaseExecution {
 	private String resultInfo;
 	private Object obj;
 
-    /**
+	/**
      * 获取执行结果递交过来的实体类
      * @return 执行结果递交过来的实体类
      */
@@ -29,12 +29,14 @@ public class BaseExecution {
 		this.resultNum = resultNum;
 		this.resultInfo = resultInfo;
 		this.obj = obj;
+		// TODO: 9/19/2016 请撤销此方法 
 	}
 
 	public BaseExecution(int resultNum, String resultInfo) {
 		super();
 		this.resultNum = resultNum;
 		this.resultInfo = resultInfo;
+		// TODO: 9/19/2016 请撤销此方法
 	}
 
 	public BaseExecution(int resultNum) {
@@ -68,4 +70,9 @@ public class BaseExecution {
         this.resultInfo = resultInfo;
         this.obj = obj;
     }
+	public BaseExecution(boolean isSuccess, int resultNum, String resultInfo) {
+		this.isSuccess = isSuccess;
+		this.resultNum = resultNum;
+		this.resultInfo = resultInfo;
+	}
 }

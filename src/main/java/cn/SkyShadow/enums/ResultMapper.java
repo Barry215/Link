@@ -18,6 +18,8 @@ public enum ResultMapper {
     User_ModifyPsd_Password_Format(1008),
     User_ResultMapper_Opened(1009),
     User_ResultMapper_Closed(1010),
+    User_Register_UserName_Exit(1011),
+    User_Register_UserName_Format(1012),
     Public_IMG_CODE_Error(2001),
     Public_Email_Format(2002),
     Public_Email_Exist(2003),

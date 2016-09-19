@@ -39,7 +39,7 @@ public class FriendSeiviceImpl implements FriendSeivice {
 
     @Override
     public BaseExecution AddFriend(Apply apply) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
@@ -47,26 +47,26 @@ public class FriendSeiviceImpl implements FriendSeivice {
         if (receipt.isSuccess()){
             friendMapper.insert((friend) receipt.getApply().getObjectA());
         }
-        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(receipt));
+        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(receipt));
     }
 
     @Override
     public BaseExecution CreateFriendGroup(friendgroup friendgroup) {
-        return ExecutionFactory.GetExcutionByResultCode(friendgroupMapper.insert(friendgroup));
+        return ExecutionFactory.getExecutionByResultCode(friendgroupMapper.insert(friendgroup));
     }
 
     @Override
     public BaseExecution ModifyFriendGroup(friendgroup friendgroup) {
-        return ExecutionFactory.GetExcutionByResultCode(friendgroupMapper.update(friendgroup));
+        return ExecutionFactory.getExecutionByResultCode(friendgroupMapper.update(friendgroup));
     }
 
     @Override
     public BaseExecution Deletefriend(Long friendId) {
-        return ExecutionFactory.GetExcutionByResultCode(friendMapper.deleteByPrimaryKey(friendId));
+        return ExecutionFactory.getExecutionByResultCode(friendMapper.deleteByPrimaryKey(friendId));
     }
 
     @Override
     public BaseExecution deleteFriendGroup(Long friendGroupId) {
-        return ExecutionFactory.GetExcutionByResultCode(friendgroupMapper.deleteByPrimaryKey(friendGroupId));
+        return ExecutionFactory.getExecutionByResultCode(friendgroupMapper.deleteByPrimaryKey(friendGroupId));
     }
 }

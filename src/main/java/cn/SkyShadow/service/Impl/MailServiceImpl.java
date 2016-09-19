@@ -32,18 +32,18 @@ public class MailServiceImpl implements MailService {
     @Override
     public BaseExecution SendMail(mail mail) {
         if (mail==null){
-            return ExecutionFactory.GetExcutionByResultCode(0,"邮件不能为空");
+            return ExecutionFactory.getExecutionByResultCode(0,"邮件不能为空");
         }
-        return ExecutionFactory.GetExcutionByResultCode(mailMapper.insertSelective(mail));
+        return ExecutionFactory.getExecutionByResultCode(mailMapper.insertSelective(mail));
     }
 
     @Override
     public BaseExecution DeleteMail(Long mailId) {
-        return ExecutionFactory.GetExcutionByResultCode(mailMapper.deleteByPrimaryKey(mailId));
+        return ExecutionFactory.getExecutionByResultCode(mailMapper.deleteByPrimaryKey(mailId));
     }
 
     @Override
     public BaseExecution ReadMail(List<Long> IdList) {
-        return ExecutionFactory.GetExcutionByResultCode(mailMapper.ReadMail(IdList));
+        return ExecutionFactory.getExecutionByResultCode(mailMapper.ReadMail(IdList));
     }
 }

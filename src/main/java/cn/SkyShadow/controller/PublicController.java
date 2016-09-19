@@ -2,8 +2,6 @@ package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
 import cn.SkyShadow.factory.JsonResultFactory;
-import cn.SkyShadow.dto.tp.EmailValidateResult;
-import cn.SkyShadow.dto.tp.PhoneValidateResult;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.PasswordProtectedKey;
 import cn.SkyShadow.enums.*;
@@ -231,7 +229,7 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return  JsonResultFactory.CreateJsonResult_True(null);
+                return  JsonResultFactory.CreateJsonResult_True(ResultMapper.User_LoginING);
             }
             PasswordProtected pp = p.getPasswordProtectByLoginName(loginName);
             pp.setPasswoordChangeValidate(null);
@@ -348,18 +346,18 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return  JsonResultFactory.CreateJsonResult_True(new  EmailValidateResult(ResultMapper.User_LoginING));
+                return  JsonResultFactory.CreateJsonResult_True(ResultMapper.User_LoginING);
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute("public_validate_password_protected_email");
             if (e != null && e.getValidateCode().equals(code)) {
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
-                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(ResultMapper.SUCCESS));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
 
             } else if (e == null) {
-                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(ResultMapper.Public_Email_MessageSendFail));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_MessageSendFail);
             } else {
-                return JsonResultFactory.CreateJsonResult_True(new EmailValidateResult(ResultMapper.Public_Email_Error_code));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Error_code);
             }
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
@@ -379,17 +377,17 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.User_LoginING));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_LoginING);
             }
             PhoneSendSession e = (PhoneSendSession) session
                     .getAttribute("public_validate_password_protected_phone");
             if (e != null && e.getValidateCode().equals(code)) {
                 session.setAttribute("public_validate_password_protected_key", new PasswordProtectedKey());
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.SUCCESS));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
             } else if (e == null) {
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.Public_Phone_MessageSendFail));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_MessageSendFail);
             } else {
-                return JsonResultFactory.CreateJsonResult_True(new PhoneValidateResult(ResultMapper.Public_Phone_Error_code));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_Error_code);
             }
         } catch (Exception e) {
             ajaxCommonComponent.ExceptionHandle(e);

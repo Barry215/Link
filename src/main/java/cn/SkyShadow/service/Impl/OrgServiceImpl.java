@@ -42,36 +42,36 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public BaseExecution CreateNewOrg(organization org) {
         if (org == null) {
-            return ExecutionFactory.getExecution_True(ResultMapper.Org_NULL_ORG);
+            return ExecutionFactory.getExecution(ResultMapper.Org_NULL_ORG);
         }
         if (org.getCreatorId() == null || org.getCreatorId().getUserId() == 0L) {
-            return ExecutionFactory.getExecution_True(ResultMapper.Org_NULL_User_ID);
+            return ExecutionFactory.getExecution(ResultMapper.Org_NULL_User_ID);
         }
         if (org.getName().length() > 255 || org.getName().length() < 6) {
-            return ExecutionFactory.getExecution_True(ResultMapper.Org_FORMAT_NAME);
+            return ExecutionFactory.getExecution(ResultMapper.Org_FORMAT_NAME);
         }
         if (HasOrgName(org.getName()).equals("Y")) {
-            return ExecutionFactory.getExecution_True(ResultMapper.Org_ILLEGAL_NAME);
+            return ExecutionFactory.getExecution(ResultMapper.Org_ILLEGAL_NAME);
         }
         if (org.getOrgId() != 0L) {
             organization fatherOrg = organizationMapper.selectBaseInfo(org.getOrgId());
             if (fatherOrg == null) {
-                return ExecutionFactory.getExecution_True(ResultMapper.Org_ILLEGAL_PARENT);
+                return ExecutionFactory.getExecution(ResultMapper.Org_ILLEGAL_PARENT);
             }
         }
         if (org.getLocation() == null) {
-            return ExecutionFactory.getExecution_True(ResultMapper.Org_NULL_LOCATION);
+            return ExecutionFactory.getExecution(ResultMapper.Org_NULL_LOCATION);
         }
         location location = lMapper.selectByPrimaryKey(org.getLocation().getLocationId());
         if (location == null){
-            return ExecutionFactory.getExecution_True(ResultMapper.Public_ILLEGAL_LOCATION);
+            return ExecutionFactory.getExecution(ResultMapper.Public_ILLEGAL_LOCATION);
         }
         int result = organizationMapper.insert(org);
         if (result==1) {
-            return ExecutionFactory.getExecution_True(ResultMapper.SUCCESS,org);
+            return ExecutionFactory.getExecution(ResultMapper.SUCCESS,org);
         }
         else{
-            return ExecutionFactory.getExecution_True(ResultMapper.DB_ERROR);
+            return ExecutionFactory.getExecution(ResultMapper.DB_ERROR);
         }
     }
 
@@ -83,13 +83,13 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public BaseExecution ModifyOrg(organization o) {
         int result = organizationMapper.updateByPrimaryKeySelective(o);
-        return ExecutionFactory.GetExcutionByResultCode(result,"操作已执行");
+        return ExecutionFactory.getExecutionByResultCode(result,"操作已执行");
     }
 
     @Override
     public BaseExecution ApplyParentOrg(Apply a) {
         int result = applyMapper.Create(a);
-        return ExecutionFactory.GetExcutionByResultCode(result,"操作已执行");
+        return ExecutionFactory.getExecutionByResultCode(result,"操作已执行");
     }
 
     @Override
@@ -98,22 +98,22 @@ public class OrgServiceImpl implements OrgService {
             organizationMapper.ModifyParent(r.getApply().getIDA(),r.getApply().getIDB());
         }
         int result = receiptMapper.Create(r);
-        return ExecutionFactory.GetExcutionByResultCode(result,"操作已执行");
+        return ExecutionFactory.getExecutionByResultCode(result,"操作已执行");
     }
 
     @Override
     public BaseExecution RollBackApplyParentOrg(Long applyId) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
     public BaseExecution ApplyUnlockParentOrg(Apply a) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
     public BaseExecution RollBackApplyUnlockParentOrg(Long applyId) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
@@ -121,27 +121,27 @@ public class OrgServiceImpl implements OrgService {
         if (r.isSuccess()){
             organizationMapper.ModifyParent(r.getApply().getIDA(),r.getApply().getIDB());
         }
-        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
+        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(r));
     }
 
     @Override
     public BaseExecution RollBackApplyUnlockParentOrgCallBack(Long applyId) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
     public BaseExecution DiliverOrgNotWithSonOrg(Apply a) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
     public BaseExecution CreateDepartment(organization o) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.insert(o));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.insert(o));
     }
 
     @Override
     public BaseExecution ComandDeparementLeader(Apply a) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
@@ -149,12 +149,12 @@ public class OrgServiceImpl implements OrgService {
         if (r.isSuccess()){
             organizationMapper.AddAdmin(r.getApply().getIDA(),r.getApply().getIDB());
         }
-        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
+        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(r));
     }
 
     @Override
     public BaseExecution UnlockDeparementLeader(Long orgId, Long userId) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.RemoveAdmin(orgId,userId));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.RemoveAdmin(orgId,userId));
     }
 
     @Override
@@ -164,7 +164,7 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public BaseExecution DeleteOrg(Long ID) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.deleteByPrimaryKey(ID));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.deleteByPrimaryKey(ID));
     }
 
     @Override

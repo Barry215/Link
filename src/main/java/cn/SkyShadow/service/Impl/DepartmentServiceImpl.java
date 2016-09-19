@@ -30,12 +30,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public BaseExecution CreateDepartment(organization o) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.insert(o));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.insert(o));
     }
 
     @Override
     public BaseExecution AddAdmin(Apply apply) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
@@ -43,27 +43,27 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (r.isSuccess()){
             organizationMapper.AddAdmin(r.getApply().getIDA(),r.getApply().getIDB());
         }
-        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
+        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(r));
     }
         
     @Override
     public BaseExecution RollBackAddAdmin(Long ApplyId) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Remove(ApplyId));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Remove(ApplyId));
     }
 
     @Override
     public BaseExecution RemoveAdmin(Long depId, Long userid) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.RemoveAdmin(depId,userid));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.RemoveAdmin(depId,userid));
     }
 
     @Override
     public BaseExecution DeliverDepartmentCreator(Apply a) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(a));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(a));
     }
 
     @Override
     public BaseExecution RollBackDeliverDepartmentCreator(Long applyId) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Remove(applyId));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Remove(applyId));
     }
 
     @Override
@@ -71,16 +71,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (r.isSuccess()){
             organizationMapper.ModifyCreator(r.getApply().getIDA(),r.getApply().getIDB());
         }
-        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(r));
+        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(r));
     }
 
     @Override
     public BaseExecution DeleteDepartment(Long DepId) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.deleteByPrimaryKey(DepId));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.deleteByPrimaryKey(DepId));
     }
 
     @Override
     public BaseExecution ModifyDepart(organization o) {
-        return ExecutionFactory.GetExcutionByResultCode(organizationMapper.updateByPrimaryKeySelective(o));
+        return ExecutionFactory.getExecutionByResultCode(organizationMapper.updateByPrimaryKeySelective(o));
     }
 }

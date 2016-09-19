@@ -26,12 +26,12 @@ public class AnnounceServiceImpl implements AnnounceService {
 
     @Override
     public BaseExecution Announce(announce a, Long organizationID) {
-        return ExecutionFactory.GetExcutionByResultCode(announceMapper.insert(a,organizationID));
+        return ExecutionFactory.getExecutionByResultCode(announceMapper.insert(a,organizationID));
     }
 
     @Override
     public BaseExecution DeleteAnnounce(Long annId) {
-        return ExecutionFactory.GetExcutionByResultCode(announceMapper.deleteByPrimaryKey(annId));
+        return ExecutionFactory.getExecutionByResultCode(announceMapper.deleteByPrimaryKey(annId));
     }
 
     @Override

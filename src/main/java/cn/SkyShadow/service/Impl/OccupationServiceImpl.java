@@ -32,32 +32,32 @@ public class OccupationServiceImpl implements OccupationService {
 
     @Override
     public BaseExecution CreateOccupation(occupation occupation) {
-        return ExecutionFactory.GetExcutionByResultCode(occupationMapper.insert(occupation));
+        return ExecutionFactory.getExecutionByResultCode(occupationMapper.insert(occupation));
     }
 
     @Override
     public BaseExecution DeleteOccupation(Long occupationId) {
-        return ExecutionFactory.GetExcutionByResultCode(occupationMapper.deleteByPrimaryKey(occupationId));
+        return ExecutionFactory.getExecutionByResultCode(occupationMapper.deleteByPrimaryKey(occupationId));
     }
 
     @Override
     public BaseExecution ModifyOccupation(occupation occupation) {
-        return ExecutionFactory.GetExcutionByResultCode(occupationMapper.updateByPrimaryKeySelective(occupation));
+        return ExecutionFactory.getExecutionByResultCode(occupationMapper.updateByPrimaryKeySelective(occupation));
     }
 
     @Override
     public BaseExecution ModifyOccupation_Power(occupation occupation) {
-        return ExecutionFactory.GetExcutionByResultCode(occupationMapper.updateByPrimaryKeySelective(occupation));
+        return ExecutionFactory.getExecutionByResultCode(occupationMapper.updateByPrimaryKeySelective(occupation));
     }
 
     @Override
     public BaseExecution AddUserToOccupation(Apply apply) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Create(apply));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Create(apply));
     }
 
     @Override
     public BaseExecution RollBackAddUserToOccupation(Long ApplyId) {
-        return ExecutionFactory.GetExcutionByResultCode(applyMapper.Remove(ApplyId));
+        return ExecutionFactory.getExecutionByResultCode(applyMapper.Remove(ApplyId));
     }
 
     @Override
@@ -65,11 +65,11 @@ public class OccupationServiceImpl implements OccupationService {
         if (receipt.isSuccess()){
             occupationMapper.addUser(receipt.getApply().getIDA(),receipt.getApply().getIDB());
         }
-        return ExecutionFactory.GetExcutionByResultCode(receiptMapper.Create(receipt));
+        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(receipt));
     }
 
     @Override
     public BaseExecution RemoveUser(Long userId, Long occuId) {
-        return ExecutionFactory.GetExcutionByResultCode(occupationMapper.removeUser(occuId,userId));
+        return ExecutionFactory.getExecutionByResultCode(occupationMapper.removeUser(occuId,userId));
     }
 }

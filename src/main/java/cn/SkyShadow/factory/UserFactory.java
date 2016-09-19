@@ -9,14 +9,4 @@ import cn.SkyShadow.dto.user.RegisterResult;
  * Created by RichardW on 9/14/2016.
  */
 public class UserFactory {
-
-    public static LoginResult GetLoginResult(ResultMapper loginResultEnum){
-        LoginResult loginResult = new LoginResult(loginResultEnum.getInfo(),loginResultEnum.getCode());
-        return loginResult;
-    }
-
-    public static RegisterResult GetRegisterResult(ResultMapper resultMapper){
-        RegisterResult r = new RegisterResult(resultMapper.getCode(),resultMapper.getInfo());
-        return  r;
-    }
 }
