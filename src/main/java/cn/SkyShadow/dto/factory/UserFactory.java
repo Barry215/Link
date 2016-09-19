@@ -1,6 +1,6 @@
 package cn.SkyShadow.dto.factory;
 
-import cn.SkyShadow.dto.excution.LoginStateExecution;
+import cn.SkyShadow.dto.execution.LoginStateExecution;
 import cn.SkyShadow.enums.LoginResultEnum;
 import cn.SkyShadow.enums.LoginStateEnum;
 import cn.SkyShadow.enums.RegisterResultEnum;

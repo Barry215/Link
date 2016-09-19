@@ -93,4 +93,11 @@ public interface organizationMapper {
      * @return 返回组织列表
      */
     List<organization> SearchOrg(String str);
+
+    /**
+     * 获取组织基本信息
+     * @param orgId 组织ID
+     * @return 返回组织信息
+     */
+    organization getBaseInfo(Long orgId);// TODO: 16/9/19
 }

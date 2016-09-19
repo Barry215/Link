@@ -300,14 +300,14 @@ public class PublicController{
         try {
             Object user = session.getAttribute("user");
             if (user!=null){
-                return  JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.LOGINED.getInfo());
+                return  JsonResultFactory.CreateJsonResult_True(ResultMapper.User_LoginING);
             }
             PasswordProtected pp =(PasswordProtected) (session.getAttribute("PasswordProtectedMethod_GETBACKPSD"));
             if (p==null){
-				return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.LONGTIMEOVER.getInfo());
+				return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_OverTime);
 			}
 			if (pp.getEmailValidate().equals("N")) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_VALIDATE.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_UnValidated);
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute("public_validate_password_protected_email");
@@ -321,7 +321,7 @@ public class PublicController{
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
+                    return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(pp.getEmail());
                     if (!r.equals("ERROR!")) {

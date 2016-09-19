@@ -1,7 +1,7 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.excution.Execution;
-import cn.SkyShadow.dto.excution.OrgCreateExecution;
+import cn.SkyShadow.dto.execution.Execution;
+import cn.SkyShadow.dto.execution.OrgCreateExecution;
 import cn.SkyShadow.model.*;
 
 import java.util.List;
@@ -17,6 +17,13 @@ public interface OrgService {
      * @return 创建结果
      */
     OrgCreateExecution CreateNewOrg(organization org);
+
+    /**
+     * 获取基本信息
+     * @param orgId 组织ID
+     * @return 组织信息
+     */
+    organization getBaseInfo(Long orgId);
 
     /**
      * 修改父组织

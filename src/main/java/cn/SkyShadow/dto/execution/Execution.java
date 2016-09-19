@@ -1,4 +1,4 @@
-package cn.SkyShadow.dto.excution;
+package cn.SkyShadow.dto.execution;
 
 /**
  * 执行结果

@@ -52,7 +52,7 @@ public class PublicControllerTest {
 
     @Test
     public void sendEmailValidateCode() throws Exception {
-        logger.info("测试 sendEmailValidateCode1:"+publicController.sendEmailValidateCode("1810017460@qq.com",session));
+        logger.info("测试 sendEmailValidateCode1:"+publicController.sendEmailValidateCode("1810017460qq.com",session));
         logger.info("测试 sendEmailValidateCode2:"+publicController.sendEmailValidateCode("1810017460@qq.com",session));
     }
 

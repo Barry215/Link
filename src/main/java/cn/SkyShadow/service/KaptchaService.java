@@ -1,6 +1,6 @@
 package cn.SkyShadow.service;
 
-import cn.SkyShadow.dto.Exception.NoMaxWrongNumEnumException;
+import cn.SkyShadow.dto.exception.NoMaxWrongNumEnumException;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 
 import javax.servlet.http.HttpSession;

@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.ApplyMapper;
 import cn.SkyShadow.dao.ReceiptMapper;
-import cn.SkyShadow.dto.excution.Execution;
+import cn.SkyShadow.dto.execution.Execution;
 import cn.SkyShadow.dao.organizationMapper;
 import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;

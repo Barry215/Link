@@ -1,6 +1,6 @@
 package cn.SkyShadow.service.Impl;
 
-import cn.SkyShadow.dto.Exception.NoMaxWrongNumEnumException;
+import cn.SkyShadow.dto.exception.NoMaxWrongNumEnumException;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.SessionNameEnum;
 import cn.SkyShadow.service.KaptchaService;

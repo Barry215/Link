@@ -1,7 +1,7 @@
 package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
-import cn.SkyShadow.dto.excution.LoginStateExecution;
+import cn.SkyShadow.dto.execution.LoginStateExecution;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
 import cn.SkyShadow.dto.factory.UserFactory;
 import cn.SkyShadow.dto.tp.EmailSendSession;
@@ -204,16 +204,16 @@ public class UserController{
             @PathVariable("email") String email, HttpSession session) {
         try {
             if (pService.HasEmail(email).equals("ER")) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.FORMAT.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Format);
             } else if (pService.HasEmail(email).equals("Y")) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.EXITS.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Exist);
             } else if (!checkService.LoginState(session)) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_LOGIN.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
 
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
-            if (p.getEmailValidate().equals("Y")) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.VALIDATED.getInfo());
+            if (p.getEmailValidate().equals("N")) {
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_UnValidated);
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute(SessionNameEnum.user_email.getSessionName());
@@ -227,7 +227,7 @@ public class UserController{
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
+                    return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(email);
                     if (!r.equals("ERROR!")) {
@@ -447,11 +447,11 @@ public class UserController{
     public JsonResult<?> EmailSendToCheckPasswordProtected(HttpSession session) {
         try {
             if (!checkService.LoginState(session)) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_LOGIN.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
             if (p.getEmailValidate().equals("N")) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_VALIDATE.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_UnValidated);
             }
             EmailSendSession e = (EmailSendSession) session
                     .getAttribute(SessionNameEnum.user_validate_password_protected_email.getSessionName());
@@ -465,7 +465,7 @@ public class UserController{
                 Date date = new Date();
                 Date sessiondDate = e.getSendDate();
                 if (date.getTime() - sessiondDate.getTime() < 60000) {
-                    return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.OVERCLOCKING.getInfo());
+                    return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(p.getEmail());
                     if (!r.equals("ERROR!")) {
@@ -607,11 +607,11 @@ public class UserController{
     public JsonResult<?> ChangeValidateEmailSend(HttpSession session, @PathVariable("email") String email) {
         try {
             if (!checkService.LoginState(session)) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_LOGIN.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId());
             if (p.getEmailValidate().equals("N")) {
-                return JsonResultFactory.CreateJsonResult_True(EmailSendResultEnum.UN_VALIDATE.getInfo());
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_UnValidated);
             }
             if (pService.HasEmail(email).equals("ER")) {
                 return JsonResultFactory.CreateJsonResult_True(PhoneSendResultEnum.FORMAT.getInfo());

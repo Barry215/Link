@@ -5,10 +5,13 @@ import cn.SkyShadow.basic_component.OperationInterceptor;
 import cn.SkyShadow.dto.JsonResult;
 import cn.SkyShadow.dto.factory.ExecutionFactory;
 import cn.SkyShadow.dto.factory.JsonResultFactory;
+import cn.SkyShadow.dto.factory.OperaFactory;
+import cn.SkyShadow.dto.opera.OperaObject;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.OperationByAuthorityEnum;
 import cn.SkyShadow.enums.OrgCreateResultEnum;
 import cn.SkyShadow.model.organization;
+import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.CheckService;
 import cn.SkyShadow.service.KaptchaService;
 import cn.SkyShadow.service.OrgService;
@@ -74,18 +77,20 @@ public class OrganizationController {
             if (kaptchaService.check(session,code,MaxWrongNumEnum.MODIFY_ORG)){
 
             }
-            if (!checkService.LoginState(session)){
+            user user = checkService.LoginSate(session);
+            if (user==null){
 
             }
             OperationByAuthorityEnum op = OperationByAuthorityEnum.MODIFY_ORGANIZATION;
-            Long userId = checkService.getUserId(session);
-            if (operationInterceptor.checkFull(userId,op)){
+            organization baseinfo = orgService.getBaseInfo(organization.getOrgId());
+            OperaObject operaObject = OperaFactory.createByUserAndOrg(user,baseinfo);
+            if (operationInterceptor.checkFull(operaObject,op)){
 
             }
-            if (operationInterceptor.checkApply_AVAIl(userId,op)){
+            if (operationInterceptor.checkApply_AVAIl(operaObject,op)){
 
             }
-            if (operationInterceptor.checkNULL(userId,op)){
+            if (operationInterceptor.checkNULL(operaObject,op)){
 
             }
             return null;
@@ -99,7 +104,7 @@ public class OrganizationController {
     public JsonResult<?> ABCD(String ABCD){
         try {
 
-        } catch (Exception e) {
+        } catch (exception e) {
             ajaxCommonComponent.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }

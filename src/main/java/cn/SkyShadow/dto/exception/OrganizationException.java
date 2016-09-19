@@ -1,4 +1,4 @@
-package cn.SkyShadow.dto.Exception;
+package cn.SkyShadow.dto.exception;
 
 /**
  * 组织创建时候的错误
