@@ -1,8 +1,7 @@
-package cn.SkyShadow.dto.factory;
+package cn.SkyShadow.factory;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.enums.ResultMapper;
-import cn.SkyShadow.model.organization;
 
 /**
  * Excution工厂

@@ -5,7 +5,7 @@ import cn.SkyShadow.dao.ReceiptMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.dao.organizationMapper;
 import cn.SkyShadow.dao.locationMapper;
-import cn.SkyShadow.dto.factory.ExecutionFactory;
+import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.enums.ResultMapper;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.OrgService;
@@ -42,36 +42,36 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public BaseExecution CreateNewOrg(organization org) {
         if (org == null) {
-            return ExecutionFactory.getExecution_False(ResultMapper.Org_NULL_ORG);
+            return ExecutionFactory.getExecution_True(ResultMapper.Org_NULL_ORG);
         }
         if (org.getCreatorId() == null || org.getCreatorId().getUserId() == 0L) {
-            return ExecutionFactory.getExecution_False(ResultMapper.Org_NULL_User_ID);
+            return ExecutionFactory.getExecution_True(ResultMapper.Org_NULL_User_ID);
         }
         if (org.getName().length() > 255 || org.getName().length() < 6) {
-            return ExecutionFactory.getExecution_False(ResultMapper.Org_FORMAT_NAME);
+            return ExecutionFactory.getExecution_True(ResultMapper.Org_FORMAT_NAME);
         }
         if (HasOrgName(org.getName()).equals("Y")) {
-            return ExecutionFactory.getExecution_False(ResultMapper.Org_ILLEGAL_NAME);
+            return ExecutionFactory.getExecution_True(ResultMapper.Org_ILLEGAL_NAME);
         }
         if (org.getOrgId() != 0L) {
             organization fatherOrg = organizationMapper.selectBaseInfo(org.getOrgId());
             if (fatherOrg == null) {
-                return ExecutionFactory.getExecution_False(ResultMapper.Org_ILLEGAL_PARENT);
+                return ExecutionFactory.getExecution_True(ResultMapper.Org_ILLEGAL_PARENT);
             }
         }
         if (org.getLocation() == null) {
-            return ExecutionFactory.getExecution_False(ResultMapper.Org_NULL_LOCATION);
+            return ExecutionFactory.getExecution_True(ResultMapper.Org_NULL_LOCATION);
         }
         location location = lMapper.selectByPrimaryKey(org.getLocation().getLocationId());
         if (location == null){
-            return ExecutionFactory.getExecution_False(ResultMapper.Public_ILLEGAL_LOCATION);
+            return ExecutionFactory.getExecution_True(ResultMapper.Public_ILLEGAL_LOCATION);
         }
         int result = organizationMapper.insert(org);
         if (result==1) {
             return ExecutionFactory.getExecution_True(ResultMapper.SUCCESS,org);
         }
         else{
-            return ExecutionFactory.getExecution_False(ResultMapper.DB_ERROR);
+            return ExecutionFactory.getExecution_True(ResultMapper.DB_ERROR);
         }
     }
 

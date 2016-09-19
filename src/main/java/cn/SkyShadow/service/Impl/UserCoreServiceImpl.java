@@ -1,11 +1,11 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.user.PasswordProtected;
-import cn.SkyShadow.model.result_model.RegisterResult;
+import cn.SkyShadow.dto.user.RegisterResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.SkyShadow.dao.userMapper;
-import cn.SkyShadow.model.result_model.LoginResult;
+import cn.SkyShadow.dto.user.LoginResult;
 import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.UserCoreService;
 import org.springframework.transaction.annotation.Transactional;

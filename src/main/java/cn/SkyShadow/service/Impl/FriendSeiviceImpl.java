@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dao.*;
 import cn.SkyShadow.dto.execution.BaseExecution;
-import cn.SkyShadow.dto.factory.ExecutionFactory;
+import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.FriendSeivice;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package cn.SkyShadow.dto;
+package cn.SkyShadow.dto.json;
 
 /**用于包装JSON的结果
  *

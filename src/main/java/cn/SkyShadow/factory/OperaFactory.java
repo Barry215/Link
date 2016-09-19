@@ -1,4 +1,4 @@
-package cn.SkyShadow.dto.factory;
+package cn.SkyShadow.factory;
 
 import cn.SkyShadow.dto.opera.OperaObject;
 import cn.SkyShadow.model.organization;

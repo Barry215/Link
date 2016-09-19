@@ -2,10 +2,10 @@ package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
 import cn.SkyShadow.basic_component.OperationInterceptor;
-import cn.SkyShadow.dto.JsonResult;
-import cn.SkyShadow.dto.factory.ExecutionFactory;
-import cn.SkyShadow.dto.factory.JsonResultFactory;
-import cn.SkyShadow.dto.factory.OperaFactory;
+import cn.SkyShadow.dto.json.JsonResult;
+import cn.SkyShadow.factory.ExecutionFactory;
+import cn.SkyShadow.factory.JsonResultFactory;
+import cn.SkyShadow.factory.OperaFactory;
 import cn.SkyShadow.dto.opera.OperaObject;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.OperationByAuthorityEnum;
@@ -59,10 +59,10 @@ public class OrganizationController {
     public JsonResult<?> CreateOrganization(HttpSession session,@PathVariable("code") String code, @RequestBody organization organization){
         try {
             if (!checkService.LoginState(session)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution_False(ResultMapper.User_UnLogin));
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution_True(ResultMapper.User_UnLogin));
             }
             if (kaptchaService.check(session,code, MaxWrongNumEnum.CREATE_ORG)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution_False(ResultMapper.Public_IMG_CODE_Error));
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution_True(ResultMapper.Public_IMG_CODE_Error));
             }
             return  JsonResultFactory.CreateJsonResult_True(orgService.CreateNewOrg(organization));
         } catch (Exception e) {

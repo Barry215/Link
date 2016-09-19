@@ -1,7 +1,7 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
-import cn.SkyShadow.dto.factory.ExecutionFactory;
+import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.location;
 import cn.SkyShadow.service.LocationService;
 import cn.SkyShadow.dao.locationMapper;

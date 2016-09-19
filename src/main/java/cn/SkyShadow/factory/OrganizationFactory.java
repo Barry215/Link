@@ -1,4 +1,4 @@
-package cn.SkyShadow.dto.factory;
+package cn.SkyShadow.factory;
 
 /**
  * 组织工厂

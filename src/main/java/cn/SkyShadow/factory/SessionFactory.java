@@ -1,4 +1,4 @@
-package cn.SkyShadow.dto.factory;
+package cn.SkyShadow.factory;
 
 /**
  * Created by RichardW on 9/16/2016.

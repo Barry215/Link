@@ -1,8 +1,8 @@
-package cn.SkyShadow.dto.factory;
+package cn.SkyShadow.factory;
 
 import cn.SkyShadow.enums.ResultMapper;
-import cn.SkyShadow.model.result_model.LoginResult;
-import cn.SkyShadow.model.result_model.RegisterResult;
+import cn.SkyShadow.dto.user.LoginResult;
+import cn.SkyShadow.dto.user.RegisterResult;
 
 /**
  * 登录结果工厂

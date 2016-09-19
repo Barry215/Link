@@ -1,7 +1,7 @@
 package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
-import cn.SkyShadow.dto.factory.ExecutionFactory;
+import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.mail;
 import cn.SkyShadow.dao.mailMapper;
 import cn.SkyShadow.service.MailService;

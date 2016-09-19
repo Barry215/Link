@@ -1,40 +1,39 @@
 package cn.SkyShadow.enums;
 
+import cn.SkyShadow.tp.service.ReadProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * session的名称
  * Created by Richard on 16/9/13.
  */
 public enum SessionNameEnum {
-    /**
-     * user
-     */
-    user("user","用户信息保持"),
-    user_email("user_email","用户在邮箱为空时，发送邮箱一条验证码，要求在登录状态"),
-    user_phone("user_phone","用户在手机信息为空时，发送手机一条验证码，要求在登录状态"),
-    user_validate_password_protected_phone("user_validate_password_protected_phone","发送短信，用于验证密保，要求登录状态"),
-    user_validate_password_protected_email("user_validate_password_protected_email","发送邮箱验证码，用于验证密保，要求登录状态"),
-    user_validate_password_protected_key("user_validate_password_protected_key","密保验证,登录状态"),
-    user_phone_by_validated("user_phone_by_validated","用于密保验证完成后，修改手机号码时，向手机发送短信，要求用户是登录状态"),
-    user_email_by_validated("user_email_by_validated","用于密保验证完成后，修改邮箱时，向邮箱发送验证码，要求用户是登录状态"),
-    public_phone("public_phone","注册手机"),
-    public_email("public_email","注册邮箱" ),
-    WrongNumEnum("WrongNumEnum","用户当前操作的失败次数");
+    user("user"),
+    user_email("user_email"),
+    user_phone("user_phone"),
+    user_validate_password_protected_phone("user_validate_password_protected_phone"),
+    user_validate_password_protected_email("user_validate_password_protected_email"),
+    user_validate_password_protected_key("user_validate_password_protected_key"),
+    user_phone_by_validated("user_phone_by_validated"),
+    user_email_by_validated("user_email_by_validated"),
+    public_phone("public_phone"),
+    public_email("public_email"),
+    WrongNumEnum("WrongNumEnum");
 
     private String sessionName;
     private String info;
+    @Autowired
+    private ReadProperties readProperties;
 
-    SessionNameEnum(String sessionName, String info) {
+    SessionNameEnum(String sessionName) {
         this.sessionName = sessionName;
-        this.info = info;
+        readProperties.setPath("/resultConfig/sessionName.properties");
+        this.info = readProperties.getValue(sessionName);
     }
 
     public String getSessionName() {
 
         return sessionName;
-    }
-
-    public void setSessionName(String sessionName) {
-        this.sessionName = sessionName;
     }
 
     public String getInfo() {

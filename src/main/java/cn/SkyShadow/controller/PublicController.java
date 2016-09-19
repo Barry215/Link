@@ -1,7 +1,7 @@
 package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
-import cn.SkyShadow.dto.factory.JsonResultFactory;
+import cn.SkyShadow.factory.JsonResultFactory;
 import cn.SkyShadow.dto.tp.EmailValidateResult;
 import cn.SkyShadow.dto.tp.PhoneValidateResult;
 import cn.SkyShadow.dto.user.PasswordProtected;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import cn.SkyShadow.dto.JsonResult;
+import cn.SkyShadow.dto.json.JsonResult;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
 import cn.SkyShadow.model.city;

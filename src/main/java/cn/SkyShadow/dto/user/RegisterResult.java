@@ -1,4 +1,4 @@
-package cn.SkyShadow.model.result_model;
+package cn.SkyShadow.dto.user;
 
 /**
  * 注册结果

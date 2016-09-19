@@ -6,7 +6,9 @@ package cn.SkyShadow.enums;
  */
 public enum MaxWrongNumEnum {
     LOGIN(3,"登录"),
-    REGISTER(0,"注册"), CREATE_ORG(3,"创建组织" ), MODIFY_ORG(4,"修改组织基本信息" );
+    REGISTER(0,"注册"),
+    CREATE_ORG(3,"创建组织" ),
+    MODIFY_ORG(4,"修改组织基本信息" );
     private int num;
     private String info;
 

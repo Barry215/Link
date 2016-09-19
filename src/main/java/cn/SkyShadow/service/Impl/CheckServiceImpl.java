@@ -2,7 +2,7 @@ package cn.SkyShadow.service.Impl;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
 import cn.SkyShadow.enums.SessionNameEnum;
-import cn.SkyShadow.model.result_model.LoginResult;
+import cn.SkyShadow.dto.user.LoginResult;
 import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.CheckService;
 import cn.SkyShadow.service.UserCoreService;

@@ -25,11 +25,11 @@
 			select="selectuser_schools"/>
 		<collection property="exprs" column="USER_ID" select="selectexprs"/>
 	</resultMap>
-	<resultMap id="LoginResultMap" type="cn.SkyShadow.model.result_model.LoginResult">
+	<resultMap id="LoginResultMap" type="cn.SkyShadow.dto.user.LoginResult">
 		<result column="result" jdbcType="VARCHAR" property="result" />
 		<result column="resultNum" jdbcType="BIGINT" property="resultNum" />
 	</resultMap>
-	<resultMap type="cn.SkyShadow.model.result_model.RegisterResult"
+	<resultMap type="cn.SkyShadow.dto.user.RegisterResult"
 		id="RegisterResultMap">
 		<result column="result" jdbcType="VARCHAR" property="result" />
 		<result column="t_error" jdbcType="VARCHAR" property="t_error" />
