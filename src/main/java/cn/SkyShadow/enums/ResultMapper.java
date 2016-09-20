@@ -1,87 +1,68 @@
 package cn.SkyShadow.enums;
 
 import cn.SkyShadow.tp.service.Impl.ReadProperties;
+import cn.SkyShadow.tp.service.Impl.ReadXml;
 import cn.SkyShadow.tp.service.ReadConfigFile;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * ENUM
  * Created by Richard on 16/9/19.
  */
 public enum ResultMapper {
-    SUCCESS(true,6666),
-    User_UnLogin(1001),
-    User_LoginING(1002),
-    User_Login_State_Online(true,1004),
-    User_Login_State_Offline(true,1005),
-    User_Login_Fail(1006),
-    User_ModifyPsd_WrongOldPsd(1007),
-    User_ModifyPsd_Password_Format(1008),
-    User_ResultMapper_Opened(1009),
-    User_ResultMapper_Closed(1010),
-    User_Register_UserName_Exit(1011),
-    User_Register_UserName_Format(1012),
-    Public_IMG_CODE_Error(2001),
-    Public_Email_Format(2002),
-    Public_Email_Exist(2003),
-    Public_Email_Validated(2004),
-    Public_No_PasswordProtectedKey(2005),
-    Public_OverTime(2006),
-    Public_Email_UnValidated(2007),
-    Public_Email_OverLocking(2008),
-    Public_Email_MessageSendFail(2009),
-    Public_Email_Error_code(2010),
-    Public_Phone_UnValidated(2011),
-    Public_Phone_OverLocking(2012),
-    Public_Phone_MessageSendFail(2013),
-    Public_Phone_Error_code(2014),
-    Public_ILLEGAL_LOCATION(2015),
-    Public_Phone_Format(2016),
-    Public_Phone_Exist(2017),
-    Public_Phone_Validated(2018),
-    Org_NULL_ORG(3001),
-    Org_NULL_User_ID(3002),
-    Org_FORMAT_NAME(3003),
-    Org_ILLEGAL_NAME(3004),
-    Org_ILLEGAL_PARENT(3005),
-    Org_NULL_LOCATION(3006),
-    DB_ERROR(10000)
+    SUCCESS(),
+    User_UnLogin(),
+    User_LoginING(),
+    User_Login_State_Online(),
+    User_Login_State_Offline(),
+    User_Login_Fail(),
+    User_ModifyPsd_WrongOldPsd(),
+    User_ModifyPsd_Password_Format(),
+    User_ResultMapper_Opened(),
+    User_ResultMapper_Closed(),
+    User_Register_UserName_Exit(),
+    User_Register_UserName_Format(),
+    Public_IMG_CODE_Error(),
+    Public_Email_Format(),
+    Public_Email_Exist(),
+    Public_Email_Validated(),
+    Public_No_PasswordProtectedKey(),
+    Public_OverTime(),
+    Public_Email_UnValidated(),
+    Public_Email_OverLocking(),
+    Public_Email_MessageSendFail(),
+    Public_Email_Error_code(),
+    Public_Phone_UnValidated(),
+    Public_Phone_OverLocking(),
+    Public_Phone_MessageSendFail(),
+    Public_Phone_Error_code(),
+    Public_ILLEGAL_LOCATION(),
+    Public_Phone_Format(),
+    Public_Phone_Exist(),
+    Public_Phone_Validated(),
+    Org_NULL_ORG(),
+    Org_NULL_User_ID(),
+    Org_FORMAT_NAME(),
+    Org_ILLEGAL_NAME(),
+    Org_ILLEGAL_PARENT(),
+    Org_NULL_LOCATION(),
+    DB_ERROR()
 
     ;
     private boolean isSuccess;
     private int code;
     private String info;
     private String resultName;
-    private ReadConfigFile readConfigFile = new ReadProperties();
+    private ReadConfigFile readConfigFile = new ReadXml();
 
     public String getResultName() {
         return resultName;
     }
 
-    public void setResultName(String resultName) {
-        this.resultName = resultName;
-    }
 
-    ResultMapper(boolean isSuccess, int code) {
-        this.isSuccess = isSuccess;
-        this.code = code;
-        try {
-            readConfigFile.setPath("/resultConfig/result.properties");
-            this.info = (String) readConfigFile.getValue(code+"");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    ResultMapper(int code) {
-        this.isSuccess = false;
-        this.code = code;
-        try {
-            readConfigFile.setPath("/resultConfig/result.properties");
-            this.info = (String) readConfigFile.getValue(code+"");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    ResultMapper() {
+        read();
     }
 
     public boolean isSuccess() {
@@ -116,5 +97,29 @@ public enum ResultMapper {
                 ", info='" + info + '\'' +
                 ", resultName='" + resultName + '\'' +
                 '}';
+    }
+    private void read(){
+        try {
+            this.resultName = this.name();
+            readConfigFile.setPath("/resultConfig/result.xml");
+            Node node = (Node) readConfigFile.getValue(this.name());
+            NodeList childNode = node.getChildNodes();
+            for (int j = 0;j<childNode.getLength();j++){
+                Node node1 = childNode.item(j);
+                if (node1.getNodeType()==Node.ELEMENT_NODE){
+                    if (node1.getFirstChild().getNodeName().equals("code")){
+                        this.code = Integer.parseInt(node1.getFirstChild().getNodeValue());
+                    }
+                    if (node1.getFirstChild().getNodeName().equals("info")){
+                        this.info = node1.getFirstChild().getNodeValue();
+                    }
+                    if (node1.getFirstChild().getNodeName().equals("isSuccess")){
+                        this.isSuccess = node1.getFirstChild().getNodeValue().toUpperCase().equals("TRUE");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

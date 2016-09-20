@@ -15,7 +15,7 @@ public class ReadXmlTest extends SpringBase{
     @Test
     public void Test() throws Exception {
         ReadConfigFile readConfigFile = new ReadXml();
-        readConfigFile.setPath("/Users/Richard/Link/src/main/resources/resultConfig/result.xml");
+        readConfigFile.setPath("/resultConfig/result.xml");
         Node n = (Node) readConfigFile.getValue("SUCCESS");
     }
 }

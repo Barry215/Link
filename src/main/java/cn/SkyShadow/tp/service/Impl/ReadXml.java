@@ -2,10 +2,7 @@ package cn.SkyShadow.tp.service.Impl;
 
 import cn.SkyShadow.tp.service.ReadConfigFile;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,18 +27,21 @@ public class ReadXml implements ReadConfigFile {
     public Object getValue(String key) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        BufferedReader bf = new BufferedReader(new InputStreamReader(in, "utf-8"));
         Document document = db.parse(in);
         Element element = document.getDocumentElement();
-        NodeList nodeList = element.getChildNodes();
+        NodeList nodeList = element.getElementsByTagName("result");
         for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node;
-            node = nodeList.item(i);
-            System.out.println(i+"node"+node);
-            if (node!=null&&node.getNodeValue().equals("result")) {
-                return node;
+            Node node = nodeList.item(i);
+            NodeList childNode = node.getChildNodes();
+            for (int j = 0;j<childNode.getLength();j++){
+                Node node1 = childNode.item(j);
+                if (node1.getNodeType()==Node.ELEMENT_NODE){
+                    if (node1.getFirstChild().getNodeValue().equals(key)){
+                        return node;
+                    }
+                }
             }
         }
-        throw new NullPointerException("没有对应的值");
+        throw new NullPointerException("没有对应的值"+key);
     }
 }
