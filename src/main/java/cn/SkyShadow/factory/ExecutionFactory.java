@@ -44,6 +44,6 @@ public class ExecutionFactory {
 
     }
     public static BaseExecution getExecution(PasswordProtected passwordProtected){
-        return new BaseExecution(true,0,null,passwordProtected);
+        return new BaseExecution(true,0,"",passwordProtected);
     }
 }

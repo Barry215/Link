@@ -1,34 +1,40 @@
 package cn.SkyShadow.enums;
 
-import cn.SkyShadow.tp.service.ReadProperties;
+import cn.SkyShadow.tp.service.Impl.ReadProperties;
+import cn.SkyShadow.tp.service.ReadConfigFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * session的名称
  * Created by Richard on 16/9/13.
  */
 public enum SessionNameEnum {
-    user("user"),
-    user_email("user_email"),
-    user_phone("user_phone"),
-    user_validate_password_protected_phone("user_validate_password_protected_phone"),
-    user_validate_password_protected_email("user_validate_password_protected_email"),
-    user_validate_password_protected_key("user_validate_password_protected_key"),
-    user_phone_by_validated("user_phone_by_validated"),
-    user_email_by_validated("user_email_by_validated"),
-    public_phone("public_phone"),
-    public_email("public_email"),
-    WrongNumEnum("WrongNumEnum");
+    user(),
+    user_email(),
+    user_phone(),
+    user_validate_password_protected_phone(),
+    user_validate_password_protected_email(),
+    user_validate_password_protected_key(),
+    user_phone_by_validated(),
+    user_email_by_validated(),
+    public_phone(),
+    public_email(),
+    WrongNumEnum();
 
     private String sessionName;
     private String info;
     @Autowired
-    private ReadProperties readProperties;
-
-    SessionNameEnum(String sessionName) {
-        this.sessionName = sessionName;
-        readProperties.setPath("/resultConfig/sessionName.properties");
-        this.info = readProperties.getValue(sessionName);
+    @Qualifier("readProperties")
+    private ReadConfigFile readProperties = new ReadProperties();
+    SessionNameEnum() {
+        this.sessionName = this.name();
+        try {
+            readProperties.setPath("/resultConfig/sessionName.properties");
+            this.info = (String) readProperties.getValue(sessionName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getSessionName() {

@@ -1,4 +1,5 @@
 package cn.SkyShadow.service.Impl;
+import cn.SkyShadow.dao.userMapper;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
 import cn.SkyShadow.enums.SessionNameEnum;
@@ -19,24 +20,28 @@ import javax.servlet.http.HttpSession;
 @Transactional
 @Service
 public class CheckServiceImpl implements CheckService {
-    private final UserCoreService uService;
+    private final userMapper uService;
 
-    @Autowired
-    public CheckServiceImpl(UserCoreService uService) {
+    @Autowired(required = false)
+    public CheckServiceImpl(userMapper uService) {
         this.uService = uService;
     }
 
     @Override
     public boolean LoginState(HttpSession session) {
-        LoginResult l = uService.getLoginResult((user) session.getAttribute(SessionNameEnum.user.getSessionName()));
-        return l.getResultNum() != 0;
+        if (!HasThisSessionRecord(session,SessionNameEnum.user)){
+            return false;
+        }else {
+            LoginResult l = uService.getLoginResult((user) session.getAttribute(SessionNameEnum.user.getSessionName()));
+            return l.getResultNum() > 0L;
+        }
     }
 
     @Override
     public user LoginSate(HttpSession session) {
-        LoginResult l = uService.getLoginResult((user) session.getAttribute(SessionNameEnum.user.getSessionName()));
-        if (l.getResultNum() != 0) {
-            return uService.selectUserBaseInfo(l.getResultNum());
+        LoginResult l = uService.getLoginResult((user)session.getAttribute(SessionNameEnum.user.getSessionName()));
+        if (l.getResultNum() > 0L) {
+            return uService.selectBaseInfo(l.getResultNum());
         }
         return null;
     }
@@ -44,7 +49,7 @@ public class CheckServiceImpl implements CheckService {
     @Override
     public boolean HasThisSessionRecord(HttpSession session, SessionNameEnum sessionNameEnum) {
         Object obj = session.getAttribute(sessionNameEnum.getSessionName());
-        return obj != null;
+        return obj !=null;
     }
 
     @Override

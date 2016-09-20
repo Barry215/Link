@@ -75,4 +75,14 @@ public class BaseExecution {
 		this.resultNum = resultNum;
 		this.resultInfo = resultInfo;
 	}
+
+	@Override
+	public String toString() {
+		return "BaseExecution{" +
+				"isSuccess=" + isSuccess +
+				", resultNum=" + resultNum +
+				", resultInfo='" + resultInfo + '\'' +
+				", obj=" + obj +
+				'}';
+	}
 }

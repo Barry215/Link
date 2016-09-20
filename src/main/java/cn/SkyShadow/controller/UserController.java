@@ -1,6 +1,6 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
+import cn.SkyShadow.basic_component.ExceptionHandller;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.factory.JsonResultFactory;
@@ -25,6 +25,7 @@ import cn.SkyShadow.dto.user.LoginResult;
 import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.UserCoreService;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -37,18 +38,19 @@ public class UserController{
     private final SendPhoneService phoneService;
     private final PublicService pService;
     private final CheckService checkService;
-    private final AjaxCommonComponent ajaxCommonComponent;
+    private final ExceptionHandller exceptionHandle;
     private final KaptchaService kaptchaService;
 
     @Autowired
-    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, KaptchaService kaptchaService) {
+    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, ExceptionHandller exceptionHandle, KaptchaService kaptchaService) {
         this.pService = pService;
         this.uService = uService;
         this.phoneService = phoneService;
         this.emailService = emailService;
         this.checkService = checkService;
+        this.exceptionHandle = exceptionHandle;
         this.kaptchaService = kaptchaService;
-        this.ajaxCommonComponent = new AjaxCommonComponent(this.getClass());
+        exceptionHandle.setClass(this.getClass());
     }
 
     /**
@@ -72,10 +74,9 @@ public class UserController{
             }
             u1.setPassword(u.getPassword());
             httpSession.setAttribute(SessionNameEnum.user.getSessionName(), u1);
-            kaptchaService.removeFailNum(httpSession);
             return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.SUCCESS));
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             kaptchaService.addFailNum(httpSession);
             httpSession.removeAttribute(SessionNameEnum.user.getSessionName());
             return JsonResultFactory.CreateJsonResult_False(e);
@@ -95,7 +96,7 @@ public class UserController{
             session.removeAttribute(SessionNameEnum.user.getSessionName());
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -118,7 +119,7 @@ public class UserController{
             }
             return JsonResultFactory.CreateJsonResult_True(loginState);
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -145,7 +146,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_Phone_Error_code));
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -173,7 +174,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(result));
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -221,7 +222,7 @@ public class UserController{
                 } else {
                     String r = emailService.SendValidateCode(email);
                     if (!r.equals("ERROR!")) {
-                        session.removeAttribute(SessionNameEnum.user_email.getSessionName());
+                        session.setAttribute(SessionNameEnum.user_email.getSessionName(),new EmailSendSession(r,email));
                         return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
                     }else {
                         return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_MessageSendFail);
@@ -229,7 +230,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -287,7 +288,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -318,7 +319,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -335,11 +336,11 @@ public class UserController{
     @ResponseBody
     public JsonResult<?> ValidateEmail(HttpSession session, @PathVariable("code") String code) {
         try {
-            if (!checkService.LoginState(session)) {
-                EmailSendSession e = (EmailSendSession) session.getAttribute(SessionNameEnum.user_email.getSessionName());
-                if (e == null) {
+            if (checkService.LoginState(session)) {
+                if (!checkService.HasThisSessionRecord(session,SessionNameEnum.user_email)){
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_MessageSendFail);
                 } else {
+                    EmailSendSession e = (EmailSendSession) session.getAttribute(SessionNameEnum.user_email.getSessionName());
                     if (e.getValidateCode().equals(code)) {
                         uService.ValidateEmail(((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId(), e.getEmail());
                         return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
@@ -351,7 +352,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -371,10 +372,10 @@ public class UserController{
             if (!checkService.LoginState(session)) {
                 loginout(session);
             }
-            PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
+            PasswordProtected p = uService.getPasswordProtectByUserId(checkService.getUserId(session));
             return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(p));
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -393,7 +394,7 @@ public class UserController{
             if (!checkService.LoginState(session)) {
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
-            PasswordProtected p = uService.getPasswordProtectByUserId(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId());
+            PasswordProtected p = uService.getPasswordProtectByUserId(checkService.getUserId(session));
             if (p.getPhoneValidate().equals("N")) {
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_UnValidated);
             }
@@ -424,7 +425,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -473,7 +474,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -504,7 +505,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Error_code);
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -535,7 +536,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_Error_code);
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -590,7 +591,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -645,7 +646,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -680,7 +681,7 @@ public class UserController{
                     if (pService.HasEmail(email).equals("Y")) {
                         return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Exist);
                     }
-                    uService.ChangeValidateEmail(((user) (session.getAttribute(SessionNameEnum.user.getSessionName()))).getUserId(), email);
+                    uService.ChangeValidateEmail(checkService.getUserId(session), email);
                     session.removeAttribute(SessionNameEnum.user_email_by_validated.getSessionName());
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
                 } else if (e == null) {
@@ -690,7 +691,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -735,7 +736,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -762,7 +763,7 @@ public class UserController{
             uService.OpenOrClosePasswordChangeValidate(userId);
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -795,7 +796,7 @@ public class UserController{
             uService.OpenOrClosePasswordChangeValidate(userId);
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -843,7 +844,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }

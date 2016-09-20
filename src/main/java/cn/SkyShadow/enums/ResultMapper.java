@@ -1,7 +1,7 @@
 package cn.SkyShadow.enums;
 
-import cn.SkyShadow.tp.service.ReadProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.SkyShadow.tp.service.Impl.ReadProperties;
+import cn.SkyShadow.tp.service.ReadConfigFile;
 
 /**
  * ENUM
@@ -50,19 +50,38 @@ public enum ResultMapper {
     private boolean isSuccess;
     private int code;
     private String info;
+    private String resultName;
+    private ReadConfigFile readConfigFile = new ReadProperties();
+
+    public String getResultName() {
+        return resultName;
+    }
+
+    public void setResultName(String resultName) {
+        this.resultName = resultName;
+    }
 
     ResultMapper(boolean isSuccess, int code) {
         this.isSuccess = isSuccess;
         this.code = code;
-        readProperties.setPath("/resultConfig/result.properties");
-        this.info = readProperties.getValue(code+"");
+        try {
+            readConfigFile.setPath("/resultConfig/result.properties");
+            this.info = (String) readConfigFile.getValue(code+"");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     ResultMapper(int code) {
         this.isSuccess = false;
         this.code = code;
-        readProperties.setPath("/resultConfig/result.properties");
-        this.info = readProperties.getValue(code+"");
+        try {
+            readConfigFile.setPath("/resultConfig/result.properties");
+            this.info = (String) readConfigFile.getValue(code+"");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isSuccess() {
@@ -76,6 +95,26 @@ public enum ResultMapper {
     public String getInfo() {
         return info;
     }
-    @Autowired
-    private ReadProperties readProperties;
+
+    public void setSuccess(boolean success) {
+        isSuccess = success;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    @Override
+    public String toString() {
+        return "ResultMapper{" +
+                "isSuccess=" + isSuccess +
+                ", code=" + code +
+                ", info='" + info + '\'' +
+                ", resultName='" + resultName + '\'' +
+                '}';
+    }
 }

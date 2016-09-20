@@ -1,6 +1,6 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.basic_component.Impl.AjaxCommonComponent;
+import cn.SkyShadow.basic_component.ExceptionHandller;
 import cn.SkyShadow.basic_component.OperationInterceptor;
 import cn.SkyShadow.dto.json.JsonResult;
 import cn.SkyShadow.factory.ExecutionFactory;
@@ -31,17 +31,18 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/org")
 public class OrganizationController {
     private final OrgService orgService;
-    private final AjaxCommonComponent ajaxCommonComponent;
+    private final ExceptionHandller exceptionHandle;
     private final KaptchaService kaptchaService;
     private final CheckService checkService;
     private final OperationInterceptor operationInterceptor;
     @Autowired
-    public OrganizationController(OrgService orgService, KaptchaService kaptchaService, CheckService checkService, OperationInterceptor operationInterceptor) {
+    public OrganizationController(OrgService orgService, ExceptionHandller exceptionHandle, KaptchaService kaptchaService, CheckService checkService, OperationInterceptor operationInterceptor) {
         this.orgService = orgService;
+        this.exceptionHandle = exceptionHandle;
         this.kaptchaService = kaptchaService;
         this.checkService = checkService;
         this.operationInterceptor = operationInterceptor;
-        this.ajaxCommonComponent = new AjaxCommonComponent(this.getClass());
+        exceptionHandle.setClass(this.getClass());
     }
     @RequestMapping(value = "/{name}/hasOrgName", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
     @ResponseBody
@@ -50,7 +51,7 @@ public class OrganizationController {
             String result = orgService.HasOrgName(name);
             return  JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -66,7 +67,7 @@ public class OrganizationController {
             }
             return  JsonResultFactory.CreateJsonResult_True(orgService.CreateNewOrg(organization));
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -95,7 +96,7 @@ public class OrganizationController {
             }
             return null;
         } catch (Exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -105,7 +106,7 @@ public class OrganizationController {
         try {
 
         } catch (exception e) {
-            ajaxCommonComponent.ExceptionHandle(e);
+            exceptionHandle.ExceptionHandllerImpl(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }*/

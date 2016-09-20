@@ -1,14 +1,12 @@
 package cn.SkyShadow.dto.json;
 
-import cn.SkyShadow.dto.execution.BaseExecution;
-
 /**用于包装JSON的结果
  *
  */
-public class JsonResult<BaseExecution> {
+public class JsonResult<T> {
 	private boolean success;
 
-	private BaseExecution data;
+	private T data;
 
 	private String err;
 
@@ -28,11 +26,11 @@ public class JsonResult<BaseExecution> {
 	 * 获取JSON内的数据
 	 * @return 数据
 	 */
-	public BaseExecution getData() {
+	public T getData() {
 		return data;
 	}
 
-	public void setData(BaseExecution data) {
+	public void setData(T data) {
 		this.data = data;
 	}
 
@@ -48,7 +46,7 @@ public class JsonResult<BaseExecution> {
 		this.err = err;
 	}
 
-	public JsonResult(boolean success, BaseExecution data, String err) {
+	public JsonResult(boolean success, T data, String err) {
 		super();
 		this.success = success;
 		this.data = data;

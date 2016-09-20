@@ -5,9 +5,9 @@ import cn.SkyShadow.dto.user.LoginResult;
 import cn.SkyShadow.dto.user.RegisterResult;
 import cn.SkyShadow.model.user;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 public interface userMapper {
     /**
      * 获取登录结果

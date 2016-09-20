@@ -10,7 +10,7 @@ import  cn.SkyShadow.model.user;
 
 import javax.servlet.http.HttpSession;
 public class UserControllerTest extends SpringBase{
-    private HttpSession session = getSession();
+    private final HttpSession session = getSession();
     @Autowired
     private UserController userController;
     @Autowired
@@ -20,18 +20,20 @@ public class UserControllerTest extends SpringBase{
     public void LoginAndLoginOut()throws Exception{
         user u = new user();
         u.setUsername("test001");
-        u.setPassword("123456789");
-        logger.info("登录："+userController.getLoginResult(u,null,session));
-        logger.info("登录："+userController.getLoginResult(u,null,session));
-        logger.info("登录："+userController.getLoginResult(u,null,session));
-        logger.info("登录："+userController.getLoginResult(u,null,session));
         u.setPassword("123456");
+        logger.info(session.getId());
+//        logger.info("登录："+userController.getLoginResult(u,null,session));
+//        logger.info("登录："+userController.getLoginResult(u,null,session));
+//        logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录："+userController.getLoginResult(u,null,session));
-        u.setPassword("123456789");
-        logger.info("登录："+userController.getLoginResult(u,null,session));
+        //u.setPassword("123456");
+        //logger.info("登录："+userController.getLoginResult(u,null,session));
+        //u.setPassword("123456789");
+        //logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
         logger.info("退出："+userController.loginout(session));
         logger.info("登录状态："+userController.getLoginState(session));
+        logger.info(session.getId());
     }
 
     @Test
@@ -74,8 +76,7 @@ public class UserControllerTest extends SpringBase{
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = (String) userController.sendEmailValidateCode("789@qq.com",session).getData();
-        logger.info("绑定邮箱："+userController.ValidateEmail(session,code));
+        logger.info("绑定邮箱："+userController.ValidateEmail(session,"123456"));
     }
 
     @Test
@@ -85,8 +86,7 @@ public class UserControllerTest extends SpringBase{
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = (String) userController.sendPhoneValidateCode("+8613555555555",session).getData();
-        logger.info("绑定手机："+userController.ValidatePhone(session,code));
+        logger.info("绑定手机："+userController.ValidatePhone(session,"666666"));
     }
 
     @Test
@@ -106,11 +106,9 @@ public class UserControllerTest extends SpringBase{
         u.setPassword("123456789");
         logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = (String) userController.PhoneSendToCheckPasswordProtected(session).getData();
-        logger.info("验证密保(手机)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
-        String code1 = (String) userController.ChangeValidatePhoneSend(session,"+8618100174611").getData();
-        logger.info("修改手机(发送短信)"+code1);
-        logger.info("修改手机"+userController.ChangeValidatePhone(session,code1));
+        logger.info("验证密保(手机)"+userController.ValidatePasswordProtectedMethodByPhone(session,"636366"));
+        logger.info("修改手机(发送短信)"+"123456");
+        logger.info("修改手机"+userController.ChangeValidatePhone(session,"000000"));
     }
 
     @Test
@@ -133,15 +131,13 @@ public class UserControllerTest extends SpringBase{
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
-        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
+        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,"000000"));
         logger.info("打开密码更改保护"+userController.OpenPasswordChangeValidate(session));
         logger.info("修改密码"+userController.ModifyPassword(session,null,"123456789"));
         u.setPassword("123456789");
         logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
-        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,code));
+        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByEmail(session,"000000"));
         logger.info("关闭密码更改保护"+userController.ClosePasswordChangeValidate(session));
         logger.info("修改密码"+userController.ModifyPassword(session,null,"123456"));
     }

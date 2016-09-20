@@ -4,6 +4,7 @@ import cn.SkyShadow.basic_component.OperationInterceptor;
 import cn.SkyShadow.dto.opera.OperaObject;
 import cn.SkyShadow.enums.OperationAuthorityEnum;
 import cn.SkyShadow.enums.OperationByAuthorityEnum;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by RichardW on 9/18/2016.
  */
 @Transactional
-@Service
+@Component
 public class OperationInterceptorImpl implements OperationInterceptor {
     @Override
     public OperationAuthorityEnum check(OperaObject operaObject, OperationByAuthorityEnum opera) {
@@ -43,4 +44,5 @@ public class OperationInterceptorImpl implements OperationInterceptor {
         }
         return false;
     }
+
 }
