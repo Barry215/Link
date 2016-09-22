@@ -14,41 +14,41 @@ public interface FileService {
      * @param voice 语音
      * @return 执行结果
      */
-    BaseExecution UpdateVoice(voice voice);
+    BaseExecution UpdateVoice(Voice voice);
 
     /**
      * 上传视频
      * @param video 视频
      * @return 执行结果
      */
-    BaseExecution UpdateVideo(video video);
+    BaseExecution UpdateVideo(Video video);
 
     /**
      * 上传图片
      * @param imagine 图片
      * @return 执行结果
      */
-    BaseExecution UpdateImage(imagine imagine);
+    BaseExecution UpdateImage(Imagine imagine);
 
     /**
      * 上传表情
      * @param expr 表情
      * @return 执行结果
      */
-    BaseExecution UpdateExpr(expr expr);
+    BaseExecution UpdateExpr(Expr expr);
     /**
      * 特定角色为组织/部门上传文件
      * @param file 文件
      * @return 执行结果
      */
-    BaseExecution UpdateFile(file file);
+    BaseExecution UpdateFile(File file);
 
     /**
      * 特定角色为组织/部门上传文件组
-     * @param filegroup 文件组
+     * @param fileGroup 文件组
      * @return 执行结果
      */
-    BaseExecution UpdateFileGroup(filegroup filegroup);
+    BaseExecution UpdateFileGroup(FileGroup fileGroup);
     /**
      * 特定角色获取组织/部门文件列表
      * @param organizationID 组织
@@ -64,10 +64,10 @@ public interface FileService {
     BaseExecution DeleteFile(Long fileId);
     /**
      * 特定角色删除组织/部门文件组
-     * @param filegroupId 文件组ID
+     * @param fileGroupId 文件组ID
      * @return 执行结果
      */
-    BaseExecution DeleteFileGroup(Long filegroupId);
+    BaseExecution DeleteFileGroup(Long fileGroupId);
 
     /**
      * 向组织公共区域上传文件

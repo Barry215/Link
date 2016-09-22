@@ -24,8 +24,6 @@ public enum SessionNameEnum {
 
     private String sessionName;
     private String info;
-    @Autowired
-    @Qualifier("readProperties")
     private ReadConfigFile readProperties = new ReadProperties();
     SessionNameEnum() {
         this.sessionName = this.name();

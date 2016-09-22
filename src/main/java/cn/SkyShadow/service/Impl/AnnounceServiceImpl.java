@@ -2,8 +2,8 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
-import cn.SkyShadow.model.announce;
-import cn.SkyShadow.dao.announceMapper;
+import cn.SkyShadow.model.Announce;
+import cn.SkyShadow.dao.AnnounceMapper;
 import cn.SkyShadow.service.AnnounceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,24 +18,24 @@ import java.util.List;
 @Transactional
 @Service
 public class AnnounceServiceImpl implements AnnounceService {
-    private final announceMapper announceMapper;
+    private final AnnounceMapper AnnounceMapper;
     @Autowired(required = false)
-    public AnnounceServiceImpl(cn.SkyShadow.dao.announceMapper announceMapper) {
-        this.announceMapper = announceMapper;
+    public AnnounceServiceImpl(AnnounceMapper AnnounceMapper) {
+        this.AnnounceMapper = AnnounceMapper;
     }
 
     @Override
-    public BaseExecution Announce(announce a, Long organizationID) {
-        return ExecutionFactory.getExecutionByResultCode(announceMapper.insert(a,organizationID));
+    public BaseExecution Announce(Announce a, Long organizationID) {
+        return ExecutionFactory.getExecutionByResultCode(AnnounceMapper.insert(a,organizationID));
     }
 
     @Override
     public BaseExecution DeleteAnnounce(Long annId) {
-        return ExecutionFactory.getExecutionByResultCode(announceMapper.deleteByPrimaryKey(annId));
+        return ExecutionFactory.getExecutionByResultCode(AnnounceMapper.deleteByPrimaryKey(annId));
     }
 
     @Override
-    public List<announce> SelectAnnListByOrgId(Long orgId) {
-        return announceMapper.selectByOrganizationId(orgId);
+    public List<Announce> SelectAnnListByOrgId(Long orgId) {
+        return AnnounceMapper.selectByOrganizationId(orgId);
     }
 }

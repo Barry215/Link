@@ -3,7 +3,7 @@ package cn.SkyShadow.service;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.LoginResult;
 import cn.SkyShadow.dto.user.RegisterResult;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.model.User;
 
 public interface UserCoreService {
     /**
@@ -11,35 +11,35 @@ public interface UserCoreService {
      * @param user 用户
      * @return 登录结果
      */
-    LoginResult getLoginResult(user user);
+    LoginResult getLoginResult(User user);
 
     /**
      * 获取注册结果(无邮箱注册)
      * @param user 用户
      * @return 注册结果
      */
-    RegisterResult getRegisterResult_NOEMAIL(user user);
+    RegisterResult getRegisterResult_NOEMAIL(User user);
 
     /**
      * 获取注册结果(含邮箱注册)
      * @param user 用户
      * @return 注册结果
      */
-    RegisterResult getRegisterResult(user user);
+    RegisterResult getRegisterResult(User user);
 
     /**
      * 根据用户的登录结果,获取到用户的全部信息
      * @param user 用户
      * @return 用户全部信息
      */
-    user SelectUserByLogin(user user);
+    User SelectUserByLogin(User user);
 
     /**
      * 根据用户的ID,获取用户的基本公开信息
      * @param userId 用户ID
      * @return 执行结果
      */
-    user selectUserBaseInfo(Long userId);
+    User selectUserBaseInfo(Long userId);
 
     /**
      * 验证邮件

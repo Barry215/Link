@@ -13,7 +13,7 @@ public interface SessionService {
      * @param userId 用户ID
      * @return 会话列表
      */
-    List<session> GetAllSession(Long userId);
+    List<Session> GetAllSession(Long userId);
 
     /**
      * 发送消息
@@ -21,7 +21,7 @@ public interface SessionService {
      * @param message 信息
      * @return 执行结果
      */
-    BaseExecution SendMessage(message message);
+    BaseExecution SendMessage(Message message);
 
     /**
      * 撤回消息
@@ -46,7 +46,7 @@ public interface SessionService {
      * @param userId 用户ID
      * @return 执行结果
      */
-    List<message> GetNotReadMessage(Long userId);
+    List<Message> GetNotReadMessage(Long userId);
 
     /**
      * 把未读消息编程已读消息

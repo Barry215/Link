@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.MailboxMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Mailbox">
+		<id column="MAILBOX_ID" property="mailboxId" jdbcType="BIGINT" />
+		<result column="BELONG_TYPE" property="belongType" jdbcType="CHAR" />
+		<association column="USER" property="user"
+			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+		<association column="OCCUPATION" property="occupation"
+			select="cn.SkyShadow.dao.OccupationMapper.selectBaseInfo"/>
+		<collection property="mails" column="MAILBOX_ID" select="selectMails"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+			MAILBOX_ID, BELONG_TYPE, USER, OCCUPATION
+		from mailbox
+		where MAILBOX_ID = #{mailboxId,jdbcType=BIGINT}
+	</select>
+	<select id="selectMails" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.MailMapper.BaseResultMap">
+		SELECT
+		MAIL_ID,
+		HEADLINE,
+		SUB_LINE,
+		CONTENT,
+		SENDER_MAILBOX,
+		RECEIVED_MAILBOX_GROUP,
+		SEND_TIME,
+		IS_READ
+		FROM
+		mail
+		LEFT JOIN
+		mailboxgroup ON mail.RECEIVED_MAILBOX_GROUP
+		=
+		mailboxgroup.GROUP_ID
+		LEFT
+		JOIN mailbox_mailboxgroup ON
+		mailboxgroup.GROUP_ID =
+		mailbox_mailboxgroup.MAILBOXGROUP_ID
+		LEFT JOIN
+		mailbox ON
+		mailbox.MAILBOX_ID =
+		mailbox_mailboxgroup.MAILBOXGROUP_ID
+		WHERE
+		mailbox.MAILBOX_ID = #{mailboxId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		mailbox
+		where MAILBOX_ID = #{mailboxId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insertSelective" parameterType="cn.SkyShadow.model.Mailbox"
+		keyProperty="mailboxId">
+		insert into mailbox
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="belongType != null">
+				BELONG_TYPE,
+			</if>
+			<if test="user != null">
+				USER,
+			</if>
+			<if test="occupation != null">
+				OCCUPATION,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="belongType != null">
+				#{belongType,jdbcType=CHAR},
+			</if>
+			<if test="user != null">
+				#{user.userId,jdbcType=BIGINT},
+			</if>
+			<if test="occupation != null">
+				#{occupation.occupationId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+</mapper>

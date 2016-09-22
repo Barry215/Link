@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.AtMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.At">
+		<id column="AT_ID" property="atId" jdbcType="BIGINT" />
+		<association property="initActor" column="INIT_ACTOR"
+			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo" />
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		AT_ID, INIT_ACTOR
+		from at
+		where AT_ID = #{atId,jdbcType=BIGINT}
+	</select>
+	<insert id="insert" parameterType="cn.SkyShadow.model.At" keyProperty="atId">
+		insert into at (INIT_ACTOR)
+		values (#{initActor.userId,jdbcType=BIGINT});
+	</insert>
+</mapper>

@@ -1,5 +1,6 @@
 package cn.SkyShadow.enums;
 
+import cn.SkyShadow.tp.service.Impl.ReadProperties;
 import cn.SkyShadow.tp.service.Impl.ReadXml;
 import cn.SkyShadow.tp.service.ReadConfigFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public enum OperationByAuthorityEnum {
     MODIFY_ORGANIZATION();
     private String info;
-    @Autowired
-    @Qualifier("readProperties")
-    private ReadConfigFile readProperties;
+    private ReadConfigFile readProperties = new ReadProperties();
 
     OperationByAuthorityEnum() {
-        //readProperties.setPath("/resultConfig/OperationByAuthority.properties");
-        //this.info = (String) readProperties.getValue(this.getClass().getName());
+        try {
+            readProperties.setPath("/resultConfig/OperationByAuthority.properties");
+            this.info = (String) readProperties.getValue(this.getClass().getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

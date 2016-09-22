@@ -1,10 +1,7 @@
 package cn.SkyShadow.tp.service.Impl;
 
-import cn.SkyShadow.basic_component.ExceptionHandller;
 import cn.SkyShadow.tp.service.ReadConfigFile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

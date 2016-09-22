@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.SessionMapper" >
+  <resultMap id="BaseResultMap" type="cn.SkyShadow.model.Session" >
+    <id column="SESSION_ID" property="sessionId" jdbcType="BIGINT" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <association column="USER_GROUP_ID" property="userGroupId" select="cn.SkyShadow.dao.UserGroupMapper.selectUserGroup" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+      SESSION_ID, USER_GROUP_ID, START_TIME, END_TIME
+    from session
+    where SESSION_ID = #{sessionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from session
+    where SESSION_ID = #{sessionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.SkyShadow.model.Session" keyProperty="sessionId">
+    insert into session (USER_GROUP_ID)
+    values (#{userGroupId.groupId,jdbcType=BIGINT})
+  </insert>
+  <select id="GetAllSession" parameterType="java.lang.Long" resultMap="BaseResultMap">
+
+  </select>
+</mapper>

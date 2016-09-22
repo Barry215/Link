@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.FileMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.File">
+		<id column="FILE_ID" property="fileId" jdbcType="BIGINT" />
+		<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		<result column="ASCRIPTION_TYPE" property="ascriptionType"
+			jdbcType="CHAR" />
+		<result column="FILENAME" property="filename" jdbcType="VARCHAR" />
+		<result column="FILE_SIZE" property="fileSize" jdbcType="VARCHAR" />
+		<result column="SUFFIX" property="suffix" jdbcType="VARCHAR" />
+		<result column="IS_PUBLIC" property="isPublic" jdbcType="CHAR" />
+		<association column="USER" property="user"
+			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+		<association column="OCCUPATION" property="occupation"
+			select="cn.SkyShadow.dao.OccupationMapper.selectBaseInfo"/>
+		<association column="ORGANIZATION" property="organization"
+			select="cn.SkyShadow.dao.OrganizationMapper.selectBaseInfo"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+			FILE_ID, FILE_PATH, ASCRIPTION_TYPE, USER, OCCUPATION, ORGANIZATION, FILENAME,
+			FILE_SIZE,SUFFIX, IS_PUBLIC
+		from file
+		where FILE_ID = #{fileId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from file
+		where FILE_ID = #{fileId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.File" keyProperty="fileId">
+		insert into file (FILE_PATH, ASCRIPTION_TYPE,
+		USER, OCCUPATION, ORGANIZATION,
+		FILENAME, FILE_SIZE, SUFFIX,
+		IS_PUBLIC)
+		values (#{filePath,jdbcType=VARCHAR},
+		#{ascriptionType,jdbcType=CHAR},
+		#{user.userId,jdbcType=BIGINT}, #{occupation.occupationId,jdbcType=BIGINT}, #{organization.organizationId,jdbcType=BIGINT},
+		#{filename,jdbcType=VARCHAR}, #{fileSize,jdbcType=VARCHAR},
+		#{suffix,jdbcType=VARCHAR},
+		#{isPublic,jdbcType=CHAR})
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.File">
+		update file
+		<set>
+			<if test="filePath != null">
+				FILE_PATH = #{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="ascriptionType != null">
+				ASCRIPTION_TYPE = #{ascriptionType,jdbcType=CHAR},
+			</if>
+			<if test="user != null">
+				USER = #{user.userId,jdbcType=BIGINT},
+			</if>
+			<if test="occupation != null">
+				OCCUPATION = #{occupation.occupationId,jdbcType=BIGINT},
+			</if>
+			<if test="organization != null">
+				ORGANIZATION = #{organization.organizationId,jdbcType=BIGINT},
+			</if>
+			<if test="filename != null">
+				FILENAME = #{filename,jdbcType=VARCHAR},
+			</if>
+			<if test="fileSize != null">
+				FILESIZE = #{fileSize,jdbcType=VARCHAR},
+			</if>
+			<if test="suffix != null">
+				SUFFIX = #{suffix,jdbcType=VARCHAR},
+			</if>
+			<if test="isPublic != null">
+				IS_PUBLIC = #{isPublic,jdbcType=CHAR},
+			</if>
+		</set>
+		where FILE_ID = #{fileId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="cn.SkyShadow.model.File">
+		update file
+		set FILE_PATH = #{filePath,jdbcType=VARCHAR},
+		ASCRIPTION_TYPE = #{ascriptionType,jdbcType=CHAR},
+		USER = #{user.userId,jdbcType=BIGINT},
+		OCCUPATION = #{occupation.occupationId,jdbcType=BIGINT},
+		ORGANIZATION = #{organization.organizationId,jdbcType=BIGINT},
+		FILENAME = #{filename,jdbcType=VARCHAR},
+		FILE_SIZE = #{fileSize,jdbcType=VARCHAR},
+		SUFFIX = #{suffix,jdbcType=VARCHAR},
+		IS_PUBLIC = #{isPublic,jdbcType=CHAR}
+		where FILE_ID = #{fileId,jdbcType=BIGINT}
+	</update>
+</mapper>

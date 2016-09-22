@@ -1,10 +1,12 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.basic_component.ExceptionHandller;
+import cn.SkyShadow.basic_component.ExceptionHandler;
 import cn.SkyShadow.factory.JsonResultFactory;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.PasswordProtectedKey;
 import cn.SkyShadow.enums.*;
+import cn.SkyShadow.model.City;
+import cn.SkyShadow.model.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.SkyShadow.dto.json.JsonResult;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
-import cn.SkyShadow.model.city;
-import cn.SkyShadow.model.country;
 import cn.SkyShadow.service.PublicService;
 import cn.SkyShadow.tp.service.SendEmailService;
 import cn.SkyShadow.tp.service.SendPhoneService;
@@ -31,10 +31,10 @@ public class PublicController{
 	private final PublicService p;
 	private final SendEmailService emailService;
 	private final SendPhoneService phoneService;
-	private final ExceptionHandller exceptionHandle;
+	private final ExceptionHandler exceptionHandle;
 
 	@Autowired
-	public PublicController(SendEmailService emailService, PublicService p, SendPhoneService phoneService, ExceptionHandller exceptionHandle) {
+	public PublicController(SendEmailService emailService, PublicService p, SendPhoneService phoneService, ExceptionHandler exceptionHandle) {
 		this.emailService = emailService;
 		this.p = p;
 		this.phoneService = phoneService;
@@ -96,14 +96,14 @@ public class PublicController{
 
 	/**
 	 * 查询城市列表
-	 * @return 包装类List city
+	 * @return 包装类List City
 	 */
 	@RequestMapping(value = "/cityList_zh", produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> getCityList_zh() {
 		
 		try {
-			List<city> cities = p.get_ZH_Cities();
+			List<City> cities = p.get_ZH_Cities();
 			return JsonResultFactory.CreateJsonResult_True(cities);
 		} catch (Exception e) {
 			exceptionHandle.ExceptionHandle(e);
@@ -113,13 +113,13 @@ public class PublicController{
 
 	/**
 	 * 查询国家列表
-	 * @return 包装类list country
+	 * @return 包装类list Country
 	 */
 	@RequestMapping(value = "/countryList", produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public JsonResult<?> getCountryList() {
 		try {
-			List<country> countries = p.getCountries();
+			List<Country> countries = p.getCountries();
 			return JsonResultFactory.CreateJsonResult_True(countries);
 		} catch (Exception e) {
 			exceptionHandle.ExceptionHandle(e);
@@ -233,7 +233,7 @@ public class PublicController{
                 return  JsonResultFactory.CreateJsonResult_True(ResultMapper.User_LoginING);
             }
             PasswordProtected pp = p.getPasswordProtectByLoginName(loginName);
-            pp.setPasswoordChangeValidate(null);
+            pp.setPasswordChangeValidate(null);
             session.setAttribute("PasswordProtectedMethod_GETBACKPSD",pp);
             return JsonResultFactory.CreateJsonResult_True(pp);
         } catch (Exception e) {
@@ -417,7 +417,7 @@ public class PublicController{
             if (pk==null||pp==null){
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_No_PasswordProtectedKey);
             }
-            p.ChangePasword(pp.getUserId(),password);
+            p.ChangePassword(pp.getUserId(),password);
             session.setAttribute("user_validate_password_protected_key",null);
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {

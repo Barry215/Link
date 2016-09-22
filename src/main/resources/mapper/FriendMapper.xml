@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.FriendMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Friend">
+		<id column="FRIEND_ID" property="friendId" jdbcType="BIGINT" />
+		<result column="REMARK_NAME" property="remarkName" jdbcType="VARCHAR" />
+		<association column="USER_B" property="userB"
+			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+		<association column="FRIEND_GROUP" property="friendGroup"
+			select="cn.SkyShadow.dao.FriendGroupMapper.selectBaseInfo"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		FRIEND_ID, USER_B, FRIEND_GROUP,REMARK_NAME
+		from `friend` LEFT JOIN friendGroup on friend.FRIEND_GROUP =
+		friendGroup.FRIEND_GROUP_ID
+		WHERE friendGroup.`USER` = #{userId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from friend
+		where FRIEND_ID = #{friendId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.Friend" keyProperty="friendId">
+		insert into friend (USER_B,
+		FRIEND_GROUP,REMARK_NAME)
+		values (#{userB.userId,jdbcType=BIGINT},
+		#{friendGroup.friendGroupId,jdbcType=BIGINT},
+		#{remarkName,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.Friend">
+		update friend
+		<set>
+			<if test="userB != null">
+				USER_B = #{userB.userId,jdbcType=BIGINT},
+			</if>
+			<if test="friendGroup != null">
+				FRIENDGROUP = #{friendGroup.friendGroupId,jdbcType=BIGINT},
+			</if>
+			<if test="remarkName != null">
+				REMARK_NAME = #{remarkName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where FRIEND_ID = #{friendId,jdbcType=BIGINT}
+	</update>
+</mapper>

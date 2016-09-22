@@ -2,11 +2,11 @@ package cn.SkyShadow.controller;
 
 import cn.SkyShadow.base.SpringBase;
 import cn.SkyShadow.dto.user.SignUpForm;
+import cn.SkyShadow.model.User;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import  cn.SkyShadow.model.user;
 
 import javax.servlet.http.HttpSession;
 public class UserControllerTest extends SpringBase{
@@ -18,18 +18,18 @@ public class UserControllerTest extends SpringBase{
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Test
     public void LoginAndLoginOut()throws Exception{
-        user u = new user();
+        User u = new User();
         u.setUsername("test001");
         u.setPassword("123456");
         logger.info(session.getId());
-//        logger.info("登录："+userController.getLoginResult(u,null,session));
-//        logger.info("登录："+userController.getLoginResult(u,null,session));
-//        logger.info("登录："+userController.getLoginResult(u,null,session));
+//        logger.info("登录："+userController.getLoginResult(u,null,Session));
+//        logger.info("登录："+userController.getLoginResult(u,null,Session));
+//        logger.info("登录："+userController.getLoginResult(u,null,Session));
         logger.info("登录："+userController.getLoginResult(u,null,session));
         //u.setPassword("123456");
-        //logger.info("登录："+userController.getLoginResult(u,null,session));
+        //logger.info("登录："+userController.getLoginResult(u,null,Session));
         //u.setPassword("123456789");
-        //logger.info("登录："+userController.getLoginResult(u,null,session));
+        //logger.info("登录："+userController.getLoginResult(u,null,Session));
         logger.info("登录状态："+userController.getLoginState(session));
         logger.info("退出："+userController.loginout(session));
         logger.info("登录状态："+userController.getLoginState(session));
@@ -40,7 +40,7 @@ public class UserControllerTest extends SpringBase{
     public void signUpNoEmail() throws Exception {
         String code = (String) publicController.sendPhoneValidateCode("+8618100174600",session).getData();
         if (!code.equals("ERROR!")){
-            user u = new user();
+            User u = new User();
             u.setUsername("test003");
             u.setPassword("123456");
             u.setPhone("18100174600");
@@ -56,7 +56,7 @@ public class UserControllerTest extends SpringBase{
         String code = (String) publicController.sendPhoneValidateCode("+8618100174611",session).getData();
         String code1 = (String) publicController.sendEmailValidateCode("123@aaaa.com",session).getData();
         if (!code.equals("ERROR!")){
-            user u = new user();
+            User u = new User();
             u.setUsername("test004");
             u.setPassword("123456");
             u.setPhone("18100174611");
@@ -71,7 +71,7 @@ public class UserControllerTest extends SpringBase{
 
     @Test
     public void sendEmailValidateCode() throws Exception {
-        user u = new user();
+        User u = new User();
         u.setUsername("test003");
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
@@ -81,7 +81,7 @@ public class UserControllerTest extends SpringBase{
 
     @Test
     public void sendPhoneValidateCode() throws Exception {
-        user u = new user();
+        User u = new User();
         u.setUsername("test004");
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
@@ -91,7 +91,7 @@ public class UserControllerTest extends SpringBase{
 
     @Test
     public void getPasswordProtected() throws Exception {
-        user u = new user();
+        User u = new User();
         u.setUsername("test003");
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
@@ -101,7 +101,7 @@ public class UserControllerTest extends SpringBase{
 
     @Test
     public void phoneSendToCheckPasswordProtected() throws Exception {
-        user u = new user();
+        User u = new User();
         u.setUsername("test004");
         u.setPassword("123456789");
         logger.info("登录："+userController.getLoginResult(u,null,session));
@@ -113,7 +113,7 @@ public class UserControllerTest extends SpringBase{
 
     @Test
     public void emailSendToCheckPasswordProtected() throws Exception {
-        user u = new user();
+        User u = new User();
         u.setUsername("test004");
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
@@ -126,7 +126,7 @@ public class UserControllerTest extends SpringBase{
     }
     @Test
     public void  ModifyPassword() throws  Exception{
-        user u = new user();
+        User u = new User();
         u.setUsername("test004");
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));

@@ -27,14 +27,14 @@ public class PasswordProtected {
      * 手机号码是否通过验证，Y/N
      */
     private String PhoneValidate;
-    private String PasswoordChangeValidate;
+    private String PasswordChangeValidate;
 
-    public String getPasswoordChangeValidate() {
-        return PasswoordChangeValidate;
+    public String getPasswordChangeValidate() {
+        return PasswordChangeValidate;
     }
 
-    public void setPasswoordChangeValidate(String passwoordChangeValidate) {
-        PasswoordChangeValidate = passwoordChangeValidate;
+    public void setPasswordChangeValidate(String passwordChangeValidate) {
+        PasswordChangeValidate = passwordChangeValidate;
     }
 
     public String getPhone() {
@@ -80,7 +80,7 @@ public class PasswordProtected {
                 "Phone='" + Phone + '\'' +
                 ", Email='" + Email + '\'' +
                 ", PhoneValidate='" + PhoneValidate + '\'' +
-                ", PasswoordChangeValidate='" + PasswoordChangeValidate + '\'' +
+                ", PasswordChangeValidate='" + PasswordChangeValidate + '\'' +
                 ", EmailValidate='" + EmailValidate + '\'' +
                 '}';
     }

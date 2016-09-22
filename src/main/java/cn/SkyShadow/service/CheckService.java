@@ -1,7 +1,8 @@
 package cn.SkyShadow.service;
 
 import cn.SkyShadow.enums.SessionNameEnum;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.model.User;
+
 import javax.servlet.http.HttpSession;
 
 /**
@@ -21,7 +22,7 @@ public interface CheckService {
      * @param session 会话
      * @return 若登录，返回基本用户信息
      */
-    user LoginSate(HttpSession session);
+    User LoginSate(HttpSession session);
 
     /**
      * 检测是否有session记录

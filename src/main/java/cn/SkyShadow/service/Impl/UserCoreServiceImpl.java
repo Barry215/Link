@@ -1,12 +1,12 @@
 package cn.SkyShadow.service.Impl;
 
+import cn.SkyShadow.dao.UserMapper;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.RegisterResult;
+import cn.SkyShadow.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.SkyShadow.dao.userMapper;
 import cn.SkyShadow.dto.user.LoginResult;
-import cn.SkyShadow.model.user;
 import cn.SkyShadow.service.UserCoreService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,65 +14,65 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class UserCoreServiceImpl implements UserCoreService {
-    private final userMapper userMapper;
+    private final UserMapper UserMapper;
 
     @Autowired(required = false)
-    public UserCoreServiceImpl(userMapper userMapper) {
-        this.userMapper = userMapper;
+    public UserCoreServiceImpl(UserMapper UserMapper) {
+        this.UserMapper = UserMapper;
     }
 
-    public LoginResult getLoginResult(user user) {
-        return userMapper.getLoginResult(user);
+    public LoginResult getLoginResult(User user) {
+        return UserMapper.getLoginResult(user);
     }
 
-    public RegisterResult getRegisterResult_NOEMAIL(user user) {
-        return userMapper.getRegisterResult(user);
+    public RegisterResult getRegisterResult_NOEMAIL(User user) {
+        return UserMapper.getRegisterResult(user);
     }
 
-    public RegisterResult getRegisterResult(user user) {
-        return userMapper.getRegisterResult(user);
+    public RegisterResult getRegisterResult(User user) {
+        return UserMapper.getRegisterResult(user);
     }
 
-    public user SelectUserByLogin(user user) {
-        Long userId = userMapper.getLoginResult(user).getResultNum();
+    public User SelectUserByLogin(User user) {
+        Long userId = UserMapper.getLoginResult(user).getResultNum();
         if (userId != 0) {
-            return userMapper.selectByPrimaryKey(userId);
+            return UserMapper.selectByPrimaryKey(userId);
         }
         return null;
     }
 
-    public user selectUserBaseInfo(Long userId) {
-        return userMapper.selectBaseInfo(userId);
+    public User selectUserBaseInfo(Long userId) {
+        return UserMapper.selectBaseInfo(userId);
     }
 
     public int ValidateEmail(Long userId, String Email) {
-        return userMapper.validateEmail(Email, userId);
+        return UserMapper.validateEmail(Email, userId);
     }
 
     public int ValidatePhone(Long userId, String phone) {
-        return userMapper.validatePhone(phone, userId);
+        return UserMapper.validatePhone(phone, userId);
     }
 
     public int ChangeValidateEmail(Long userId, String Email) {
-        userMapper.unValidateEmail(userId);
-        return userMapper.validateEmail(Email, userId);
+        UserMapper.unValidateEmail(userId);
+        return UserMapper.validateEmail(Email, userId);
     }
 
     public int ChangeValidatePhone(Long userId, String phone) {
-        userMapper.unValidatePhone(userId);
-        return userMapper.validatePhone(phone, userId);
+        UserMapper.unValidatePhone(userId);
+        return UserMapper.validatePhone(phone, userId);
     }
 
     public PasswordProtected getPasswordProtectByUserId(Long UserId) {
-        return userMapper.getPasswordProtect(UserId);
+        return UserMapper.getPasswordProtect(UserId);
     }
 
     public int OpenOrClosePasswordChangeValidate(Long userId) {
-        return userMapper.OpenOrClosePasswordChangeValidate(userId);
+        return UserMapper.OpenOrClosePasswordChangeValidate(userId);
     }
 
     public int ChangePasword(Long userId, String password) {
-        return userMapper.changePassword(userId,password);
+        return UserMapper.changePassword(userId,password);
     }
 
 }

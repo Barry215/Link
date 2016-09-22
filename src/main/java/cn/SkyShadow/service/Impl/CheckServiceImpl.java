@@ -1,12 +1,11 @@
 package cn.SkyShadow.service.Impl;
-import cn.SkyShadow.dao.userMapper;
+import cn.SkyShadow.dao.UserMapper;
 import cn.SkyShadow.dto.tp.EmailSendSession;
 import cn.SkyShadow.dto.tp.PhoneSendSession;
 import cn.SkyShadow.enums.SessionNameEnum;
 import cn.SkyShadow.dto.user.LoginResult;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.model.User;
 import cn.SkyShadow.service.CheckService;
-import cn.SkyShadow.service.UserCoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +19,10 @@ import javax.servlet.http.HttpSession;
 @Transactional
 @Service
 public class CheckServiceImpl implements CheckService {
-    private final userMapper uService;
+    private final UserMapper uService;
 
     @Autowired(required = false)
-    public CheckServiceImpl(userMapper uService) {
+    public CheckServiceImpl(UserMapper uService) {
         this.uService = uService;
     }
 
@@ -32,14 +31,14 @@ public class CheckServiceImpl implements CheckService {
         if (!HasThisSessionRecord(session,SessionNameEnum.user)){
             return false;
         }else {
-            LoginResult l = uService.getLoginResult((user) session.getAttribute(SessionNameEnum.user.getSessionName()));
+            LoginResult l = uService.getLoginResult((User) session.getAttribute(SessionNameEnum.user.getSessionName()));
             return l.getResultNum() > 0L;
         }
     }
 
     @Override
-    public user LoginSate(HttpSession session) {
-        LoginResult l = uService.getLoginResult((user)session.getAttribute(SessionNameEnum.user.getSessionName()));
+    public User LoginSate(HttpSession session) {
+        LoginResult l = uService.getLoginResult((User)session.getAttribute(SessionNameEnum.user.getSessionName()));
         if (l.getResultNum() > 0L) {
             return uService.selectBaseInfo(l.getResultNum());
         }
@@ -67,7 +66,7 @@ public class CheckServiceImpl implements CheckService {
     @Override
     public Long getUserId(HttpSession session) {
         if (LoginState(session)){
-            return ((user) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId();
+            return ((User) session.getAttribute(SessionNameEnum.user.getSessionName())).getUserId();
         }
         else{
             return 0L;

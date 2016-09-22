@@ -2,6 +2,10 @@ package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
+import cn.SkyShadow.model.apply.Apply;
+import cn.SkyShadow.model.apply.ApplyChildren.AddAdmin;
+import cn.SkyShadow.model.apply.ApplyChildren.DeliverDepartmentCreator;
+import cn.SkyShadow.model.apply.Receipt;
 
 
 /**
@@ -16,49 +20,29 @@ public interface DepartmentService {
      * @param o 组织
      * @return 执行结果
      */
-    BaseExecution CreateDepartment(organization o);
-
-    /**
-     * 特定角色为一个部门指定一个最高管理者提交申请
-     * @param apply 申请
-     * @return 执行结果
-     */
-    BaseExecution AddAdmin(Apply apply);
+    BaseExecution CreateDepartment(Organization o);
 
     /**
      * 处理部门指定最高管理者的申请
      * @param r 回执
      * @return 执行结果
      */
-    BaseExecution MakeAdminCallback(Receipt r);
+    BaseExecution MakeAdminCallback(Receipt<AddAdmin> r);
 
     /**
-     * 撤销部门指定最高管理者的申请
-     * @param ApplyId 申请
+     * 撤销管理人员
+     * @param depId 部门的ID
+     * @param userId 用户ID
      * @return 执行结果
      */
-    BaseExecution RollBackAddAdmin(Long ApplyId);
-    BaseExecution RemoveAdmin(Long depId, Long userid);
-    /**
-     * 特定角色为组织的创建者转移子部门的创建者提交申请
-     * @param a 申请
-     * @return 执行结果
-     */
-    BaseExecution DeliverDepartmentCreator(Apply a);
-
-    /**
-     * 撤销部门指定创建者的申请
-     * @param applyId 申请ID
-     * @return 执行结果
-     */
-    BaseExecution RollBackDeliverDepartmentCreator(Long applyId);
+    BaseExecution RemoveAdmin(Long depId, Long userId);
 
     /**
      * 处理部门指定创建者的申请
      * @param r 回执
      * @return 执行结果
      */
-    BaseExecution DeliverDepartmentCreatorCallback(Receipt r);
+    BaseExecution DeliverDepartmentCreatorCallback(Receipt<DeliverDepartmentCreator> r);
 
     /**
      * 特定角色可以删除部门，不可撤销
@@ -72,5 +56,5 @@ public interface DepartmentService {
      * @param o 部门信息
      * @return 执行结果
      */
-    BaseExecution ModifyDepart(organization o);
+    BaseExecution ModifyDepart(Organization o);
 }

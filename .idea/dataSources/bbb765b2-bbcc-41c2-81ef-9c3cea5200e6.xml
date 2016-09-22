@@ -75,18 +75,18 @@
       <sequence-identity>1</sequence-identity>
     </column>
     <column id="50" parent="6" name="CONTENT_ID">
-      <comment>ÂÖ¨ÂëäÂÜÖÂÆπ</comment>
+      <comment>π´∏Êƒ⁄»›</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <column id="51" parent="6" name="TIME">
-      <comment>ÂÖ¨ÂëäÊó∂Èó¥</comment>
+      <comment>π´∏Ê ±º‰</comment>
       <mandatory>1</mandatory>
       <data-type>datetime|0</data-type>
       <default-expression>CURRENT_TIMESTAMP</default-expression>
     </column>
     <column id="52" parent="6" name="AUTHOR">
-      <comment>ÂÖ¨Âëä‰ΩúËÄÖ</comment>
+      <comment>π´∏Ê◊˜’ﬂ</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
@@ -142,13 +142,13 @@
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="64" parent="8" name="INITATOR">
-      <comment>Ë¢´‰ªãÁªç‰∫∫</comment>
+    <column id="64" parent="8" name="INIT_ACTOR">
+      <comment>±ªΩÈ…‹»À</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <index id="65" parent="8" name="INITATOR">
-      <columns>INITATOR</columns>
+      <columns>INIT_ACTOR</columns>
       <desc-columns />
       <unique>1</unique>
     </index>
@@ -157,11 +157,11 @@
       <primary>1</primary>
     </key>
     <key id="67" parent="8" name="INITATOR">
-      <columns>INITATOR</columns>
+      <columns>INIT_ACTOR</columns>
       <underlying-index>INITATOR</underlying-index>
     </key>
     <foreign-key id="68" parent="8" name="at_ibfk_1">
-      <columns>INITATOR</columns>
+      <columns>INIT_ACTOR</columns>
       <ref-key>~.user.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
@@ -172,17 +172,17 @@
       <sequence-identity>1</sequence-identity>
     </column>
     <column id="70" parent="9" name="NAME">
-      <comment>ÂüéÂ∏ÇÂêçÁß∞</comment>
+      <comment>≥« –√˚≥∆</comment>
       <mandatory>1</mandatory>
       <data-type>varchar(60)|0</data-type>
     </column>
     <column id="71" parent="9" name="RANK">
-      <comment>Á∫ßÂà´</comment>
+      <comment>º∂±</comment>
       <mandatory>1</mandatory>
       <data-type>varchar(50)|0</data-type>
     </column>
     <column id="72" parent="9" name="PROVINCE_ID">
-      <comment>Â±û‰∫éÁöÑÁúÅ‰ªΩ</comment>
+      <comment> Ù”⁄µƒ °∑›</comment>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <index id="73" parent="9" name="PROVINCE_ID">
@@ -205,7 +205,7 @@
       <sequence-identity>1</sequence-identity>
     </column>
     <column id="77" parent="10" name="ORD">
-      <comment>È°∫Â∫è</comment>
+      <comment>À≥–Ú</comment>
       <mandatory>1</mandatory>
       <data-type>tinyint(255)|0</data-type>
       <default-expression>'0'</default-expression>
@@ -236,7 +236,7 @@
     <column id="85" parent="10" name="EXPR">
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
-    <column id="86" parent="10" name="FILEGROUP">
+    <column id="86" parent="10" name="FILE_GROUP">
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <column id="87" parent="10" name="FILE">
@@ -263,7 +263,7 @@
       <desc-columns />
     </index>
     <index id="93" parent="10" name="FILEGROUP">
-      <columns>FILEGROUP</columns>
+      <columns>FILE_GROUP</columns>
       <desc-columns />
     </index>
     <index id="94" parent="10" name="IMG">
@@ -328,7 +328,7 @@ ORD</columns>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
     <foreign-key id="106" parent="10" name="content_ibfk_8">
-      <columns>FILEGROUP</columns>
+      <columns>FILE_GROUP</columns>
       <ref-key>~.filegroup.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
@@ -402,7 +402,7 @@ ORD</columns>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
-    <column id="122" parent="12" name="ISPUBLIC">
+    <column id="122" parent="12" name="IS_PUBLIC">
       <mandatory>1</mandatory>
       <data-type>enum('Y', 'N')|0</data-type>
       <default-expression>'N'</default-expression>
@@ -444,7 +444,7 @@ ORD</columns>
       <data-type>varchar(255)|0</data-type>
     </column>
     <column id="131" parent="13" name="ASCRIPTION_TYPE">
-      <comment>Êñá‰ª∂Á±ªÂûã</comment>
+      <comment>Œƒº˛¿‡–Õ</comment>
       <mandatory>1</mandatory>
       <data-type>enum('USER', 'OCCUPATION', 'ORGANIZATION')|0</data-type>
     </column>
@@ -461,7 +461,7 @@ ORD</columns>
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="136" parent="13" name="FILESIZE">
+    <column id="136" parent="13" name="FILE_SIZE">
       <mandatory>1</mandatory>
       <data-type>bigint(15)|0</data-type>
     </column>
@@ -469,7 +469,7 @@ ORD</columns>
       <mandatory>1</mandatory>
       <data-type>varchar(10)|0</data-type>
     </column>
-    <column id="138" parent="13" name="ISPUBLIC">
+    <column id="138" parent="13" name="IS_PUBLIC">
       <mandatory>1</mandatory>
       <data-type>enum('Y', 'N')|0</data-type>
       <default-expression>'Y'</default-expression>
@@ -537,7 +537,7 @@ FILEGROUP_ID</columns>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
-    <column id="152" parent="15" name="FILEGROUP_ID">
+    <column id="152" parent="15" name="FILE_GROUP_ID">
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
@@ -546,7 +546,7 @@ FILEGROUP_ID</columns>
       <data-type>varchar(255)|0</data-type>
     </column>
     <key id="154" parent="15" name="PRIMARY">
-      <columns>FILEGROUP_ID</columns>
+      <columns>FILE_GROUP_ID</columns>
       <primary>1</primary>
     </key>
     <column id="155" parent="16" name="FRIEND_ID">
@@ -558,7 +558,7 @@ FILEGROUP_ID</columns>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
-    <column id="157" parent="16" name="FRIENDGROUP">
+    <column id="157" parent="16" name="FRIEND_GROUP">
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
@@ -567,7 +567,7 @@ FILEGROUP_ID</columns>
       <data-type>varchar(255)|0</data-type>
     </column>
     <index id="159" parent="16" name="FRIENDGROUP">
-      <columns>FRIENDGROUP</columns>
+      <columns>FRIEND_GROUP</columns>
       <desc-columns />
     </index>
     <index id="160" parent="16" name="USER_A">
@@ -589,12 +589,12 @@ FILEGROUP_ID</columns>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
     <foreign-key id="164" parent="16" name="friend_ibfk_3">
-      <columns>FRIENDGROUP</columns>
+      <columns>FRIEND_GROUP</columns>
       <ref-key>~.friendgroup.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
-    <column id="165" parent="17" name="FRIENDGROUP_ID">
+    <column id="165" parent="17" name="FRIEND_GROUP_ID">
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
@@ -604,7 +604,7 @@ FILEGROUP_ID</columns>
       <data-type>varchar(255)|0</data-type>
     </column>
     <column id="167" parent="17" name="USER">
-      <comment>Â•ΩÂèãÂàÜÁªÑÂ±û‰∫éÁöÑÁî®Êà∑</comment>
+      <comment>∫√”—∑÷◊È Ù”⁄µƒ”√ªß</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
@@ -613,7 +613,7 @@ FILEGROUP_ID</columns>
       <desc-columns />
     </index>
     <key id="169" parent="17" name="PRIMARY">
-      <columns>FRIENDGROUP_ID</columns>
+      <columns>FRIEND_GROUP_ID</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="170" parent="17" name="friendgroup_ibfk_1">
@@ -679,7 +679,7 @@ FILEGROUP_ID</columns>
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
-    <column id="184" parent="19" name="LONGTITUDE">
+    <column id="184" parent="19" name="LONGITUDE">
       <data-type>float(9,6)|0</data-type>
     </column>
     <column id="185" parent="19" name="LATITUDE">
@@ -708,7 +708,7 @@ FILEGROUP_ID</columns>
       <mandatory>1</mandatory>
       <data-type>varchar(300)|0</data-type>
     </column>
-    <column id="191" parent="20" name="SUBLINE">
+    <column id="191" parent="20" name="SUB_LINE">
       <data-type>varchar(300)|0</data-type>
     </column>
     <column id="192" parent="20" name="CONTENT">
@@ -728,7 +728,7 @@ FILEGROUP_ID</columns>
       <data-type>datetime|0</data-type>
       <default-expression>CURRENT_TIMESTAMP</default-expression>
     </column>
-    <column id="196" parent="20" name="ISREADED">
+    <column id="196" parent="20" name="IS_READ">
       <mandatory>1</mandatory>
       <data-type>enum('Y', 'N')|0</data-type>
       <default-expression>'N'</default-expression>
@@ -910,13 +910,13 @@ MAILBOXGROUP_ID</columns>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="235" parent="25" name="INITATOR">
-      <comment>Ë¢´‰ªãÁªç‰∫∫</comment>
+    <column id="235" parent="25" name="INIT_ACTOR">
+      <comment>±ªΩÈ…‹»À</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <index id="236" parent="25" name="INITATOR">
-      <columns>INITATOR</columns>
+      <columns>INIT_ACTOR</columns>
       <desc-columns />
     </index>
     <key id="237" parent="25" name="PRIMARY">
@@ -924,7 +924,7 @@ MAILBOXGROUP_ID</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="238" parent="25" name="nominate_ibfk_2">
-      <columns>INITATOR</columns>
+      <columns>INIT_ACTOR</columns>
       <ref-key>~.user.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
@@ -1066,33 +1066,33 @@ userId</columns>
       <primary>1</primary>
     </key>
     <column id="270" parent="31" name="SCHOOL_ID">
-      <comment>Â≠¶Ê†°ID</comment>
+      <comment>—ß–£ID</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
     <column id="271" parent="31" name="NAME">
-      <comment>Â≠¶Ê†°Âêç</comment>
+      <comment>—ß–£√˚</comment>
       <mandatory>1</mandatory>
       <data-type>varchar(100)|0</data-type>
     </column>
     <column id="272" parent="31" name="LOCATION">
-      <comment>Â≠¶Ê†°Âú∞ÂùÄ</comment>
+      <comment>—ß–£µÿ÷∑</comment>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <column id="273" parent="31" name="RANK">
-      <comment>Â≠¶Ê†°Á±ªÂûã</comment>
+      <comment>—ß–£¿‡–Õ</comment>
       <mandatory>1</mandatory>
-      <data-type>enum('Â∞èÂ≠¶', 'Âàù‰∏≠', 'È´ò‰∏≠', 'Â§ßÂ≠¶', 'Â≠¶Èô¢ÔºàÁã¨Á´ãÔºâ', 'Â≠¶Èô¢ÔºàÈôÑÂ±ûÂ§ßÂ≠¶Ôºâ', 'ËÅå‰∏öÈ´ò‰∏≠', 'Á§æ‰ºöÊïôËÇ≤ÁªÑÁªá')|0</data-type>
+      <data-type>enum('–°—ß', '≥ı÷–', '∏ﬂ÷–', '¥Û—ß', '—ß‘∫£®∂¿¡¢£©', '—ß‘∫£®∏Ω Ù¥Û—ß£©', '÷∞“µ∏ﬂ÷–', '…Áª·ΩÃ”˝◊È÷Ø')|0</data-type>
     </column>
     <column id="274" parent="31" name="PARENT_ID">
-      <comment>Áà∂Â≠¶Ê†°</comment>
+      <comment>∏∏—ß–£</comment>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
-    <column id="275" parent="31" name="ISPUBLIC">
+    <column id="275" parent="31" name="IS_PUBLIC">
       <mandatory>1</mandatory>
-      <data-type>enum('Ê∞ëÂäû', 'ÂÖ¨Á´ã', '‰∏≠Â§ñÂêà‰ΩúÂäûÂ≠¶')|0</data-type>
-      <default-expression>'ÂÖ¨Á´ã'</default-expression>
+      <data-type>enum('√Ò∞Ï', 'π´¡¢', '÷–Õ‚∫œ◊˜∞Ï—ß')|0</data-type>
+      <default-expression>'π´¡¢'</default-expression>
     </column>
     <index id="276" parent="31" name="LOCATION">
       <columns>LOCATION</columns>
@@ -1123,7 +1123,7 @@ userId</columns>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="282" parent="32" name="USERGROUP_ID">
+    <column id="282" parent="32" name="USER_GROUP_ID">
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
@@ -1134,7 +1134,7 @@ userId</columns>
       <data-type>datetime|0</data-type>
     </column>
     <index id="285" parent="32" name="USERGROUP_ID">
-      <columns>USERGROUP_ID</columns>
+      <columns>USER_GROUP_ID</columns>
       <desc-columns />
     </index>
     <key id="286" parent="32" name="PRIMARY">
@@ -1142,19 +1142,19 @@ userId</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="287" parent="32" name="session_ibfk_1">
-      <columns>USERGROUP_ID</columns>
+      <columns>USER_GROUP_ID</columns>
       <ref-key>~.usergroup.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
     <column id="288" parent="33" name="USER_ID">
-      <comment>Áî®Êà∑ID</comment>
+      <comment>”√ªßID</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
     <column id="289" parent="33" name="USERNAME">
-      <comment>Áî®Êà∑Âêç</comment>
+      <comment>”√ªß√˚</comment>
       <mandatory>1</mandatory>
       <data-type>varchar(20)|0</data-type>
     </column>
@@ -1163,32 +1163,32 @@ userId</columns>
       <default-expression>''</default-expression>
     </column>
     <column id="291" parent="33" name="PASSWORD">
-      <comment>ÂØÜÁ†Å</comment>
+      <comment>√‹¬Î</comment>
       <mandatory>1</mandatory>
       <data-type>varchar(255)|0</data-type>
     </column>
     <column id="292" parent="33" name="EMAIL">
-      <comment>ÈÇÆÁÆ±</comment>
+      <comment>” œ‰</comment>
       <data-type>varchar(100)|0</data-type>
     </column>
     <column id="293" parent="33" name="EMAILVISIBLE">
-      <comment>emailÂì™‰∫õ‰∫∫ÂèØËßÅ</comment>
+      <comment>emailƒƒ–©»Àø…º˚</comment>
       <mandatory>1</mandatory>
       <data-type>enum('ALL', 'F&amp;C', 'F', 'I', 'ADVANCED')|0</data-type>
       <default-expression>'I'</default-expression>
     </column>
     <column id="294" parent="33" name="PHONE">
-      <comment>ÁîµËØù</comment>
+      <comment>µÁª∞</comment>
       <data-type>varchar(14)|0</data-type>
     </column>
     <column id="295" parent="33" name="PHONEVISIBLE">
-      <comment>ÊâãÊú∫Âè∑Á†ÅÂèØËßÅÊéßÂà∂</comment>
+      <comment> ÷ª˙∫≈¬Îø…º˚øÿ÷∆</comment>
       <mandatory>1</mandatory>
       <data-type>enum('ALL', 'F&amp;C', 'F', 'I', 'ADVANCED')|0</data-type>
       <default-expression>'F'</default-expression>
     </column>
     <column id="296" parent="33" name="SEX">
-      <comment>ÊÄßÂà´</comment>
+      <comment>–‘±</comment>
       <mandatory>1</mandatory>
       <data-type>enum('B', 'G', 'UN')|0</data-type>
       <default-expression>'UN'</default-expression>
@@ -1199,7 +1199,7 @@ userId</columns>
       <default-expression>'ALL'</default-expression>
     </column>
     <column id="298" parent="33" name="NATIONALITY">
-      <comment>ÂõΩÁ±ç</comment>
+      <comment>π˙ºÆ</comment>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <column id="299" parent="33" name="NATIONALITYVISIBLE">
@@ -1207,50 +1207,50 @@ userId</columns>
       <data-type>enum('ALL', 'F&amp;C', 'F', 'I', 'ADVANCED')|0</data-type>
       <default-expression>'ALL'</default-expression>
     </column>
-    <column id="300" parent="33" name="BOTHDAY">
-      <comment>ÁîüÊó•</comment>
+    <column id="300" parent="33" name="BIRTHDAY">
+      <comment>…˙»’</comment>
       <data-type>date|0</data-type>
     </column>
-    <column id="301" parent="33" name="BOTHDAYVISIBLE">
+    <column id="301" parent="33" name="BIRTHDAYVISIBLE">
       <mandatory>1</mandatory>
       <data-type>enum('ALL', 'F&amp;C', 'F', 'I', 'ADVANCED')|0</data-type>
       <default-expression>'F&amp;C'</default-expression>
     </column>
-    <column id="302" parent="33" name="HOMEPLACE">
-      <comment>ÂÆ∂‰π°</comment>
+    <column id="302" parent="33" name="HOME_PLACE">
+      <comment>º“œÁ</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <default-expression>'00000000000000000001'</default-expression>
     </column>
-    <column id="303" parent="33" name="HOMEPLACEVISIBLE">
+    <column id="303" parent="33" name="HOME_PLACEVISIBLE">
       <mandatory>1</mandatory>
       <data-type>enum('ALL', 'F&amp;C', 'F', 'I', 'ADVANCED')|0</data-type>
       <default-expression>'F&amp;C'</default-expression>
     </column>
-    <column id="304" parent="33" name="LIVEPLACE">
-      <comment>Â±Ö‰ΩèÂú∞</comment>
+    <column id="304" parent="33" name="LIVE_PLACE">
+      <comment>æ”◊°µÿ</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <default-expression>'00000000000000000001'</default-expression>
     </column>
-    <column id="305" parent="33" name="LIVEPLACEVISIBLE">
+    <column id="305" parent="33" name="LIVE_PLACEVISIBLE">
       <mandatory>1</mandatory>
       <data-type>enum('ALL', 'F&amp;C', 'F', 'I', 'ADVANCED')|0</data-type>
       <default-expression>'F'</default-expression>
     </column>
-    <column id="306" parent="33" name="EMAILVALIDATE">
-      <comment>ÈÇÆÁÆ±ÊòØÂê¶È™åËØÅ</comment>
+    <column id="306" parent="33" name="EMAIL_VALIDATE">
+      <comment>” œ‰ «∑Ò—È÷§</comment>
       <mandatory>1</mandatory>
       <data-type>enum('Y', 'N')|0</data-type>
       <default-expression>'N'</default-expression>
     </column>
-    <column id="307" parent="33" name="PHONEVALIDATE">
-      <comment>ÁîµËØùÊòØÂê¶È™åËØÅ</comment>
+    <column id="307" parent="33" name="PHONE_VALIDATE">
+      <comment>µÁª∞ «∑Ò—È÷§</comment>
       <mandatory>1</mandatory>
       <data-type>enum('Y', 'N')|0</data-type>
       <default-expression>'Y'</default-expression>
     </column>
-    <column id="308" parent="33" name="PASSWORDCHANGEVALIDATE">
+    <column id="308" parent="33" name="PASSWORD_CHANGE_VALIDATE">
       <mandatory>1</mandatory>
       <data-type>enum('Y', 'N')|0</data-type>
       <default-expression>'N'</default-expression>
@@ -1261,11 +1261,11 @@ userId</columns>
       <unique>1</unique>
     </index>
     <index id="310" parent="33" name="HOMEPLACE">
-      <columns>HOMEPLACE</columns>
+      <columns>HOME_PLACE</columns>
       <desc-columns />
     </index>
     <index id="311" parent="33" name="LIVEPLACE">
-      <columns>LIVEPLACE</columns>
+      <columns>LIVE_PLACE</columns>
       <desc-columns />
     </index>
     <index id="312" parent="33" name="NATIONALITY">
@@ -1305,13 +1305,13 @@ userId</columns>
       <cascade-delete-rule>set_null</cascade-delete-rule>
     </foreign-key>
     <foreign-key id="320" parent="33" name="user_ibfk_2">
-      <columns>HOMEPLACE</columns>
+      <columns>HOME_PLACE</columns>
       <ref-key>~.location.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
     </foreign-key>
     <foreign-key id="321" parent="33" name="user_ibfk_3">
-      <columns>LIVEPLACE</columns>
+      <columns>LIVE_PLACE</columns>
       <ref-key>~.location.PRIMARY</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>
@@ -1355,7 +1355,7 @@ OCCUPATION</columns>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <column id="330" parent="35" name="ADMISSION_TIME">
-      <comment>ÂÖ•Â≠¶Êó∂Èó¥</comment>
+      <comment>»Î—ß ±º‰</comment>
       <mandatory>1</mandatory>
       <data-type>date|0</data-type>
     </column>
@@ -1423,10 +1423,10 @@ USERGROUP</columns>
       <data-type>bigint(20) unsigned zerofill|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="344" parent="38" name="FILE_REWID">
+    <column id="344" parent="38" name="FILE_RAW_ID">
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
-    <column id="345" parent="38" name="FILE_ZIPID">
+    <column id="345" parent="38" name="FILE_ZIP_ID">
       <data-type>bigint(20) unsigned zerofill|0</data-type>
     </column>
     <column id="346" parent="38" name="LENGTH">
@@ -1438,11 +1438,11 @@ USERGROUP</columns>
       <data-type>enum('mp4', 'mp3', 'rm', 'rmvb', 'avi', 'mkv', 'mpg')|0</data-type>
     </column>
     <index id="348" parent="38" name="FILE_REWID">
-      <columns>FILE_REWID</columns>
+      <columns>FILE_RAW_ID</columns>
       <desc-columns />
     </index>
     <index id="349" parent="38" name="FILE_ZIPID">
-      <columns>FILE_ZIPID</columns>
+      <columns>FILE_ZIP_ID</columns>
       <desc-columns />
     </index>
     <key id="350" parent="38" name="PRIMARY">
@@ -1450,13 +1450,13 @@ USERGROUP</columns>
       <primary>1</primary>
     </key>
     <foreign-key id="351" parent="38" name="video_ibfk_1">
-      <columns>FILE_REWID</columns>
+      <columns>FILE_RAW_ID</columns>
       <ref-key>~.file.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>
     </foreign-key>
     <foreign-key id="352" parent="38" name="video_ibfk_2">
-      <columns>FILE_ZIPID</columns>
+      <columns>FILE_ZIP_ID</columns>
       <ref-key>~.file.PRIMARY</ref-key>
       <cascade-update-rule>update</cascade-update-rule>
       <cascade-delete-rule>delete</cascade-delete-rule>

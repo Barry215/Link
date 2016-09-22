@@ -7,7 +7,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import cn.SkyShadow.basic_component.ExceptionHandller;
+import cn.SkyShadow.basic_component.ExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +25,9 @@ import com.google.code.kaptcha.Producer;
 @RequestMapping("/")
 public class KaptchaController {
     private final Producer captchaProducer;
-    private final ExceptionHandller exceptionHandle;
+    private final ExceptionHandler exceptionHandle;
     @Autowired(required = false)
-    public KaptchaController(Producer captchaProducer, ExceptionHandller exceptionHandle) {
+    public KaptchaController(Producer captchaProducer, ExceptionHandler exceptionHandle) {
         this.captchaProducer = captchaProducer;
         this.exceptionHandle = exceptionHandle;
         exceptionHandle.setClass(this.getClass());
@@ -37,7 +37,7 @@ public class KaptchaController {
     /**
      * 验证码处理器
      *
-     * @param session  session
+     * @param session  Session
      * @param response 响应
      * @return 处理结果
      */

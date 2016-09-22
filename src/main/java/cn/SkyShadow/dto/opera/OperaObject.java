@@ -1,8 +1,8 @@
 package cn.SkyShadow.dto.opera;
 
 import cn.SkyShadow.dto.exception.OperaException;
-import cn.SkyShadow.model.organization;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.model.Organization;
+import cn.SkyShadow.model.User;
 
 /**
  *
@@ -12,14 +12,14 @@ public class OperaObject {
     private Object operator;
     private Object beOperated;
 
-    public void setOperator(user user){
+    public void setOperator(User user){
         if (operator!=null){
             throw new OperaException("只能注入一个操作者");
         }else{
             this.operator = user;
         }
     }
-    public void setBeOprated(organization o){
+    public void setBeOprated(Organization o){
         if (beOperated!=null){
             throw new OperaException("只能注入一个被操作者");
         }else{
@@ -27,11 +27,11 @@ public class OperaObject {
         }
     }
 
-    public user getOperator() {
-        return (user) operator;
+    public User getOperator() {
+        return (User) operator;
     }
 
-    public organization getBeOperated() {
-        return (organization) beOperated;
+    public Organization getBeOperated() {
+        return (Organization) beOperated;
     }
 }

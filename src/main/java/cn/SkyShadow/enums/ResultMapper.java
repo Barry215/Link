@@ -47,8 +47,9 @@ public enum ResultMapper {
     Org_ILLEGAL_NAME(),
     Org_ILLEGAL_PARENT(),
     Org_NULL_LOCATION(),
-    DB_ERROR()
-
+    DB_ERROR(),
+    NeedAuthority(),
+    NoApply()
     ;
     private boolean isSuccess;
     private int code;

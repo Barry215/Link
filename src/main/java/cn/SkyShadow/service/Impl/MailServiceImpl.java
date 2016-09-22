@@ -1,9 +1,9 @@
 package cn.SkyShadow.service.Impl;
 
+import cn.SkyShadow.dao.MailMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
-import cn.SkyShadow.model.mail;
-import cn.SkyShadow.dao.mailMapper;
+import cn.SkyShadow.model.Mail;
 import cn.SkyShadow.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,32 +18,32 @@ import java.util.List;
 @Transactional
 @Service
 public class MailServiceImpl implements MailService {
-    private final mailMapper mailMapper;
+    private final MailMapper MailMapper;
     @Autowired(required = false)
-    public MailServiceImpl(cn.SkyShadow.dao.mailMapper mailMapper) {
-        this.mailMapper = mailMapper;
+    public MailServiceImpl(MailMapper MailMapper) {
+        this.MailMapper = MailMapper;
     }
 
     @Override
-    public List<mail> Receive(Long userId) {
-        return mailMapper.Receive(userId);
+    public List<Mail> Receive(Long userId) {
+        return MailMapper.Receive(userId);
     }
 
     @Override
-    public BaseExecution SendMail(mail mail) {
+    public BaseExecution SendMail(Mail mail) {
         if (mail==null){
             return ExecutionFactory.getExecutionByResultCode(0,"邮件不能为空");
         }
-        return ExecutionFactory.getExecutionByResultCode(mailMapper.insertSelective(mail));
+        return ExecutionFactory.getExecutionByResultCode(MailMapper.insertSelective(mail));
     }
 
     @Override
     public BaseExecution DeleteMail(Long mailId) {
-        return ExecutionFactory.getExecutionByResultCode(mailMapper.deleteByPrimaryKey(mailId));
+        return ExecutionFactory.getExecutionByResultCode(MailMapper.deleteByPrimaryKey(mailId));
     }
 
     @Override
     public BaseExecution ReadMail(List<Long> IdList) {
-        return ExecutionFactory.getExecutionByResultCode(mailMapper.ReadMail(IdList));
+        return ExecutionFactory.getExecutionByResultCode(MailMapper.ReadMail(IdList));
     }
 }

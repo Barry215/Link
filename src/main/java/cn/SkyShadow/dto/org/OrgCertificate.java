@@ -1,34 +1,34 @@
 package cn.SkyShadow.dto.org;
 
-import cn.SkyShadow.model.occupation;
-import cn.SkyShadow.model.organization;
-import cn.SkyShadow.model.user;
+import cn.SkyShadow.model.Occupation;
+import cn.SkyShadow.model.Organization;
+import cn.SkyShadow.model.User;
 
 /**
  * 组织证件类
  * Created by Richard on 16/9/19.
  */
 public class OrgCertificate {
-    private user baseInfo;
-    private organization baseOrg;
+    private User baseInfo;
+    private Organization baseOrg;
     private boolean isCreator;
     private boolean isAdmin;
     private boolean isInOrg;
-    private occupation[] occupations;
+    private Occupation[] occupations;
 
-    public user getBaseInfo() {
+    public User getBaseInfo() {
         return baseInfo;
     }
 
-    public void setBaseInfo(user baseInfo) {
+    public void setBaseInfo(User baseInfo) {
         this.baseInfo = baseInfo;
     }
 
-    public organization getBaseOrg() {
+    public Organization getBaseOrg() {
         return baseOrg;
     }
 
-    public void setBaseOrg(organization baseOrg) {
+    public void setBaseOrg(Organization baseOrg) {
         this.baseOrg = baseOrg;
     }
 
@@ -56,11 +56,11 @@ public class OrgCertificate {
         isInOrg = inOrg;
     }
 
-    public occupation[] getOccupations() {
+    public Occupation[] getOccupations() {
         return occupations;
     }
 
-    public void setOccupations(occupation[] occupations) {
+    public void setOccupations(Occupation[] occupations) {
         this.occupations = occupations;
     }
 }

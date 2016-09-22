@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.VoiceMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Voice">
+		<id column="VOICE_ID" property="voiceId" jdbcType="BIGINT" />
+		<result column="LENGTH" property="length" jdbcType="TINYINT" />
+		<association column="FILE_ID" property="fileId"
+			select="cn.SkyShadow.dao.FileMapper.selectByPrimaryKey"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+			VOICE_ID, FILE_ID, LENGTH
+		from voice
+		where VOICE_ID = #{voiceId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from voice
+		where VOICE_ID = #{voiceId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.Voice" keyProperty="voiceId">
+		insert into voice (FILE_ID, LENGTH
+		)
+		values (#{fileId.fileId,jdbcType=BIGINT},
+		#{length,jdbcType=TINYINT}
+		)
+	</insert>
+</mapper>

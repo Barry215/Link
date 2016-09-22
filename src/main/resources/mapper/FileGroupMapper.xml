@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.FileGroupMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.fileGroup">
+		<id column="FILE_GROUP_ID" property="fileGroupId" jdbcType="BIGINT" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<collection property="files" column="FILE_GROUP_ID" select="selectFiles"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+			FILE_GROUP_ID, NAME
+		from fileGroup
+		where FILE_GROUP_ID = #{fileGroupId,jdbcType=BIGINT}
+	</select>
+	<select id="selectFiles" parameterType="java.lang.Long"
+		resultMap="cn.SkyShadow.dao.FileMapper.BaseResultMap">
+		SELECT
+		file.FILE_ID
+		FILE_ID, FILE_PATH, ASCRIPTION_TYPE, USER,
+		OCCUPATION, ORGANIZATION,
+		FILENAME,
+		FILE_SIZE,SUFFIX, IS_PUBLIC
+		FROM
+		fileGroup
+		LEFT JOIN
+		`file_filegroup` ON fileGroup.FILE_GROUP_ID =
+		file_filegroup.FILEGROUP_ID
+		LEFT JOIN file ON file_filegroup.FILE_ID =
+		file.FILE_ID
+		where fileGroup.FILE_GROUP_ID =
+		#{fileGroupId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		fileGroup
+		where FILE_GROUP_ID = #{fileGroupId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.fileGroup"
+		keyProperty="fileGroupId">
+		insert into fileGroup
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			NAME,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="name == null">
+				'未命名'
+			</if>
+		</trim>
+	</insert>
+	<insert id="addFile">
+		insert into file_filegroup(FILE_ID,FILEGROUP_ID) VALUES(#{file_id,jdbcType=BIGINT},#{filegroup_id,jdbcType=BIGINT})
+	</insert>
+</mapper>

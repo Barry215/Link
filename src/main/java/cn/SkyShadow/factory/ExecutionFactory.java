@@ -7,7 +7,7 @@ import cn.SkyShadow.dto.user.RegisterResult;
 import cn.SkyShadow.enums.ResultMapper;
 
 /**
- * Excution工厂
+ * Execution工厂
  * Created by RichardW on 9/14/2016.
  */
 public class ExecutionFactory {

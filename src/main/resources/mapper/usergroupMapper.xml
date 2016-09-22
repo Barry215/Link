@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.SkyShadow.dao.usergroupMapper">
-	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.usergroup">
+<mapper namespace="cn.SkyShadow.dao.UserGroupMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.UserGroup">
 		<id column="GROUP_ID" property="groupId" jdbcType="BIGINT" />
-		<collection property="users" column="GROUP_ID" select="selectUsers"></collection>
+		<collection property="users" column="GROUP_ID" select="selectUsers"/>
 	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from
 		usergroup
 		where GROUP_ID = #{groupId,jdbcType=BIGINT}
 	</delete>
-	<insert id="insert" parameterType="cn.SkyShadow.model.usergroup"
-		keyProperty="groupId">
-		insert into usergroup ()
-		values ()
-	</insert>
 	<select id="selectUsers" parameterType="java.lang.Long"
-		resultMap="cn.SkyShadow.dao.userMapper.BaseResultMap">
+		resultMap="cn.SkyShadow.dao.UserMapper.BaseResultMap">
 		SELECT
 		`user`.USER_ID USER_ID,USERNAME,NICKNAME
 		FROM
@@ -25,12 +20,12 @@
 		LEFT JOIN usergroup ON user_usergroup.USERGROUP = usergroup.GROUP_ID
 		WHERE usergroup = #{groupId,jdbcType=BIGINT}
 	</select>
-	<select id="selectUsergroup" resultMap="BaseResultMap">
+	<select id="selectUserGroup" resultMap="BaseResultMap">
 		select GROUP_ID from
 		usergroup
 		where GROUP_ID = #{groupId,jdbcType=BIGINT}
 	</select>
-	<insert id="adduser">
+	<insert id="addUser">
 		insert into user_usergroup(USER_ID,USERGROUP)
 		VALUES(#{userId,jdbcType=BIGINT},#{groupId,jdbcType=BIGINT})
 	</insert>

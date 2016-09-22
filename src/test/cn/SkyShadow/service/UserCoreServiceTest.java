@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ *
  * Created by RichardW on 9/16/2016.
  */
 public class UserCoreServiceTest extends SpringBase {

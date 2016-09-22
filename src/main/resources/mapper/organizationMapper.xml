@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.SkyShadow.dao.organizationMapper">
-	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.organization">
+<mapper namespace="cn.SkyShadow.dao.OrganizationMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Organization">
 		<id column="ORG_ID" property="orgId"  jdbcType="BIGINT" />
 		<result column="NAME" property="name" jdbcType="VARCHAR" />
 		<result column="TYPE" property="type" jdbcType="VARCHAR" />
 		<association column="LOCATION" property="location"
-			select="cn.SkyShadow.dao.locationMapper.selectByPrimaryKey" />
+			select="cn.SkyShadow.dao.LocationMapper.selectByPrimaryKey" />
 		<association column="PARENT_ID" property="parentId"
-			select="cn.SkyShadow.dao.organizationMapper.selectBaseInfo" />
+			select="cn.SkyShadow.dao.OrganizationMapper.selectBaseInfo" />
 		<association column="CREATOR_ID" property="creatorId"
-			select="cn.SkyShadow.dao.userMapper.selectBaseInfo" />
-		<collection property="announces" column="ORD_ID" select="selectAnnounces" />
+			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo" />
+		<collection property="Announces" column="ORD_ID" select="selectAnnounces" />
 		<collection property="sonOrganizations" column="ORG_ID"
 			select="selectSonOrganizations" />
 	</resultMap>
@@ -22,12 +22,12 @@
 		from organization
 		where ORG_ID = #{orgId,jdbcType=BIGINT}
 	</select>
-	<select id="selectAnnounces" resultMap="cn.SkyShadow.dao.announceMapper.BaseResultMap"
+	<select id="selectAnnounces" resultMap="cn.SkyShadow.dao.AnnounceMapper.BaseResultMap"
 		parameterType="java.lang.Long">
 		select
 		ANN_ID, CONTENT_ID, TIME,AUTHOR
 		from
-		announce where
+		Announce where
 		ORG_ID = #{orgId jdbcType="BIGINT"}
 	</select>
 	<select id="selectSonOrganizations" resultMap="BaseResultMap"
@@ -49,7 +49,7 @@
 		organization
 		where ORG_ID = #{orgId,jdbcType=BIGINT}
 	</delete>
-	<insert id="insert" parameterType="cn.SkyShadow.model.organization" keyProperty="orgId">
+	<insert id="insert" parameterType="cn.SkyShadow.model.Organization" keyProperty="orgId">
 		insert ignore into
 		organization (ORG_ID, NAME, LOCATION,
 		PARENT_ID, CREATOR_ID,TYPE )
@@ -60,7 +60,7 @@
 		#{creatorId.userId,jdbcType=BIGINT},
 		#{type,jdbcType=VARCHAR})
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.organization">
+	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.Organization">
 		update organization
 		<set>
 			<if test="name != null">

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.ExprMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Expr">
+		<id column="EXPR_ID" property="exprId" jdbcType="BIGINT" />
+		<result column="IS_PUBLIC" property="isPublic" jdbcType="CHAR" />
+		<association column="IMG_ID" property="imgId"
+			select="cn.SkyShadow.dao.ImagineMapper.selectByPrimaryKey"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+			EXPR_ID, IMG_ID, IS_PUBLIC
+		from expr
+		where EXPR_ID = #{exprId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from expr
+		where EXPR_ID = #{exprId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.Expr" keyProperty="exprId">
+		insert into expr (IMG_ID, IS_PUBLIC
+		)
+		values (#{imgId.imgId,jdbcType=BIGINT},
+		#{isPublic,jdbcType=CHAR}
+		)
+	</insert>
+</mapper>

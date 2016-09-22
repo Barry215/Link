@@ -1,8 +1,8 @@
 package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.user.PasswordProtected;
-import cn.SkyShadow.model.city;
-import cn.SkyShadow.model.country;
+import cn.SkyShadow.model.City;
+import cn.SkyShadow.model.Country;
 
 import java.util.List;
 
@@ -35,13 +35,13 @@ public interface PublicService {
      * 获取国家列表
      * @return 返回国家列表
      */
-    List<country> getCountries();
+    List<Country> getCountries();
 
     /**
      * 获取城市列表（中国）
      * @return 返回城市列表
      */
-    List<city> get_ZH_Cities();
+    List<City> get_ZH_Cities();
 
     /**
      * 获取用户的密码保护方式
@@ -56,5 +56,5 @@ public interface PublicService {
      * @param password 新密码
      * @return 执行结果
      */
-    int ChangePasword(Long userId, String password);
+    int ChangePassword(Long userId, String password);
 }

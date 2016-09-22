@@ -1,7 +1,7 @@
 package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
-import cn.SkyShadow.model.mail;
+import cn.SkyShadow.model.Mail;
 
 import java.util.List;
 
@@ -12,14 +12,14 @@ public interface MailService {
      * @param userId 用户ID
      * @return 执行结果
      */
-	List<mail> Receive(Long userId);
+	List<Mail> Receive(Long userId);
 
     /**
      * 发送邮件
      * @param mail 邮件
      * @return 执行结果
      */
-    BaseExecution SendMail(mail mail);
+    BaseExecution SendMail(Mail mail);
 
     /**
      * 删除邮件

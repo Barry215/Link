@@ -1,6 +1,6 @@
 package cn.SkyShadow.dao;
 
-import cn.SkyShadow.model.Receipt;
+import cn.SkyShadow.model.apply.Receipt;
 
 /**
  * 回执数据处理

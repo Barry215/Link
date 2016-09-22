@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.SkyShadow.dao.SchoolMapper">
+	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.School">
+		<id column="SCHOOL_ID" property="schoolId" jdbcType="BIGINT" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="RANK" property="rank" jdbcType="CHAR" />
+		<result column="IS_PUBLIC" property="isPublic" jdbcType="CHAR" />
+		<association column="LOCATION" property="location"
+			select="cn.SkyShadow.dao.LocationMapper.selectByPrimaryKey"/>
+		<association column="PARENT_ID" property="parentId" select="selectBaseInfo"/>
+	</resultMap>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+			SCHOOL_ID, NAME, LOCATION, RANK, PARENT_ID, IS_PUBLIC
+		from school
+		where SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
+	</select>
+	<select id="selectBaseInfo" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		SCHOOL_ID, NAME, LOCATION, RANK, IS_PUBLIC
+		from school
+		where SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from school
+		where SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="cn.SkyShadow.model.School">
+		insert into school (NAME, LOCATION,
+		RANK, PARENT_ID, IS_PUBLIC)
+		values (#{name,jdbcType=VARCHAR},
+		#{location.locationId,jdbcType=BIGINT},
+		#{rank,jdbcType=CHAR}, #{parentId.schoolId,jdbcType=BIGINT}, #{isPublic,jdbcType=CHAR})
+	</insert>
+</mapper>

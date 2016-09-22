@@ -17,86 +17,86 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class FileServiceImpl implements FileService {
-    private final voiceMapper voiceMapper;
-    private final videoMapper videoMapper;
-    private final imagineMapper imagineMapper;
-    private final fileMapper fileMapper;
-    private final filegroupMapper filegroupMapper;
-    private final exprMapper exprMapper;
-    private final organizationMapper organizationMapper;
+    private final VoiceMapper VoiceMapper;
+    private final VideoMapper VideoMapper;
+    private final ImagineMapper ImagineMapper;
+    private final FileMapper FileMapper;
+    private final FileGroupMapper FileGroupMapper;
+    private final ExprMapper ExprMapper;
+    private final OrganizationMapper OrganizationMapper;
     @Autowired(required = false)
-    public FileServiceImpl(cn.SkyShadow.dao.voiceMapper voiceMapper, cn.SkyShadow.dao.videoMapper videoMapper, cn.SkyShadow.dao.imagineMapper imagineMapper, cn.SkyShadow.dao.fileMapper fileMapper, cn.SkyShadow.dao.filegroupMapper filegroupMapper, cn.SkyShadow.dao.exprMapper exprMapper, organizationMapper organizationMapper) {
-        this.voiceMapper = voiceMapper;
-        this.videoMapper = videoMapper;
-        this.imagineMapper = imagineMapper;
-        this.fileMapper = fileMapper;
-        this.filegroupMapper = filegroupMapper;
-        this.exprMapper = exprMapper;
-        this.organizationMapper = organizationMapper;
+    public FileServiceImpl(VoiceMapper VoiceMapper, VideoMapper VideoMapper, ImagineMapper ImagineMapper, FileMapper FileMapper, FileGroupMapper FileGroupMapper, ExprMapper ExprMapper, OrganizationMapper OrganizationMapper) {
+        this.VoiceMapper = VoiceMapper;
+        this.VideoMapper = VideoMapper;
+        this.ImagineMapper = ImagineMapper;
+        this.FileMapper = FileMapper;
+        this.FileGroupMapper = FileGroupMapper;
+        this.ExprMapper = ExprMapper;
+        this.OrganizationMapper = OrganizationMapper;
     }
 
     @Override
-    public BaseExecution UpdateVoice(voice voice) {
-        return ExecutionFactory.getExecutionByResultCode(voiceMapper.insert(voice));
+    public BaseExecution UpdateVoice(Voice voice) {
+        return ExecutionFactory.getExecutionByResultCode(VoiceMapper.insert(voice));
     }
 
     @Override
-    public BaseExecution UpdateVideo(video video) {
-        return ExecutionFactory.getExecutionByResultCode(videoMapper.insert(video));
+    public BaseExecution UpdateVideo(Video video) {
+        return ExecutionFactory.getExecutionByResultCode(VideoMapper.insert(video));
     }
 
     @Override
-    public BaseExecution UpdateImage(imagine imagine) {
-        return ExecutionFactory.getExecutionByResultCode(imagineMapper.insertSelective(imagine));
+    public BaseExecution UpdateImage(Imagine imagine) {
+        return ExecutionFactory.getExecutionByResultCode(ImagineMapper.insertSelective(imagine));
     }
 
     @Override
-    public BaseExecution UpdateExpr(expr expr) {
-        return ExecutionFactory.getExecutionByResultCode(exprMapper.insert(expr));
+    public BaseExecution UpdateExpr(Expr expr) {
+        return ExecutionFactory.getExecutionByResultCode(ExprMapper.insert(expr));
     }
 
     @Override
-    public BaseExecution UpdateFile(file file) {
-        return ExecutionFactory.getExecutionByResultCode(fileMapper.insert(file));
+    public BaseExecution UpdateFile(File file) {
+        return ExecutionFactory.getExecutionByResultCode(FileMapper.insert(file));
     }
 
     @Override
-    public BaseExecution UpdateFileGroup(filegroup filegroup) {
-        return ExecutionFactory.getExecutionByResultCode(filegroupMapper.insert(filegroup));
+    public BaseExecution UpdateFileGroup(FileGroup fileGroup) {
+        return ExecutionFactory.getExecutionByResultCode(FileGroupMapper.insert(fileGroup));
     }
 
     @Override
     public FileList GetFileList(Long organizationID) {
-        return organizationMapper.GetFileList(organizationID);
+        return OrganizationMapper.GetFileList(organizationID);
     }
 
     @Override
     public BaseExecution DeleteFile(Long fileId) {
-        return ExecutionFactory.getExecutionByResultCode(fileMapper.deleteByPrimaryKey(fileId));
+        return ExecutionFactory.getExecutionByResultCode(FileMapper.deleteByPrimaryKey(fileId));
     }
 
     @Override
-    public BaseExecution DeleteFileGroup(Long filegroupId) {
-        return ExecutionFactory.getExecutionByResultCode(filegroupMapper.deleteByPrimaryKey(filegroupId));
+    public BaseExecution DeleteFileGroup(Long fileGroupId) {
+        return ExecutionFactory.getExecutionByResultCode(FileGroupMapper.deleteByPrimaryKey(fileGroupId));
     }
 
     @Override
     public BaseExecution UpdateFileToOrg(Long orgId, Long fileId) {
-        return ExecutionFactory.getExecutionByResultCode(fileMapper.AddFileToOrg(orgId,fileId));
+        return ExecutionFactory.getExecutionByResultCode(FileMapper.AddFileToOrg(orgId,fileId));
     }
 
     @Override
     public BaseExecution RemoveFileFromOrg(Long orgId, Long fileId) {
-        return ExecutionFactory.getExecutionByResultCode(fileMapper.RemoveFileFromOrg(orgId,fileId));
+        return ExecutionFactory.getExecutionByResultCode(FileMapper.RemoveFileFromOrg(orgId,fileId));
     }
 
     @Override
     public BaseExecution UpdateFileGroupToOrg(Long orgId, Long fileGroupId) {
-        return ExecutionFactory.getExecutionByResultCode(fileMapper.AddFileToOrg(orgId,fileGroupId));
+        return ExecutionFactory.getExecutionByResultCode(FileMapper.AddFileToOrg(orgId,fileGroupId));
     }
 
     @Override
     public BaseExecution RemoveFileGroupFromOrg(Long orgId, Long fileGroupId) {
-        return ExecutionFactory.getExecutionByResultCode(fileMapper.RemoveFileFromOrg(orgId, fileGroupId));
+        return ExecutionFactory.getExecutionByResultCode(FileMapper.RemoveFileFromOrg(orgId, fileGroupId));
     }
 }

@@ -218,9 +218,21 @@
         <info>地址未填写</info>
     </result>
     <result>
-        <code>20000</code>
+        <code>20001</code>
         <isSuccess>false</isSuccess>
         <name>DB_ERROR</name>
         <info>数据库出现错误</info>
+    </result>
+    <result>
+        <code>20002</code>
+        <isSuccess>false</isSuccess>
+        <name>NoAuthority</name>
+        <info>权限不足</info>
+    </result>
+    <result>
+        <code>20003</code>
+        <isSuccess>false</isSuccess>
+        <name>NoApply</name>
+        <info>需要申请</info>
     </result>
 </results>

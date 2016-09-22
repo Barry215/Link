@@ -1,7 +1,7 @@
 package cn.SkyShadow.service.Impl;
 
-import cn.SkyShadow.dao.messageMapper;
-import cn.SkyShadow.dao.sessionMapper;
+import cn.SkyShadow.dao.MessageMapper;
+import cn.SkyShadow.dao.SessionMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
@@ -19,41 +19,41 @@ import java.util.List;
 @Transactional
 @Service
 public class SessionServiceImpl implements SessionService {
-    private final sessionMapper sessionMapper;
-    private final messageMapper messageMapper;
+    private final SessionMapper SessionMapper;
+    private final MessageMapper MessageMapper;
     @Autowired(required = false)
-    public SessionServiceImpl(cn.SkyShadow.dao.sessionMapper sessionMapper, cn.SkyShadow.dao.messageMapper messageMapper) {
-        this.sessionMapper = sessionMapper;
-        this.messageMapper = messageMapper;
+    public SessionServiceImpl(SessionMapper SessionMapper, MessageMapper MessageMapper) {
+        this.SessionMapper = SessionMapper;
+        this.MessageMapper = MessageMapper;
     }
 
     @Override
-    public List<session> GetAllSession(Long userId) {
-        return sessionMapper.GetAllSession(userId);
+    public List<Session> GetAllSession(Long userId) {
+        return SessionMapper.GetAllSession(userId);
     }
 
     @Override
-    public BaseExecution SendMessage(message message) {
-        return ExecutionFactory.getExecutionByResultCode(messageMapper.insert(message));
+    public BaseExecution SendMessage(Message message) {
+        return ExecutionFactory.getExecutionByResultCode(MessageMapper.insert(message));
     }
 
     @Override
     public BaseExecution RollBackMessage(Long messageId) {
-        return ExecutionFactory.getExecutionByResultCode(messageMapper.deleteByPrimaryKey(messageId));
+        return ExecutionFactory.getExecutionByResultCode(MessageMapper.deleteByPrimaryKey(messageId));
     }
 
     @Override
     public int GetNotReadMessageNum(Long userId) {
-        return messageMapper.GetNotReadMessageNum(userId);
+        return MessageMapper.GetNotReadMessageNum(userId);
     }
 
     @Override
-    public List<message> GetNotReadMessage(Long userId) {
-        return messageMapper.GetNotReadMessage(userId);
+    public List<Message> GetNotReadMessage(Long userId) {
+        return MessageMapper.GetNotReadMessage(userId);
     }
 
     @Override
     public BaseExecution ReadMessage(List<String> IdList) {
-        return ExecutionFactory.getExecutionByResultCode(messageMapper.ReadMessage(IdList));
+        return ExecutionFactory.getExecutionByResultCode(MessageMapper.ReadMessage(IdList));
     }
 }

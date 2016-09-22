@@ -2,9 +2,9 @@ package cn.SkyShadow.service.Impl;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
-import cn.SkyShadow.model.location;
+import cn.SkyShadow.model.Location;
 import cn.SkyShadow.service.LocationService;
-import cn.SkyShadow.dao.locationMapper;
+import cn.SkyShadow.dao.LocationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,24 +16,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class LocationServiceImpl implements LocationService {
-    private final locationMapper locationMapper;
+    private final LocationMapper LocationMapper;
     @Autowired(required = false)
-    public LocationServiceImpl(cn.SkyShadow.dao.locationMapper locationMapper) {
-        this.locationMapper = locationMapper;
+    public LocationServiceImpl(LocationMapper LocationMapper) {
+        this.LocationMapper = LocationMapper;
     }
 
     @Override
-    public BaseExecution Add(location location) {
-        return ExecutionFactory.getExecutionByResultCode(locationMapper.CreateNewLocation(location));
+    public BaseExecution Add(Location location) {
+        return ExecutionFactory.getExecutionByResultCode(LocationMapper.CreateNewLocation(location));
     }
 
     @Override
     public BaseExecution Remove(Long locationId) {
-        return ExecutionFactory.getExecutionByResultCode(locationMapper.RemoveLocation(locationId));
+        return ExecutionFactory.getExecutionByResultCode(LocationMapper.RemoveLocation(locationId));
     }
 
     @Override
-    public BaseExecution Modify(location location) {
-        return ExecutionFactory.getExecutionByResultCode(locationMapper.Modifylocation(location));
+    public BaseExecution Modify(Location location) {
+        return ExecutionFactory.getExecutionByResultCode(LocationMapper.ModifyLocation(location));
     }
 }
