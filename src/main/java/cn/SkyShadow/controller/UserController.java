@@ -69,11 +69,12 @@ public class UserController{
             User u1 = uService.SelectUserByLogin(u);
             if (u1 == null) {
                 kaptchaService.addFailNum(httpSession);
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.User_Login_Fail));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_Login_Fail);
             }
             u1.setPassword(u.getPassword());
             httpSession.setAttribute(SessionNameEnum.user.getSessionName(), u1);
-            return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.SUCCESS));
+            kaptchaService.removeFailNum(httpSession);
+            return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
             exceptionHandle.ExceptionHandle(e);
             kaptchaService.addFailNum(httpSession);

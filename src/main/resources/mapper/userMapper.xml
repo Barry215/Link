@@ -81,8 +81,8 @@
 	</select>
 	<select id="selectFriendGroups" parameterType="java.lang.Long"
 		resultMap="cn.SkyShadow.dao.FriendGroupMapper.BaseResultMap">
-		SELECT FRIEND_GROUP_ID,`NAME`,`USER` FROM friendGroup WHERE
-		friendGroup.USER =#{userId,jdbcType=BIGINT}
+		SELECT FRIEND_GROUP_ID,`NAME`,`USER` FROM friendgroup WHERE
+		friendgroup.USER =#{userId,jdbcType=BIGINT}
 	</select>
 	<select id="selectMailbox" parameterType="java.lang.Long"
 		resultMap="cn.SkyShadow.dao.MailboxMapper.BaseResultMap">

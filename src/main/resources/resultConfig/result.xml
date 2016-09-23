@@ -226,7 +226,7 @@
     <result>
         <code>20002</code>
         <isSuccess>false</isSuccess>
-        <name>NoAuthority</name>
+        <name>NeedAuthority</name>
         <info>权限不足</info>
     </result>
     <result>

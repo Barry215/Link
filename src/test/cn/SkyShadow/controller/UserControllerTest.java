@@ -118,11 +118,11 @@ public class UserControllerTest extends SpringBase{
         u.setPassword("123456");
         logger.info("登录："+userController.getLoginResult(u,null,session));
         logger.info("登录状态："+userController.getLoginState(session));
-        String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
-        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByPhone(session,code));
-        String code1 = (String) userController.ChangeValidateEmailSend(session,"1523@qq.com").getData();
-        logger.info("修改邮箱(发送短信)"+code1);
-        logger.info("修改邮箱"+userController.ChangeValidateEmail(session,code1));
+//        String code = (String) userController.EmailSendToCheckPasswordProtected(session).getData();
+        logger.info("验证密保(邮箱)"+userController.ValidatePasswordProtectedMethodByPhone(session,"123456"));
+//        String code1 = (String) userController.ChangeValidateEmailSend(session,"1523@qq.com").getData();
+        logger.info("修改邮箱(发送短信)"+"1234656");
+        logger.info("修改邮箱"+userController.ChangeValidateEmail(session,"123456"));
     }
     @Test
     public void  ModifyPassword() throws  Exception{

@@ -19,7 +19,7 @@
 	<select id="selectByOrganizationId" resultMap="BaseResultMap"
 		parameterType="java.lang.Long">
 		select
-		<include refid="Base_Column_List" />
+			ANN_ID, CONTENT_ID, TIME, AUTHOR
 		from Announce
 		where ORG_ID = #{orgId,jdbcType=BIGINT}
 	</select>

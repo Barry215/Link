@@ -1,6 +1,5 @@
 package cn.SkyShadow.enums;
 
-import cn.SkyShadow.tp.service.Impl.ReadProperties;
 import cn.SkyShadow.tp.service.Impl.ReadXml;
 import cn.SkyShadow.tp.service.ReadConfigFile;
 import org.w3c.dom.Node;
@@ -57,10 +56,6 @@ public enum ResultMapper {
     private String resultName;
     private ReadConfigFile readConfigFile = new ReadXml();
 
-    public String getResultName() {
-        return resultName;
-    }
-
 
     ResultMapper() {
         read();
@@ -108,19 +103,20 @@ public enum ResultMapper {
             for (int j = 0;j<childNode.getLength();j++){
                 Node node1 = childNode.item(j);
                 if (node1.getNodeType()==Node.ELEMENT_NODE){
-                    if (node1.getFirstChild().getNodeName().equals("code")){
+                    if (node1.getNodeName().equals("code")){
                         this.code = Integer.parseInt(node1.getFirstChild().getNodeValue());
                     }
-                    if (node1.getFirstChild().getNodeName().equals("info")){
+                    if (node1.getNodeName().equals("info")){
                         this.info = node1.getFirstChild().getNodeValue();
                     }
-                    if (node1.getFirstChild().getNodeName().equals("isSuccess")){
+                    if (node1.getNodeName().equals("isSuccess")){
                         this.isSuccess = node1.getFirstChild().getNodeValue().toUpperCase().equals("TRUE");
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }
