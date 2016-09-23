@@ -100,9 +100,9 @@ public class OrganizationController {
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
-    /*@RequestMapping(value = "/{ABCD}/ABCD", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+    /*@RequestMapping(value = "/{param}/method", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
     @ResponseBody
-    public JsonResult<?> ABCD(String ABCD){
+    public JsonResult<?> method(String param){
         try {
 
         } catch (Exception e) {

@@ -30,7 +30,7 @@
         <!-- 清除无用连接的等待时间 -->
         <property name="removeAbandonedTimeout" value="180" />
         <!-- 连接属性 -->
-        <property name="connectionProperties" value="lientEncoding=UTF-8" />
+        <property name="connectionProperties" value="clientEncoding=UTF-8" />
     </bean>
     <!--事务管理-->
     <bean id="transactionManager"

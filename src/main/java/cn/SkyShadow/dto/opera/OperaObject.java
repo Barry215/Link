@@ -19,7 +19,7 @@ public class OperaObject {
             this.operator = user;
         }
     }
-    public void setBeOprated(Organization o){
+    public void setBeOperated(Organization o){
         if (beOperated!=null){
             throw new OperaException("只能注入一个被操作者");
         }else{

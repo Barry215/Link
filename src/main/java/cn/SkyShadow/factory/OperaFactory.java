@@ -9,9 +9,9 @@ import cn.SkyShadow.model.User;
  * Created by Richard on 16/9/19.
  */
 public class OperaFactory {
-    public static OperaObject createByUserAndOrg(User user, Organization baseinfo) {
+    public static OperaObject createByUserAndOrg(User user, Organization baseInfo) {
         OperaObject o = new OperaObject();
-        o.setBeOprated(baseinfo);
+        o.setBeOperated(baseInfo);
         o.setOperator(user);
         return o;
     }

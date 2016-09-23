@@ -93,6 +93,6 @@ public interface UserCoreService {
      * @param password 密码
      * @return 执行结果
      */
-    int ChangePasword(Long userId,String password);
+    int ChangePassword(Long userId, String password);
 
 }

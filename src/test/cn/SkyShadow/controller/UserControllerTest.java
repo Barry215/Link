@@ -31,7 +31,7 @@ public class UserControllerTest extends SpringBase{
         //u.setPassword("123456789");
         //logger.info("登录："+userController.getLoginResult(u,null,Session));
         logger.info("登录状态："+userController.getLoginState(session));
-        logger.info("退出："+userController.loginout(session));
+        logger.info("退出："+userController.loginOut(session));
         logger.info("登录状态："+userController.getLoginState(session));
         logger.info(session.getId());
     }

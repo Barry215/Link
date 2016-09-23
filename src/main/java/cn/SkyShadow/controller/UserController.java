@@ -89,9 +89,9 @@ public class UserController{
      * @param session 会话session
      * @return 是否成功
      */
-    @RequestMapping(value = "/loginout", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/loginOut", produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult<?> loginout(HttpSession session) {
+    public JsonResult<?> loginOut(HttpSession session) {
         try {
             session.removeAttribute(SessionNameEnum.user.getSessionName());
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
@@ -135,7 +135,7 @@ public class UserController{
     @ResponseBody
     public JsonResult<?> signUpNoEmail(HttpSession session, @RequestBody SignUpForm signUpForm) {
         try {
-            if (!kaptchaService.check(session,signUpForm.getImgcode(),MaxWrongNumEnum.REGISTER)){
+            if (!kaptchaService.check(session,signUpForm.getImgCode(),MaxWrongNumEnum.REGISTER)){
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
             }
             if (checkService.HasThisSessionRecord(session, SessionNameEnum.public_phone)
@@ -162,7 +162,7 @@ public class UserController{
     @ResponseBody
     public JsonResult<?> signUp(HttpSession session, @RequestBody SignUpForm signUpForm) {
         try {
-            if (!kaptchaService.check(session,signUpForm.getImgcode(),MaxWrongNumEnum.REGISTER)){
+            if (!kaptchaService.check(session,signUpForm.getImgCode(),MaxWrongNumEnum.REGISTER)){
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
             }
             if (!checkService.CheckEmailCode(session, SessionNameEnum.public_email, signUpForm.getEmailCode(), signUpForm.getUser().getEmail())) {
@@ -216,8 +216,8 @@ public class UserController{
 
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(email);
@@ -274,8 +274,8 @@ public class UserController{
                 }
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_OverLocking);
                 } else {
                     String r = phoneService.SendValidateCode(phone);
@@ -297,7 +297,7 @@ public class UserController{
     /**
      * 本方法用于在用户手机信息为空时，验证手机，要求在登录状态
      *
-     * @param session 会话sessio
+     * @param session 会话session
      * @param code    验证码
      * @return 验证结果
      */
@@ -370,7 +370,7 @@ public class UserController{
     public JsonResult<?> getPasswordProtected(HttpSession session) {
         try {
             if (!checkService.LoginState(session)) {
-                loginout(session);
+                loginOut(session);
             }
             PasswordProtected p = uService.getPasswordProtectByUserId(checkService.getUserId(session));
             return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(p));
@@ -410,8 +410,8 @@ public class UserController{
                 }
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_OverLocking);
                 } else {
                     String r;
@@ -460,8 +460,8 @@ public class UserController{
                 }
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(p.getEmail());
@@ -577,8 +577,8 @@ public class UserController{
                 }
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_OverLocking);
                 } else {
                     String r = phoneService.SendValidateCode(phone);
@@ -632,8 +632,8 @@ public class UserController{
                 }
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(email);
@@ -830,14 +830,14 @@ public class UserController{
                 if (pk == null) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_No_PasswordProtectedKey);
                 }
-                uService.ChangePasword(u.getUserId(), newPassword);
+                uService.ChangePassword(u.getUserId(), newPassword);
                 session.removeAttribute(SessionNameEnum.user_validate_password_protected_key.getSessionName());
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
             } else {
                 u.setPassword(oldPassword);
                 LoginResult l = uService.getLoginResult(u);
                 if (l.getResultNum() == 1) {
-                    uService.ChangePasword(u.getUserId(), newPassword);
+                    uService.ChangePassword(u.getUserId(), newPassword);
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
                 } else {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_ModifyPsd_WrongOldPsd);

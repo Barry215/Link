@@ -51,7 +51,7 @@ public class OccupationServiceImpl implements OccupationService {
     }
 
     @Override
-    public BaseExecution AddUserToOccupationCallBcak(Receipt<AddUserToOccupation> receipt) {
+    public BaseExecution AddUserToOccupationCallBack(Receipt<AddUserToOccupation> receipt) {
         if (receipt.isSuccess()){
             OccupationMapper.addUser(receipt.getApply().getOccupation().getOccupationId()
                     ,receipt.getApply().getPerson().getUserId());

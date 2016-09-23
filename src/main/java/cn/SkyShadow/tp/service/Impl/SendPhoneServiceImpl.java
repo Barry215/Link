@@ -13,7 +13,7 @@ public class SendPhoneServiceImpl implements SendPhoneService {
 				.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
 		Matcher matcher = pattern.matcher(Phone.substring(3));
 		if (!matcher.matches()) {
-			return "EROOR!";
+			return "ERROR!";
 		}
 		int validateCode = new Random().nextInt(899999) + 100000;
 		return validateCode + "";

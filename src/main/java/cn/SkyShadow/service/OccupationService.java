@@ -45,7 +45,7 @@ public interface OccupationService {
      * @param receipt 回执
      * @return 执行结果
      */
-    BaseExecution AddUserToOccupationCallBcak(Receipt<AddUserToOccupation> receipt);
+    BaseExecution AddUserToOccupationCallBack(Receipt<AddUserToOccupation> receipt);
 
     /**
      * 特定用户将用户开除出职位

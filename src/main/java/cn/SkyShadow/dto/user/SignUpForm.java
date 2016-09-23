@@ -17,14 +17,14 @@ public class SignUpForm {
      * 包装的用户报名信息
      */
     private User user;
-    private String imgcode;
+    private String imgCode;
 
-    public String getImgcode() {
-        return imgcode;
+    public String getImgCode() {
+        return imgCode;
     }
 
-    public void setImgcode(String imgcode) {
-        this.imgcode = imgcode;
+    public void setImgCode(String imgCode) {
+        this.imgCode = imgCode;
     }
 
     public String getPhoneCode() {

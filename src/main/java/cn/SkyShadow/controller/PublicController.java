@@ -155,8 +155,8 @@ public class PublicController{
 				}
 			} else {
 				Date date = new Date();
-				Date sessiondDate = e.getSendDate();
-				if (date.getTime() - sessiondDate.getTime() < 60000) {
+				Date sessionDate = e.getSendDate();
+				if (date.getTime() - sessionDate.getTime() < 60000) {
 					result = JsonResultFactory.CreateJsonResult_True("OVERCLOCKING!");
 				} else {
 					String r = emailService.SendValidateCode(email);
@@ -201,8 +201,8 @@ public class PublicController{
                 return JsonResultFactory.CreateJsonResult_True(r);
             } else {
 				Date date = new Date();
-				Date sessiondDate = e.getSendDate();
-				if (date.getTime() - sessiondDate.getTime() < 60000) {
+				Date sessionDate = e.getSendDate();
+				if (date.getTime() - sessionDate.getTime() < 60000) {
 					return JsonResultFactory.CreateJsonResult_True("OVERCLOCKING!");
 				} else {
 					String r = phoneService.SendValidateCode(phone);
@@ -271,8 +271,8 @@ public class PublicController{
                 return JsonResultFactory.CreateJsonResult_True(r);
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_OverLocking);
                 } else {
                     String r = phoneService.SendValidateCode(pp.getPhone());
@@ -318,8 +318,8 @@ public class PublicController{
                 return JsonResultFactory.CreateJsonResult_True(r);
             } else {
                 Date date = new Date();
-                Date sessiondDate = e.getSendDate();
-                if (date.getTime() - sessiondDate.getTime() < 60000) {
+                Date sessionDate = e.getSendDate();
+                if (date.getTime() - sessionDate.getTime() < 60000) {
                     return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_OverLocking);
                 } else {
                     String r = emailService.SendValidateCode(pp.getEmail());

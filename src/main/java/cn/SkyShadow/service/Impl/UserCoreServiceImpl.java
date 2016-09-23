@@ -71,7 +71,7 @@ public class UserCoreServiceImpl implements UserCoreService {
         return UserMapper.OpenOrClosePasswordChangeValidate(userId);
     }
 
-    public int ChangePasword(Long userId, String password) {
+    public int ChangePassword(Long userId, String password) {
         return UserMapper.changePassword(userId,password);
     }
 
