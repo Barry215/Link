@@ -6,7 +6,7 @@ import cn.SkyShadow.dao.ReceiptMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.Occupation;
-import cn.SkyShadow.model.apply.ApplyChildren.AddUserToOccupation;
+import cn.SkyShadow.model.apply.applyChildren.AddUserToOccupation;
 import cn.SkyShadow.model.apply.Receipt;
 import cn.SkyShadow.service.OccupationService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -182,18 +182,6 @@
         <info>手机已经验证过了</info>
     </result>
     <result>
-        <code>2001</code>
-        <isSuccess>false</isSuccess>
-        <name>Org_NULL_ORG</name>
-        <info>组织信息为空</info>
-    </result>
-    <result>
-        <code>2002</code>
-        <isSuccess>false</isSuccess>
-        <name>Org_NULL_User_ID</name>
-        <info>用户名为空</info>
-    </result>
-    <result>
         <code>2003</code>
         <isSuccess>false</isSuccess>
         <name>Org_FORMAT_NAME</name>
@@ -212,12 +200,6 @@
         <info>父组织不存在</info>
     </result>
     <result>
-        <code>2006</code>
-        <isSuccess>false</isSuccess>
-        <name>Org_NULL_LOCATION</name>
-        <info>地址未填写</info>
-    </result>
-    <result>
         <code>20001</code>
         <isSuccess>false</isSuccess>
         <name>DB_ERROR</name>
@@ -234,5 +216,17 @@
         <isSuccess>false</isSuccess>
         <name>NoApply</name>
         <info>需要申请</info>
+    </result>
+    <result>
+        <code>20004</code>
+        <name>NULL_ERROR</name>
+        <info>某些传入信息为空</info>
+        <isSuccess>false</isSuccess>
+    </result>
+    <result>
+        <code>20005</code>
+        <name>APPLY_ALREADY_FINISHED</name>
+        <isSuccess>false</isSuccess>
+        <info>申请已经被处理</info>
     </result>
 </results>

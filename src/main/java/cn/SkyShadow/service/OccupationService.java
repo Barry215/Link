@@ -2,8 +2,7 @@ package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
-import cn.SkyShadow.model.apply.Apply;
-import cn.SkyShadow.model.apply.ApplyChildren.AddUserToOccupation;
+import cn.SkyShadow.model.apply.applyChildren.AddUserToOccupation;
 import cn.SkyShadow.model.apply.Receipt;
 
 

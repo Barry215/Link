@@ -7,7 +7,8 @@ package cn.SkyShadow.enums;
 public enum OperationAuthorityEnum {
     FULL(1,"拥有权限"),
     APPLY_AVAILABLE(2,"可以申请"),
-    NULL(3,"没有权限")
+    NULL(3,"没有权限"),
+    APPLY_ALREADY_FINISHED(4,"申请已经被处理"),
     ;
     private int code;
     private String info;

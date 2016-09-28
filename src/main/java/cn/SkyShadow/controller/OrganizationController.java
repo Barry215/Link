@@ -65,6 +65,16 @@ public class OrganizationController {
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
+    @RequestMapping(value = "/{orgId}/getBaseInfo", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+    @ResponseBody
+    public JsonResult<?> method(@PathVariable("orgId") Long orgId){
+        try {
+            return JsonResultFactory.CreateJsonResult_True(orgService.getBaseInfo(orgId));
+        } catch (Exception e) {
+            exceptionHandle.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
+        }
+    }
     /*@RequestMapping(value = "/{param}/method", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
     @ResponseBody
     public JsonResult<?> method(String param){

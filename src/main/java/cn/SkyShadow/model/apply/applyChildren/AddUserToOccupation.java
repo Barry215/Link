@@ -1,4 +1,4 @@
-package cn.SkyShadow.model.apply.ApplyChildren;
+package cn.SkyShadow.model.apply.applyChildren;
 
 import cn.SkyShadow.model.Occupation;
 import cn.SkyShadow.model.User;
