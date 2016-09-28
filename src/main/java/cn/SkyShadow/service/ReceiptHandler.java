@@ -4,6 +4,7 @@ import cn.SkyShadow.enums.OperationAuthorityEnum;
 import cn.SkyShadow.enums.ResultMapper;
 import cn.SkyShadow.model.apply.Apply;
 import cn.SkyShadow.model.apply.Receipt;
+import cn.SkyShadow.service.Impl.ApplyInterceptorImpl;
 
 
 /**
@@ -13,8 +14,8 @@ import cn.SkyShadow.model.apply.Receipt;
 public abstract class ReceiptHandler<T extends Apply> {
     private ApplyInterceptor<T> applyInterceptor;
 
-    public ReceiptHandler(ApplyInterceptor applyInterceptor) {
-        this.applyInterceptor = applyInterceptor;
+    public ReceiptHandler() {
+        this.applyInterceptor = new ApplyInterceptorImpl<>();
     }
     public ResultMapper handler(Receipt<T> receipt){
         if (receipt==null){

@@ -5,6 +5,7 @@ import cn.SkyShadow.enums.ApplyModel;
 import cn.SkyShadow.enums.OperationAuthorityEnum;
 import cn.SkyShadow.enums.ResultMapper;
 import cn.SkyShadow.model.apply.Apply;
+import cn.SkyShadow.service.Impl.ApplyInterceptorImpl;
 
 
 /**
@@ -14,8 +15,8 @@ import cn.SkyShadow.model.apply.Apply;
 public abstract class ApplyHandler<T extends Apply> {
     private ApplyInterceptor<T> applyInterceptor;
 
-    protected ApplyHandler(ApplyInterceptor<T> applyInterceptor) {
-        this.applyInterceptor = applyInterceptor;
+    protected ApplyHandler() {
+        this.applyInterceptor = new ApplyInterceptorImpl<>();
     }
 
     public abstract ResultMapper doSomeThing_FULL(T apply);
