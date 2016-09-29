@@ -5,6 +5,7 @@ import cn.SkyShadow.enums.ApplyModel;
 import cn.SkyShadow.enums.OperationAuthorityEnum;
 import cn.SkyShadow.enums.ResultMapper;
 import cn.SkyShadow.model.apply.Apply;
+import cn.SkyShadow.service.Impl.ApplyInterceptorImpl;
 
 
 /**
@@ -14,13 +15,13 @@ import cn.SkyShadow.model.apply.Apply;
 public abstract class ApplyHandler<T extends Apply> {
     private ApplyInterceptor<T> applyInterceptor;
 
-    public final void setApplyInterceptor(ApplyInterceptor<T> applyInterceptor) {
-        this.applyInterceptor = applyInterceptor;
+    protected ApplyHandler() {
+        this.applyInterceptor = new ApplyInterceptorImpl<>();
     }
 
-    abstract ResultMapper doSomeThing_FULL(T apply);
-    abstract ResultMapper doSomeThing_APPLY_AVAILABLE(T apply);
-    public ResultMapper doSomeThing_NULL(){
+    public abstract ResultMapper doSomeThing_FULL(T apply);
+    public abstract ResultMapper doSomeThing_APPLY_AVAILABLE(T apply);
+    private ResultMapper doSomeThing_NULL(){
         return ResultMapper.NeedAuthority;
     }
     public final ResultMapper handler(T apply, ApplyModel applyModel){
@@ -37,14 +38,14 @@ public abstract class ApplyHandler<T extends Apply> {
                     return ResultMapper.NoApply;
                 }
                 else{
-                    return ResultMapper.NeedAuthority;
+                    return doSomeThing_NULL();
                 }
             }
             if (applyModel==ApplyModel.APPLY_MODEL){
                 if (op==OperationAuthorityEnum.APPLY_AVAILABLE||op==OperationAuthorityEnum.FULL){
                     return doSomeThing_APPLY_AVAILABLE(apply);
                 }else{
-                    return ResultMapper.NeedAuthority;
+                    return doSomeThing_NULL();
                 }
             }
         }

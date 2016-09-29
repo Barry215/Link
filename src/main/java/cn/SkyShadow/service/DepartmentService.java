@@ -2,9 +2,8 @@ package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
-import cn.SkyShadow.model.apply.Apply;
-import cn.SkyShadow.model.apply.ApplyChildren.AddAdmin;
-import cn.SkyShadow.model.apply.ApplyChildren.DeliverDepartmentCreator;
+import cn.SkyShadow.model.apply.applyChildren.AddAdmin;
+import cn.SkyShadow.model.apply.applyChildren.DeliverDepartmentCreator;
 import cn.SkyShadow.model.apply.Receipt;
 
 

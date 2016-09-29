@@ -1,7 +1,5 @@
 package cn.SkyShadow.dao;
-import cn.SkyShadow.model.apply.ApplyChildren.ApplyParentOrg;
-import cn.SkyShadow.model.apply.ApplyChildren.ApplyUnlockParentOrg;
-import cn.SkyShadow.model.apply.ApplyChildren.CommandDepartmentLeader;
+import cn.SkyShadow.model.apply.applyChildren.ModifyOrganization;
 
 /**
  * 申请数据处理
@@ -9,10 +7,5 @@ import cn.SkyShadow.model.apply.ApplyChildren.CommandDepartmentLeader;
  */
 public interface ApplyMapper {
     // TODO: 9/21/2016  
-    int CreateApplyParentOrg(ApplyParentOrg apply);
-    int RemoveApplyParentOrg(Long applyId);
-    int CreateApplyUnlockParentOrg(ApplyUnlockParentOrg apply);
-    int RemoveApplyUnlockParentOrg(Long applyId);
-    int CreateCommandDepartmentLeader(CommandDepartmentLeader apply);
-    int RemoveCommandDepartmentLeader(Long applyId);
+    int ModifyOrganization(ModifyOrganization modifyOrganization);
 }

@@ -1,23 +1,23 @@
-package cn.SkyShadow.model.apply.ApplyChildren;
+package cn.SkyShadow.model.apply.applyChildren;
 
 import cn.SkyShadow.model.Organization;
 import cn.SkyShadow.model.User;
 import cn.SkyShadow.model.apply.Apply;
 
 /**
- * 转移组织的创建者
+ * 添加管理员
  * Created by RichardW on 9/22/2016.
  */
-public class DeliverDepartmentCreator extends Apply {
-    private User creator;
+public class AddAdmin extends Apply {
+    private User admin;
     private Organization organization;
 
-    public User getCreator() {
-        return creator;
+    public User getAdmin() {
+        return admin;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setAdmin(User admin) {
+        this.admin = admin;
     }
 
     public Organization getOrganization() {

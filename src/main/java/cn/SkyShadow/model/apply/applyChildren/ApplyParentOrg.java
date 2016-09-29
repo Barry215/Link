@@ -1,13 +1,13 @@
-package cn.SkyShadow.model.apply.ApplyChildren;
+package cn.SkyShadow.model.apply.applyChildren;
 
-import cn.SkyShadow.model.Organization;
 import cn.SkyShadow.model.apply.Apply;
+import cn.SkyShadow.model.Organization;
 
 /**
- * 解除父组织关系
+ * 申请父组织
  * Created by RichardW on 9/21/2016.
  */
-public class ApplyUnlockParentOrg extends Apply{
+public class ApplyParentOrg extends Apply{
     private Organization son;
     private Organization father;
 

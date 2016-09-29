@@ -4,7 +4,7 @@ import cn.SkyShadow.dao.*;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
-import cn.SkyShadow.model.apply.ApplyChildren.AddFriend;
+import cn.SkyShadow.model.apply.applyChildren.AddFriend;
 import cn.SkyShadow.model.apply.Receipt;
 import cn.SkyShadow.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;

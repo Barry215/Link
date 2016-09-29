@@ -2,7 +2,7 @@ package cn.SkyShadow.service;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.model.*;
-import cn.SkyShadow.model.apply.ApplyChildren.AddFriend;
+import cn.SkyShadow.model.apply.applyChildren.AddFriend;
 import cn.SkyShadow.model.apply.Receipt;
 
 import java.util.List;
