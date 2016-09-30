@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
     private final FileGroupMapper FileGroupMapper;
     private final ExprMapper ExprMapper;
     private final OrganizationMapper OrganizationMapper;
-    @Autowired(required = false)
+
     public FileServiceImpl(VoiceMapper VoiceMapper, VideoMapper VideoMapper, ImagineMapper ImagineMapper, FileMapper FileMapper, FileGroupMapper FileGroupMapper, ExprMapper ExprMapper, OrganizationMapper OrganizationMapper) {
         this.VoiceMapper = VoiceMapper;
         this.VideoMapper = VideoMapper;

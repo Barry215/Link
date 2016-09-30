@@ -21,7 +21,7 @@ public class PublicServiceImpl implements PublicService {
     private final CityMapper CityMapper;
     private final CountryMapper CountryMapper;
 
-    @Autowired(required = false)
+
     public PublicServiceImpl(UserMapper uMapper, CityMapper CityMapper, CountryMapper CountryMapper) {
         this.uMapper = uMapper;
         this.CityMapper = CityMapper;

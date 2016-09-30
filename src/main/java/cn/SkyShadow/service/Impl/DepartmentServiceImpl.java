@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DepartmentServiceImpl implements DepartmentService {
     private final OrganizationMapper OrganizationMapper;
     private final ReceiptMapper receiptMapper;
-    @Autowired(required = false)
+
     public DepartmentServiceImpl(OrganizationMapper OrganizationMapper, ReceiptMapper receiptMapper) {
         this.OrganizationMapper = OrganizationMapper;
         this.receiptMapper = receiptMapper;

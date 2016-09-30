@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 扫描文件（自动将service层注入） -->
-    <context:component-scan base-package="cn.SkyShadow.service"/>
-    <context:component-scan base-package="cn.SkyShadow.tp.service"/>
-    <context:component-scan base-package="cn.SkyShadow.basic_component"/>
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="announceService" class="cn.SkyShadow.service.Impl.AnnounceServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.AnnounceMapper" ref="announceMapper"/>
+    </bean>
+    <bean id="applyInterceptor" class="cn.SkyShadow.service.Impl.ApplyInterceptorImpl"/>
+    <bean id="checkService" class="cn.SkyShadow.service.Impl.CheckServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.UserMapper" ref="userMapper"/>
+    </bean>
+    <bean id="departmentService" class="cn.SkyShadow.service.Impl.DepartmentServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.OrganizationMapper" ref="organizationMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ReceiptMapper" ref="receiptMapper"/>
+    </bean>
+    <bean id="fileService" class="cn.SkyShadow.service.Impl.FileServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.FileGroupMapper" ref="fileGroupMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.VideoMapper" ref="videoMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.OrganizationMapper" ref="organizationMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.FileMapper" ref="fileMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ImagineMapper" ref="imagineMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.VoiceMapper" ref="voiceMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ExprMapper" ref="exprMapper"/>
+    </bean>
+    <bean id="friendService" class="cn.SkyShadow.service.Impl.FriendServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.UserMapper" ref="userMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.FriendMapper" ref="friendMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ReceiptMapper" ref="receiptMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.FriendGroupMapper" ref="friendGroupMapper"/>
+    </bean>
+    <bean id="kaptchaService" class="cn.SkyShadow.service.Impl.KaptchaServiceImpl"/>
+    <bean id="locationService" class="cn.SkyShadow.service.Impl.LocationServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.LocationMapper" ref="locationMapper"/>
+    </bean>
+    <bean id="mailService" class="cn.SkyShadow.service.Impl.MailServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.MailMapper" ref="mailMapper"/>
+    </bean>
+    <bean id="occupationService" class="cn.SkyShadow.service.Impl.OccupationServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.OccupationMapper" ref="occupationMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ReceiptMapper" ref="receiptMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ApplyMapper" ref="applyMapper"/>
+    </bean>
+    <bean id="orgService" class="cn.SkyShadow.service.Impl.OrgServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.OrganizationMapper" ref="organizationMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ReceiptMapper" ref="receiptMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.ApplyMapper" ref="applyMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.LocationMapper" ref="locationMapper"/>
+    </bean>
+    <bean id="publicService" class="cn.SkyShadow.service.Impl.PublicServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.UserMapper" ref="userMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.CountryMapper" ref="countryMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.CityMapper" ref="cityMapper"/>
+    </bean>
+    <bean id="sessionService" class="cn.SkyShadow.service.Impl.SessionServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.SessionMapper" ref="sessionMapper"/>
+        <constructor-arg type="cn.SkyShadow.dao.MessageMapper" ref="messageMapper"/>
+    </bean>
+    <bean id="userCoreService" class="cn.SkyShadow.service.Impl.UserCoreServiceImpl">
+        <constructor-arg type="cn.SkyShadow.dao.UserMapper" ref="userMapper"/>
+    </bean>
+    <bean id="readProperties" class="cn.SkyShadow.tp.service.Impl.ReadProperties"/>
+    <bean id="readXml" class="cn.SkyShadow.tp.service.Impl.ReadXml"/>
+    <bean id="sendEmailService" class="cn.SkyShadow.tp.service.Impl.SendEmailServiceImpl"/>
+    <bean id="sendPhoneService" class="cn.SkyShadow.tp.service.Impl.SendPhoneServiceImpl"/>
+    <bean id="exceptionHandler" class="cn.SkyShadow.basic_component.Impl.ExceptionHandlerImpl"/>
+    <bean id="certificateHandler" class="cn.SkyShadow.basic_component.Impl.CertificateHandlerImpl"/>
 </beans>

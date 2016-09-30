@@ -24,7 +24,7 @@ public class FriendServiceImpl implements FriendService {
     private final UserMapper UserMapper;
     private final ReceiptMapper receiptMapper;
     private final FriendGroupMapper FriendGroupMapper;
-    @Autowired(required = false)
+
     public FriendServiceImpl(FriendMapper FriendMapper, UserMapper UserMapper,ReceiptMapper receiptMapper, FriendGroupMapper FriendGroupMapper) {
         this.FriendMapper = FriendMapper;
         this.UserMapper = UserMapper;

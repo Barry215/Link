@@ -21,7 +21,7 @@ import java.util.List;
 public class SessionServiceImpl implements SessionService {
     private final SessionMapper SessionMapper;
     private final MessageMapper MessageMapper;
-    @Autowired(required = false)
+
     public SessionServiceImpl(SessionMapper SessionMapper, MessageMapper MessageMapper) {
         this.SessionMapper = SessionMapper;
         this.MessageMapper = MessageMapper;

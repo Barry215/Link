@@ -31,7 +31,7 @@ public class OrgServiceImpl implements OrgService {
     private final ReceiptMapper receiptMapper;
     private final ApplyMapper applyMapper;
 
-    @Autowired(required = false)
+
     public OrgServiceImpl(OrganizationMapper OrganizationMapper, LocationMapper lMapper, ApplyMapper applyMapper, ReceiptMapper receiptMapper) {
         this.OrganizationMapper = OrganizationMapper;
         this.lMapper = lMapper;

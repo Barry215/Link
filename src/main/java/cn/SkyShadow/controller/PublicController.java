@@ -33,7 +33,7 @@ public class PublicController{
 	private final SendPhoneService phoneService;
 	private final ExceptionHandler exceptionHandle;
 
-	@Autowired
+
 	public PublicController(SendEmailService emailService, PublicService p, SendPhoneService phoneService, ExceptionHandler exceptionHandle) {
 		this.emailService = emailService;
 		this.p = p;

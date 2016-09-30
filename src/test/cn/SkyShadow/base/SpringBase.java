@@ -2,6 +2,8 @@ package cn.SkyShadow.base;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,4 +32,6 @@ public class SpringBase {
     public MockHttpServletResponse getResponse() {
         return response;
     }
+
+    protected ApplicationContext applicationContext = new ClassPathXmlApplicationContext("config/spring-dao.xml","classpath:config/spring-service.xml","classpath:config/spring-mvc.xml");
 }

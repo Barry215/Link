@@ -30,7 +30,7 @@ public class OrganizationController {
     private final KaptchaService kaptchaService;
     private final CheckService checkService;
 
-    @Autowired
+
     public OrganizationController(OrgService orgService, ExceptionHandler exceptionHandle, KaptchaService kaptchaService, CheckService checkService) {
         this.orgService = orgService;
         this.exceptionHandle = exceptionHandle;

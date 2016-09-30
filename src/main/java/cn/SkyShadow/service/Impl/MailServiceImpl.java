@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class MailServiceImpl implements MailService {
     private final MailMapper MailMapper;
-    @Autowired(required = false)
+
     public MailServiceImpl(MailMapper MailMapper) {
         this.MailMapper = MailMapper;
     }

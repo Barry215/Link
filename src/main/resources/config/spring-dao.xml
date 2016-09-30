@@ -44,9 +44,118 @@
         <property name="configLocation" value="classpath:config/mybatis-config.xml"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
-    <!-- spring与mybatis整合配置，扫描所有dao -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.SkyShadow.dao"/>
-        <property name="sqlSessionFactoryBeanName"  value="sqlSessionFactory"/>
+    <!--配置mapper-->
+    <bean id="announceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.AnnounceMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="applyMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.ApplyMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="atMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.AtMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="cityMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.CityMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="contentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.ContentMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="countryMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.CountryMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="exprMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.ExprMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="fileGroupMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.FileGroupMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="fileMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.FileMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="friendGroupMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.FriendGroupMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="friendMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.FriendMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="imagineMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.ImagineMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="locationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.LocationMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="mailboxGroupMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.MailboxGroupMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="mailboxMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.MailboxMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="mailMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.MailMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="messageMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.MessageMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="nominateMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.NominateMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="occupationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.OccupationMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="organizationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.OrganizationMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="receiptMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.ReceiptMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="schoolMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.SchoolMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="sessionMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.SessionMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="userGroupMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.UserGroupMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.UserMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="userSchoolMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.UserSchoolMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="videoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.VideoMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="voiceMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.SkyShadow.dao.VoiceMapper"/>
+        <property name="sqlSessionFactory"  ref="sqlSessionFactory"/>
     </bean>
 </beans>

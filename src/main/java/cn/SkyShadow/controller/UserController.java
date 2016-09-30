@@ -40,7 +40,7 @@ public class UserController{
     private final ExceptionHandler exceptionHandle;
     private final KaptchaService kaptchaService;
 
-    @Autowired
+
     public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, ExceptionHandler exceptionHandle, KaptchaService kaptchaService) {
         this.pService = pService;
         this.uService = uService;
