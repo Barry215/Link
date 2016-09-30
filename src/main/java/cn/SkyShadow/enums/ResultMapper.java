@@ -52,7 +52,7 @@ public enum ResultMapper {
     private int code;
     private String info;
     private String resultName;
-    private ReadConfigFile readConfigFile = new ReadXml();
+    private static ReadConfigFile readConfigFile = new ReadXml();
 
 
     ResultMapper() {
