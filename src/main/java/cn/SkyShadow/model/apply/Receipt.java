@@ -4,6 +4,7 @@ package cn.SkyShadow.model.apply;
 import cn.SkyShadow.model.User;
 
 public class Receipt<T extends Apply> {
+    private Long id;
     private T apply;
     private boolean success;
     private String reason;
@@ -39,5 +40,13 @@ public class Receipt<T extends Apply> {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -1,20 +1,17 @@
 package cn.SkyShadow.service.Impl;
 
-import cn.SkyShadow.dao.ApplyMapper;
 import cn.SkyShadow.dao.LocationMapper;
 import cn.SkyShadow.dao.OrganizationMapper;
-import cn.SkyShadow.dao.ReceiptMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.enums.ApplyModel;
+import cn.SkyShadow.factory.ApplyHandlerFactory;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.enums.ResultMapper;
+import cn.SkyShadow.factory.ReceiptHandlerFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.model.apply.Receipt;
 import cn.SkyShadow.model.apply.applyChildren.*;
-import cn.SkyShadow.service.ApplyHandler;
 import cn.SkyShadow.service.OrgService;
-import cn.SkyShadow.service.ReceiptHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,17 +25,16 @@ public class OrgServiceImpl implements OrgService {
 
     private final OrganizationMapper OrganizationMapper;
     private final LocationMapper lMapper;
-    private final ReceiptMapper receiptMapper;
-    private final ApplyMapper applyMapper;
+    private final ApplyHandlerFactory applyHandlerFactory;
+    private final ReceiptHandlerFactory receiptHandlerFactory;
 
 
-    public OrgServiceImpl(OrganizationMapper OrganizationMapper, LocationMapper lMapper, ApplyMapper applyMapper, ReceiptMapper receiptMapper) {
+    public OrgServiceImpl(OrganizationMapper OrganizationMapper, LocationMapper lMapper, ApplyHandlerFactory applyHandlerFactory, ReceiptHandlerFactory receiptHandlerFactory) {
         this.OrganizationMapper = OrganizationMapper;
         this.lMapper = lMapper;
-        this.receiptMapper = receiptMapper;
-        this.applyMapper = applyMapper;
+        this.applyHandlerFactory = applyHandlerFactory;
+        this.receiptHandlerFactory = receiptHandlerFactory;
     }
-
 
     @Override
     public BaseExecution CreateNewOrg(Organization org) {
@@ -77,7 +73,7 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public Organization getBaseInfo(Long orgId) {
-        return OrganizationMapper.getBaseInfo(orgId);
+        return OrganizationMapper.selectBaseInfo(orgId);
     }
 
 
@@ -87,21 +83,12 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public ResultMapper modifyOrganization(ModifyOrganization apply, ApplyModel applyModel) {
-        ApplyHandler<ModifyOrganization> applyHandler = new ApplyHandler<ModifyOrganization>() {
-            @Override
-            public ResultMapper doSomeThing_FULL(ModifyOrganization apply) {
-                OrganizationMapper.updateByPrimaryKeySelective(apply.getOrganization());
-                return ResultMapper.SUCCESS;
-            }
-
-            @Override
-            public ResultMapper doSomeThing_APPLY_AVAILABLE(ModifyOrganization apply) {
-                applyMapper.ModifyOrganization(apply);
-                return ResultMapper.SUCCESS;
-            }
-        };
-        return applyHandler.handler(apply,applyModel);
+    public BaseExecution modifyOrganization(ModifyOrganization apply, ApplyModel applyModel) {
+        ResultMapper resultMapper =applyHandlerFactory.getModifyOrganizationApplyHandler().handler(apply,applyModel);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,apply);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -109,42 +96,27 @@ public class OrgServiceImpl implements OrgService {
      * @return 执行过程
      */
     @Override
-    public ResultMapper modifyOrganizationCallBack(Receipt<ModifyOrganization> receipt) {
-        ReceiptHandler<ModifyOrganization> receiptHandler = new ReceiptHandler<ModifyOrganization>() {
-            @Override
-            public void doIfAgree() {
-                OrganizationMapper.updateByPrimaryKeySelective(receipt.getApply().getOrganization());
-                receiptMapper.Create(receipt);
-            }
-
-            @Override
-            public void doIfDisagree() {
-                receiptMapper.Create(receipt);
-            }
-        };
-        return receiptHandler.handler(receipt);
+    public BaseExecution modifyOrganizationCallBack(Receipt<ModifyOrganization> receipt) {
+        ResultMapper resultMapper= receiptHandlerFactory.getModifyOrganizationReceiptHandler().handler(receipt);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,receipt);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
      * 向外申请父组织
      *
-     * @param applyParentOrg 申请
+     * @param apply 申请
      * @return 执行
      */
     @Override
-    public ResultMapper applyFatherOrganization(ApplyParentOrg applyParentOrg) {
-        ApplyHandler<ApplyParentOrg> applyHandler = new ApplyHandler<ApplyParentOrg>() {
-            @Override
-            public ResultMapper doSomeThing_FULL(ApplyParentOrg apply) {
-                return null;// TODO: 9/28/2016  
-            }
-
-            @Override
-            public ResultMapper doSomeThing_APPLY_AVAILABLE(ApplyParentOrg apply) {
-                return null;
-            }
-        };
-        return applyHandler.handler(applyParentOrg,ApplyModel.APPLY_MODEL);
+    public BaseExecution applyFatherOrganization(ApplyParentOrg apply) {
+        ResultMapper resultMapper= applyHandlerFactory.getApplyParentOrgApplyHandler().handler(apply,ApplyModel.APPLY_MODEL);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,apply);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -154,41 +126,27 @@ public class OrgServiceImpl implements OrgService {
      * @return 处理结果
      */
     @Override
-    public ResultMapper applyFatherOrganizationCallback(Receipt<ApplyParentOrg> receipt) {
-        ReceiptHandler<ApplyParentOrg> receiptHandler = new ReceiptHandler<ApplyParentOrg>() {
-            @Override
-            public void doIfAgree() {
-            }
-
-            @Override
-            public void doIfDisagree() {
-                
-            }
-        };
-        return receiptHandler.handler(receipt);
+    public BaseExecution applyFatherOrganizationCallback(Receipt<ApplyParentOrg> receipt) {
+        ResultMapper resultMapper =receiptHandlerFactory.getApplyParentOrgReceiptHandler().handler(receipt);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,receipt);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
      * 向外申请解除父组织
      *
-     * @param unlockParentOrg 申请
+     * @param apply 申请
      * @return 执行
      */
     @Override
-    public ResultMapper applyUnlockFatherOrganization(ApplyUnlockParentOrg unlockParentOrg) {
-        ApplyHandler<ApplyUnlockParentOrg> applyHandler = new ApplyHandler<ApplyUnlockParentOrg>() {
-
-            @Override
-            public ResultMapper doSomeThing_FULL(ApplyUnlockParentOrg apply) {
-                return null;
-            }
-
-            @Override
-            public ResultMapper doSomeThing_APPLY_AVAILABLE(ApplyUnlockParentOrg apply) {
-                return null;
-            }
-        };
-        return applyHandler.handler(unlockParentOrg,ApplyModel.APPLY_MODEL);
+    public BaseExecution applyUnlockFatherOrganization(ApplyUnlockParentOrg apply) {
+        ResultMapper resultMapper =applyHandlerFactory.getApplyUnlockParentOrgApplyHandler().handler(apply,ApplyModel.APPLY_MODEL);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,apply);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -198,42 +156,27 @@ public class OrgServiceImpl implements OrgService {
      * @return 处理结果
      */
     @Override
-    public ResultMapper applyUnlockFatherOrganizationCallback(Receipt<ApplyUnlockParentOrg> receipt) {
-        ReceiptHandler<ApplyUnlockParentOrg> receiptHandler = new ReceiptHandler<ApplyUnlockParentOrg>() {
-            @Override
-            public void doIfAgree() {
-                
-            }
-
-            @Override
-            public void doIfDisagree() {
-
-            }
-        };
-        return receiptHandler.handler(receipt);
+    public BaseExecution applyUnlockFatherOrganizationCallback(Receipt<ApplyUnlockParentOrg> receipt) {
+        ResultMapper resultMapper =receiptHandlerFactory.getApplyUnlockParentOrgReceiptHandler().handler(receipt);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,receipt);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
      * 申请转让组织的创建者
      *
-     * @param deliverOrg 申请
+     * @param apply 申请
      * @return 执行结果
      */
     @Override
-    public ResultMapper deliverOrganization(DeliverOrg deliverOrg) {
-        ApplyHandler<DeliverOrg> applyHandler = new ApplyHandler<DeliverOrg>() {
-
-            @Override
-            public ResultMapper doSomeThing_FULL(DeliverOrg apply) {
-                return null;
-            }
-
-            @Override
-            public ResultMapper doSomeThing_APPLY_AVAILABLE(DeliverOrg apply) {
-                return null;
-            }
-        };
-        return applyHandler.handler(deliverOrg,ApplyModel.APPLY_MODEL);
+    public BaseExecution deliverOrganization(DeliverOrg apply) {
+        ResultMapper resultMapper = applyHandlerFactory.getDeliverOrgApplyHandler().handler(apply,ApplyModel.APPLY_MODEL);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,apply);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -243,19 +186,12 @@ public class OrgServiceImpl implements OrgService {
      * @return 执行结果
      */
     @Override
-    public ResultMapper deliverOrganizationCallback(Receipt<DeliverOrg> receipt) {
-        ReceiptHandler<DeliverOrg> receiptHandler = new ReceiptHandler<DeliverOrg>() {
-            @Override
-            public void doIfAgree() {
-
-            }
-
-            @Override
-            public void doIfDisagree() {
-
-            }
-        };
-        return receiptHandler.handler(receipt);
+    public BaseExecution deliverOrganizationCallback(Receipt<DeliverOrg> receipt) {
+        ResultMapper resultMapper = receiptHandlerFactory.getDeliverOrgReceiptHandler().handler(receipt);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,receipt);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -265,20 +201,12 @@ public class OrgServiceImpl implements OrgService {
      * @return 执行结果
      */
     @Override
-    public ResultMapper addAdmin(AddAdmin addAdmin) {
-        ApplyHandler<AddAdmin> applyHandler = new ApplyHandler<AddAdmin>() {
-
-            @Override
-            public ResultMapper doSomeThing_FULL(AddAdmin apply) {
-                return null;
-            }
-
-            @Override
-            public ResultMapper doSomeThing_APPLY_AVAILABLE(AddAdmin apply) {
-                return null;
-            }
-        };
-        return applyHandler.handler(addAdmin,ApplyModel.APPLY_MODEL);
+    public BaseExecution addAdmin(AddAdmin addAdmin) {
+        ResultMapper resultMapper= applyHandlerFactory.getAddAdminApplyHandler().handler(addAdmin,ApplyModel.APPLY_MODEL);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,addAdmin);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -288,19 +216,12 @@ public class OrgServiceImpl implements OrgService {
      * @return 执行结果
      */
     @Override
-    public ResultMapper addAdminCallback(Receipt<AddAdmin> receipt) {
-        ReceiptHandler<AddAdmin> receiptHandler = new ReceiptHandler<AddAdmin>() {
-            @Override
-            public void doIfAgree() {
-
-            }
-
-            @Override
-            public void doIfDisagree() {
-
-            }
-        };
-        return receiptHandler.handler(receipt);
+    public BaseExecution addAdminCallback(Receipt<AddAdmin> receipt) {
+        ResultMapper resultMapper =receiptHandlerFactory.getAddAdminReceiptHandler().handler(receipt);
+        if (resultMapper==ResultMapper.SUCCESS){
+            return ExecutionFactory.getExecution(resultMapper,receipt);
+        }
+        return ExecutionFactory.getExecution(resultMapper);
     }
 
     /**
@@ -311,7 +232,7 @@ public class OrgServiceImpl implements OrgService {
      * @return 执行结果
      */
     @Override
-    public ResultMapper deleteOrganization(Long userId, Long orgId) {
+    public BaseExecution deleteOrganization(Long userId, Long orgId) {
         return null;// TODO: 9/28/2016
     }
 

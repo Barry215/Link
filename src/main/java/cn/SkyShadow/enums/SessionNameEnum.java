@@ -2,8 +2,6 @@ package cn.SkyShadow.enums;
 
 import cn.SkyShadow.tp.service.Impl.ReadProperties;
 import cn.SkyShadow.tp.service.ReadConfigFile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * session的名称
@@ -24,15 +22,18 @@ public enum SessionNameEnum {
 
     private String sessionName;
     private String info;
-    private ReadConfigFile readProperties = new ReadProperties();
+    private static ReadConfigFile readProperties = new ReadProperties();
     SessionNameEnum() {
         this.sessionName = this.name();
         try {
-            readProperties.setPath("/resultConfig/sessionName.properties");
-            this.info = (String) readProperties.getValue(sessionName);
+            read();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void read() throws Exception {
+        readProperties.setPath("/resultConfig/sessionName.properties");
+        this.info = (String) readProperties.getValue(sessionName);
     }
 
     public String getSessionName() {

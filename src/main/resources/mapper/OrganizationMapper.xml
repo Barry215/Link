@@ -1,100 +1,141 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.SkyShadow.dao.OrganizationMapper">
-	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Organization">
-		<id column="ORG_ID" property="orgId"  jdbcType="BIGINT" />
-		<result column="NAME" property="name" jdbcType="VARCHAR" />
-		<result column="TYPE" property="type" jdbcType="VARCHAR" />
-		<association column="LOCATION" property="location"
-			select="cn.SkyShadow.dao.LocationMapper.selectByPrimaryKey" />
-		<association column="PARENT_ID" property="parentId"
-			select="cn.SkyShadow.dao.OrganizationMapper.selectBaseInfo" />
-		<association column="CREATOR_ID" property="creatorId"
-			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo" />
-		<collection property="Announces" column="ORD_ID" select="selectAnnounces" />
-		<collection property="sonOrganizations" column="ORG_ID"
-			select="selectSonOrganizations" />
-	</resultMap>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-            ORG_ID, NAME, LOCATION, PARENT_ID, CREATOR_ID,TYPE
-		from organization
-		where ORG_ID = #{orgId,jdbcType=BIGINT}
-	</select>
-	<select id="selectAnnounces" resultMap="cn.SkyShadow.dao.AnnounceMapper.BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-		ANN_ID, CONTENT_ID, TIME,AUTHOR
-		from
-		Announce where
-		ORG_ID = #{orgId jdbcType="BIGINT"}
-	</select>
-	<select id="selectSonOrganizations" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-		ORG_ID, NAME, CREATOR_ID,TYPE
-		from organization
-		where PARENT_ID = #{orgId,jdbcType=BIGINT}
-	</select>
-	<select id="selectBaseInfo" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-		ORG_ID, NAME, LOCATION, CREATOR_ID,TYPE
-		from organization
-		where ORG_ID = #{orgId,jdbcType=BIGINT}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from
-		organization
-		where ORG_ID = #{orgId,jdbcType=BIGINT}
-	</delete>
-	<insert id="insert" parameterType="cn.SkyShadow.model.Organization" keyProperty="orgId">
-		insert ignore into
-		organization (ORG_ID, NAME, LOCATION,
-		PARENT_ID, CREATOR_ID,TYPE )
-		values
-		(#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
-		#{location.locationId,jdbcType=BIGINT},
-		#{parentId.organizationId,jdbcType=BIGINT},
-		#{creatorId.userId,jdbcType=BIGINT},
-		#{type,jdbcType=VARCHAR})
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="cn.SkyShadow.model.Organization">
-		update organization
-		<set>
-			<if test="name != null">
-				NAME = #{name,jdbcType=VARCHAR},
-			</if>
-			<if test="location != null">
-				LOCATION = #{location.locationId,jdbcType=BIGINT},
-			</if>
-			<if test="parentId != null">
-				PARENT_ID = #{parentId.organizationId,jdbcType=BIGINT},
-			</if>
-			<if test="creatorId != null">
-				CREATOR_ID = #{creatorId.userId,jdbcType=BIGINT},
-			</if>
-		</set>
-		where ORG_ID = #{orgId,jdbcType=BIGINT}
-	</update>
-	<select id="GetFileList" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		SELECT * FROM `file` WHERE ASCRIPTION_TYPE = 'ORGANIZATION' AND organization = #{organizationID,jdbcType=BIGINT};
-	</select>
+    <resultMap id="BaseResultMap" type="cn.SkyShadow.model.Organization">
+        <id column="ORG_ID" property="orgId" jdbcType="BIGINT"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="TYPE" property="type" jdbcType="VARCHAR"/>
+        <association column="LOCATION" property="location"
+                     select="cn.SkyShadow.dao.LocationMapper.selectByPrimaryKey"/>
+        <association column="PARENT_ID" property="parentId"
+                     select="cn.SkyShadow.dao.OrganizationMapper.selectBaseInfo"/>
+        <association column="CREATOR_ID" property="creatorId"
+                     select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+        <collection property="Announces" column="ORD_ID" select="selectAnnounces"/>
+        <collection property="sonOrganizations" column="ORG_ID"
+                    select="selectSonOrganizations"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            ORG_ID,
+            NAME,
+            LOCATION,
+            PARENT_ID,
+            CREATOR_ID,
+            TYPE
+        FROM organization
+        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPrimaryKeyTemp" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+        ORG_ID,
+        NAME,
+        LOCATION,
+        PARENT_ID,
+        CREATOR_ID,
+        TYPE
+        FROM organization_temporary
+        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAnnounces" resultMap="cn.SkyShadow.dao.AnnounceMapper.BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            ANN_ID,
+            CONTENT_ID,
+            TIME,
+            AUTHOR
+        FROM
+            Announce
+        WHERE
+            ORG_ID = #{orgId jdbcType="BIGINT"}
+    </select>
+    <select id="selectSonOrganizations" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            ORG_ID,
+            NAME,
+            CREATOR_ID,
+            TYPE
+        FROM organization
+        WHERE PARENT_ID = #{orgId,jdbcType=BIGINT}
+    </select>
+    <select id="selectBaseInfo" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            ORG_ID,
+            NAME,
+            LOCATION,
+            CREATOR_ID,
+            TYPE
+        FROM organization
+        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM
+            organization
+        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.SkyShadow.model.Organization" keyProperty="orgId">
+        INSERT IGNORE INTO
+            organization (ORG_ID, NAME, LOCATION,
+                          PARENT_ID, CREATOR_ID, TYPE)
+        VALUES
+            (#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+             #{location.locationId,jdbcType=BIGINT},
+             #{parentId.organizationId,jdbcType=BIGINT},
+             #{creatorId.userId,jdbcType=BIGINT},
+             #{type,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertTemp" parameterType="cn.SkyShadow.model.Organization" keyProperty="orgId">
+        INSERT IGNORE INTO
+        organization_temporary (ORG_ID, NAME, LOCATION,
+        PARENT_ID, CREATOR_ID, TYPE)
+        VALUES
+        (#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+        #{location.locationId,jdbcType=BIGINT},
+        #{parentId.organizationId,jdbcType=BIGINT},
+        #{creatorId.userId,jdbcType=BIGINT},
+        #{type,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.SkyShadow.model.Organization">
+        update organization
+        <set>
+            NAME = #{name,jdbcType=VARCHAR},
+            LOCATION = #{location.locationId,jdbcType=BIGINT},
+            PARENT_ID = #{parentId.organizationId,jdbcType=BIGINT},
+            CREATOR_ID = #{creatorId.userId,jdbcType=BIGINT},
+        </set>
+        where ORG_ID = #{orgId,jdbcType=BIGINT}
+    </update>
+    <select id="GetFileList" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT *
+        FROM `file`
+        WHERE ASCRIPTION_TYPE = 'ORGANIZATION' AND organization = #{organizationID,jdbcType=BIGINT};
+    </select>
     <update id="ModifyCreator">
-        UPDATE organization SET organization.CREATOR_ID = #{userId,jdbcType=BIGINT} WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
+        UPDATE organization
+        SET organization.CREATOR_ID = #{userId,jdbcType=BIGINT}
+        WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
     </update>
     <update id="AddAdmin">
-        INSERT into org_admin(org_admin.orgId,org_admin.userId) VALUES(#{orgId,jdbcType=BIGINT},#{userId,jdbcType=BIGINT})
+        INSERT INTO org_admin (org_admin.orgId, org_admin.userId)
+        VALUES (#{orgId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
     </update>
     <update id="RemoveAdmin">
-        DELETE FROM org_admin WHERE org_admin.orgId = #{orgId,jdbcType=BIGINT} AND org_admin.userId =#{userId,jdbcType=BIGINT}
+        DELETE FROM org_admin
+        WHERE org_admin.orgId = #{orgId,jdbcType=BIGINT} AND org_admin.userId = #{userId,jdbcType=BIGINT}
     </update>
     <update id="ModifyParent">
-        UPDATE organization SET organization.PARENT_ID = #{parentId,jdbcType=BIGINT} WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
+        UPDATE organization
+        SET organization.PARENT_ID = #{parentId,jdbcType=BIGINT}
+        WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
     </update>
     <select id="SearchOrg" parameterType="java.lang.String">
-        SELECT * FROM organization WHERE organization.`NAME` LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+        SELECT *
+        FROM organization
+        WHERE organization.`NAME` LIKE CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
     </select>
     <select id="HasOrgName" parameterType="java.lang.String">
         # noinspection SqlResolve

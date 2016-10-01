@@ -43,8 +43,8 @@
     </bean>
     <bean id="orgService" class="cn.SkyShadow.service.Impl.OrgServiceImpl">
         <constructor-arg type="cn.SkyShadow.dao.OrganizationMapper" ref="organizationMapper"/>
-        <constructor-arg type="cn.SkyShadow.dao.ReceiptMapper" ref="receiptMapper"/>
-        <constructor-arg type="cn.SkyShadow.dao.ApplyMapper" ref="applyMapper"/>
+        <constructor-arg type="cn.SkyShadow.factory.ReceiptHandlerFactory" ref="receiptHandlerFactory"/>
+        <constructor-arg type="cn.SkyShadow.factory.ApplyHandlerFactory" ref="applyHandlerFactory"/>
         <constructor-arg type="cn.SkyShadow.dao.LocationMapper" ref="locationMapper"/>
     </bean>
     <bean id="publicService" class="cn.SkyShadow.service.Impl.PublicServiceImpl">
@@ -65,4 +65,5 @@
     <bean id="sendPhoneService" class="cn.SkyShadow.tp.service.Impl.SendPhoneServiceImpl"/>
     <bean id="exceptionHandler" class="cn.SkyShadow.basic_component.Impl.ExceptionHandlerImpl"/>
     <bean id="certificateHandler" class="cn.SkyShadow.basic_component.Impl.CertificateHandlerImpl"/>
+
 </beans>

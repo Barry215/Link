@@ -2,15 +2,16 @@ package cn.SkyShadow.controller;
 
 import cn.SkyShadow.basic_component.ExceptionHandler;
 import cn.SkyShadow.dto.json.JsonResult;
+import cn.SkyShadow.enums.ApplyModel;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.factory.JsonResultFactory;
 import cn.SkyShadow.enums.MaxWrongNumEnum;
 import cn.SkyShadow.enums.ResultMapper;
 import cn.SkyShadow.model.Organization;
+import cn.SkyShadow.model.apply.applyChildren.ModifyOrganization;
 import cn.SkyShadow.service.CheckService;
 import cn.SkyShadow.service.KaptchaService;
 import cn.SkyShadow.service.OrgService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -67,9 +68,22 @@ public class OrganizationController {
     }
     @RequestMapping(value = "/{orgId}/getBaseInfo", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
     @ResponseBody
-    public JsonResult<?> method(@PathVariable("orgId") Long orgId){
+    public JsonResult<?> getBaseInfo(@PathVariable("orgId") Long orgId){
         try {
             return JsonResultFactory.CreateJsonResult_True(orgService.getBaseInfo(orgId));
+        } catch (Exception e) {
+            exceptionHandle.ExceptionHandle(e);
+            return JsonResultFactory.CreateJsonResult_False(e);
+        }
+    }
+    @RequestMapping(value = "/{imgCode}/modifyOrganization", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+    @ResponseBody
+    public JsonResult<?> modifyOrganization(@PathVariable("imgCode")String imgCode, @RequestBody ModifyOrganization modifyOrganization, HttpSession session, ApplyModel applyModel){
+        try {
+            if (!kaptchaService.check(session,imgCode,MaxWrongNumEnum.MODIFY_ORG)){
+                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
+            }
+            return JsonResultFactory.CreateJsonResult_True(orgService.modifyOrganization(modifyOrganization,applyModel));
         } catch (Exception e) {
             exceptionHandle.ExceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
