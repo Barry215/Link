@@ -6,15 +6,12 @@ import cn.SkyShadow.model.User;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;
 public class UserControllerTest extends SpringBase{
     private final HttpSession session = getSession();
-    @Autowired
-    private UserController userController;
-    @Autowired
-    private PublicController publicController;
+    private UserController userController = (UserController) applicationContext.getBean("userController");
+    private PublicController publicController = (PublicController) applicationContext.getBean("publicController");
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Test
     public void LoginAndLoginOut()throws Exception{

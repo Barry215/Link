@@ -1,5 +1,6 @@
 package cn.SkyShadow.controller;
 
+import cn.SkyShadow.base.SpringBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,18 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.servlet.http.HttpSession;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:config/spring-dao.xml","classpath:config/spring-service.xml","classpath:config/spring-mvc.xml"})
-public class PublicControllerTest {
-    private HttpSession session;
-    @Before
-    public void setUp(){
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setCharacterEncoding("UTF-8");
-        session = request.getSession();
-    }
-    @Autowired
-    private PublicController publicController;
+public class PublicControllerTest extends SpringBase{
+    private HttpSession session = getSession();
+    private PublicController publicController = (PublicController) applicationContext.getBean("publicController");
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Test
     public void hasPhone() throws Exception {

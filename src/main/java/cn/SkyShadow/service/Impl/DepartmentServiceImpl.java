@@ -9,7 +9,6 @@ import cn.SkyShadow.model.apply.applyChildren.AddAdmin;
 import cn.SkyShadow.model.apply.applyChildren.DeliverDepartmentCreator;
 import cn.SkyShadow.model.apply.Receipt;
 import cn.SkyShadow.service.DepartmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DepartmentServiceImpl implements DepartmentService {
     private final OrganizationMapper OrganizationMapper;
     private final ReceiptMapper receiptMapper;
-    @Autowired(required = false)
+
     public DepartmentServiceImpl(OrganizationMapper OrganizationMapper, ReceiptMapper receiptMapper) {
         this.OrganizationMapper = OrganizationMapper;
         this.receiptMapper = receiptMapper;
@@ -64,6 +63,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public BaseExecution ModifyDepart(Organization o) {
-        return ExecutionFactory.getExecutionByResultCode(OrganizationMapper.updateByPrimaryKeySelective(o));
+        return ExecutionFactory.getExecutionByResultCode(OrganizationMapper.updateByPrimaryKey(o));
     }
 }

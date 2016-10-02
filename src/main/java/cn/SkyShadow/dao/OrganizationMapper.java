@@ -29,11 +29,18 @@ public interface OrganizationMapper {
     Organization selectByPrimaryKey(Long orgId);
 
     /**
+     * 插入临时的组织数据
+     * @param record 组织信息
+     * @return 执行结果
+     */
+    int insertTemp(Organization record);
+
+    /**
      * 更新组织的信息
      * @param record 组织信息
      * @return 执行结果
      */
-    int updateByPrimaryKeySelective(Organization record);
+    int updateByPrimaryKey(Organization record);
 
     /**
      * 查询组织的基本信息
@@ -99,5 +106,4 @@ public interface OrganizationMapper {
      * @param orgId 组织ID
      * @return 返回组织信息
      */
-    Organization getBaseInfo(Long orgId);// TODO: 16/9/19
 }

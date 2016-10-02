@@ -26,7 +26,7 @@ import com.google.code.kaptcha.Producer;
 public class KaptchaController {
     private final Producer captchaProducer;
     private final ExceptionHandler exceptionHandle;
-    @Autowired
+
     public KaptchaController(Producer captchaProducer, ExceptionHandler exceptionHandle) {
         this.captchaProducer = captchaProducer;
         this.exceptionHandle = exceptionHandle;

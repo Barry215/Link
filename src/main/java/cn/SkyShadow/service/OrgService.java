@@ -38,67 +38,67 @@ public interface OrgService {
      * @param applyModel 申请模式
      * @return 执行结果
      */
-    ResultMapper modifyOrganization(ModifyOrganization apply, ApplyModel applyModel);
+    BaseExecution modifyOrganization(ModifyOrganization apply, ApplyModel applyModel);
 
     /**
      * 处理组织修改信息
      * @param receipt 回执
      * @return 执行结果
      */
-    ResultMapper modifyOrganizationCallBack(Receipt<ModifyOrganization> receipt);
+    BaseExecution modifyOrganizationCallBack(Receipt<ModifyOrganization> receipt);
     /**
      * 向外申请父组织
      * @param applyParentOrg 申请
      * @return 执行
      */
-    ResultMapper applyFatherOrganization(ApplyParentOrg applyParentOrg);
+    BaseExecution applyFatherOrganization(ApplyParentOrg applyParentOrg);
 
     /**
      * 处理其他组织父组织的申请
      * @param receipt 回执
      * @return 处理结果
      */
-    ResultMapper applyFatherOrganizationCallback(Receipt<ApplyParentOrg> receipt);
+    BaseExecution applyFatherOrganizationCallback(Receipt<ApplyParentOrg> receipt);
     /**
      * 向外申请解除父组织
      * @param unlockParentOrg 申请
      * @return 执行
      */
-    ResultMapper applyUnlockFatherOrganization(ApplyUnlockParentOrg unlockParentOrg);
+    BaseExecution applyUnlockFatherOrganization(ApplyUnlockParentOrg unlockParentOrg);
 
     /**
      * 处理其他组织解除父组织的申请
      * @param receipt 回执
      * @return 处理结果
      */
-    ResultMapper applyUnlockFatherOrganizationCallback(Receipt<ApplyUnlockParentOrg> receipt);
+    BaseExecution applyUnlockFatherOrganizationCallback(Receipt<ApplyUnlockParentOrg> receipt);
     /**
      * 申请转让组织的创建者
      * @param deliverOrg 申请
      * @return 执行结果
      */
-    ResultMapper deliverOrganization(DeliverOrg deliverOrg);
+    BaseExecution deliverOrganization(DeliverOrg deliverOrg);
 
     /**
      * 处理转让组织的创建者的申请
      * @param receipt 申请
      * @return 执行结果
      */
-    ResultMapper deliverOrganizationCallback(Receipt<DeliverOrg> receipt);
+    BaseExecution deliverOrganizationCallback(Receipt<DeliverOrg> receipt);
 
     /**
      * 添加管理员
      * @param addAdmin 申请
      * @return 执行结果
      */
-    ResultMapper addAdmin(AddAdmin addAdmin);
+    BaseExecution addAdmin(AddAdmin addAdmin);
 
     /**
      * 处理添加管理员的申请
      * @param receipt 回执
      * @return 执行结果
      */
-    ResultMapper addAdminCallback(Receipt<AddAdmin> receipt);
+    BaseExecution addAdminCallback(Receipt<AddAdmin> receipt);
 
     /**
      * 删除组织
@@ -106,6 +106,6 @@ public interface OrgService {
      * @param orgId 组织ID
      * @return 执行结果
      */
-    ResultMapper deleteOrganization(Long userId,Long orgId);
+    BaseExecution deleteOrganization(Long userId,Long orgId);
 
 }

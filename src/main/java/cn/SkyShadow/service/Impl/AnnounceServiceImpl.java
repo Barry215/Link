@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class AnnounceServiceImpl implements AnnounceService {
     private final AnnounceMapper AnnounceMapper;
-    @Autowired(required = false)
     public AnnounceServiceImpl(AnnounceMapper AnnounceMapper) {
         this.AnnounceMapper = AnnounceMapper;
     }

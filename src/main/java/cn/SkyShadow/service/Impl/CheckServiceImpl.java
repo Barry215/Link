@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 public class CheckServiceImpl implements CheckService {
     private final UserMapper uService;
 
-    @Autowired(required = false)
+
     public CheckServiceImpl(UserMapper uService) {
         this.uService = uService;
     }

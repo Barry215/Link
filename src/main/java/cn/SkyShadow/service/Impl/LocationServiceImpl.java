@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LocationServiceImpl implements LocationService {
     private final LocationMapper LocationMapper;
-    @Autowired(required = false)
+
     public LocationServiceImpl(LocationMapper LocationMapper) {
         this.LocationMapper = LocationMapper;
     }

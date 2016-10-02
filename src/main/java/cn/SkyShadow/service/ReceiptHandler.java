@@ -13,6 +13,7 @@ import cn.SkyShadow.service.Impl.ApplyInterceptorImpl;
  */
 public abstract class ReceiptHandler<T extends Apply> {
     private ApplyInterceptor<T> applyInterceptor;
+    protected Receipt<T> receipt;
 
     public ReceiptHandler() {
         this.applyInterceptor = new ApplyInterceptorImpl<>();
@@ -21,6 +22,7 @@ public abstract class ReceiptHandler<T extends Apply> {
         if (receipt==null){
             return ResultMapper.NULL_ERROR;
         }else{
+            this.receipt = receipt;
             OperationAuthorityEnum op =applyInterceptor.HasAuthorityToReceipt(receipt);
             if (op== OperationAuthorityEnum.FULL){
                 if (receipt.isSuccess()){

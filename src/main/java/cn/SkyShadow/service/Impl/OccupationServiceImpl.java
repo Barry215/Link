@@ -23,7 +23,6 @@ public class OccupationServiceImpl implements OccupationService {
     private final OccupationMapper OccupationMapper;
     private final ApplyMapper applyMapper;
     private final ReceiptMapper receiptMapper;
-    @Autowired(required = false)
     public OccupationServiceImpl(OccupationMapper OccupationMapper, ApplyMapper applyMapper, ReceiptMapper receiptMapper) {
         this.OccupationMapper = OccupationMapper;
         this.applyMapper = applyMapper;
