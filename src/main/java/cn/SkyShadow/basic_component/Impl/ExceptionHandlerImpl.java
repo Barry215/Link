@@ -20,7 +20,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler {
     }
 
     @Override
-    public void ExceptionHandle(Exception e) {
+    public void exceptionHandle(Exception e) {
         if (controllerClass==null){
             throw new NullPointerException("需要提前注入class");
         }

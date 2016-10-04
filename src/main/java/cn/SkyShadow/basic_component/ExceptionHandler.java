@@ -6,5 +6,5 @@ package cn.SkyShadow.basic_component;
  */
 public interface ExceptionHandler {
     void setClass(Class clazz);
-    void ExceptionHandle(Exception e);
+    void exceptionHandle(Exception e);
 }
