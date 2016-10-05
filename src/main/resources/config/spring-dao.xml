@@ -161,16 +161,11 @@
     <!--applyHandler-->
     <bean id="applyHandlerFactory" class="cn.SkyShadow.factory.ApplyHandlerFactory">
         <constructor-arg name="modifyOrganizationApplyHandler" ref="modifyOrganizationApplyHandler"/>
-        <constructor-arg name="addAdminApplyHandler" ref="addAdminApplyHandler"/>
         <constructor-arg name="applyParentOrgApplyHandler" ref="applyParentOrgApplyHandler"/>
         <constructor-arg name="applyUnlockParentOrgApplyHandler" ref="applyUnlockParentOrgApplyHandler"/>
         <constructor-arg name="deliverOrgApplyHandler" ref="deliverOrgApplyHandler"/>
     </bean>
     <bean id="modifyOrganizationApplyHandler" class="cn.SkyShadow.service.Impl.applyHandler.ModifyOrganizationApplyHandler">
-        <constructor-arg name="applyMapper" ref="applyMapper"/>
-        <constructor-arg name="organizationMapper" ref="organizationMapper"/>
-    </bean>
-    <bean class="cn.SkyShadow.service.Impl.applyHandler.AddAdminApplyHandler" id="addAdminApplyHandler">
         <constructor-arg name="applyMapper" ref="applyMapper"/>
         <constructor-arg name="organizationMapper" ref="organizationMapper"/>
     </bean>
@@ -186,19 +181,17 @@
         <constructor-arg name="organizationMapper" ref="organizationMapper"/>
         <constructor-arg name="applyMapper" ref="applyMapper"/>
     </bean>
+    <bean class="cn.SkyShadow.service.Impl.applyHandler.AddFriendApplyHandler">
+
+    </bean>
     <!--receiptHandler-->
     <bean class="cn.SkyShadow.factory.ReceiptHandlerFactory" id="receiptHandlerFactory">
         <constructor-arg name="modifyOrganizationReceiptHandler" ref="modifyOrganizationReceiptHandler"/>
-        <constructor-arg name="addAdminReceiptHandler" ref="addAdminReceiptHandler"/>
         <constructor-arg name="applyParentOrgReceiptHandler" ref="applyParentOrgReceiptHandler"/>
         <constructor-arg name="applyUnlockParentOrgReceiptHandler" ref="applyUnlockParentOrgReceiptHandler"/>
         <constructor-arg name="deliverOrgReceiptHandler" ref="deliverOrgReceiptHandler"/>
     </bean>
     <bean id="modifyOrganizationReceiptHandler" class="cn.SkyShadow.service.Impl.receiptHandler.ModifyOrganizationReceiptHandler">
-        <constructor-arg name="organizationMapper" ref="organizationMapper"/>
-        <constructor-arg name="receiptMapper" ref="receiptMapper"/>
-    </bean>
-    <bean class="cn.SkyShadow.service.Impl.receiptHandler.AddAdminReceiptHandler" id="addAdminReceiptHandler">
         <constructor-arg name="organizationMapper" ref="organizationMapper"/>
         <constructor-arg name="receiptMapper" ref="receiptMapper"/>
     </bean>

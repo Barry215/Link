@@ -8,14 +8,12 @@ import cn.SkyShadow.service.ApplyHandler;
  */
 public class ApplyHandlerFactory {
     private final ApplyHandler<ModifyOrganization> modifyOrganizationApplyHandler;
-    private final ApplyHandler<AddAdmin> addAdminApplyHandler;
     private final ApplyHandler<ApplyParentOrg> applyParentOrgApplyHandler;
     private final ApplyHandler<ApplyUnlockParentOrg> applyUnlockParentOrgApplyHandler;
     private final ApplyHandler<DeliverOrg> deliverOrgApplyHandler;
 
-    public ApplyHandlerFactory(ApplyHandler<ModifyOrganization> modifyOrganizationApplyHandler, ApplyHandler<AddAdmin> addAdminApplyHandler, ApplyHandler<ApplyParentOrg> applyParentOrgApplyHandler, ApplyHandler<ApplyUnlockParentOrg> applyUnlockParentOrgApplyHandler, ApplyHandler<DeliverOrg> deliverOrgApplyHandler) {
+    public ApplyHandlerFactory(ApplyHandler<ModifyOrganization> modifyOrganizationApplyHandler,ApplyHandler<ApplyParentOrg> applyParentOrgApplyHandler, ApplyHandler<ApplyUnlockParentOrg> applyUnlockParentOrgApplyHandler, ApplyHandler<DeliverOrg> deliverOrgApplyHandler) {
         this.modifyOrganizationApplyHandler = modifyOrganizationApplyHandler;
-        this.addAdminApplyHandler = addAdminApplyHandler;
         this.applyParentOrgApplyHandler = applyParentOrgApplyHandler;
         this.applyUnlockParentOrgApplyHandler = applyUnlockParentOrgApplyHandler;
         this.deliverOrgApplyHandler = deliverOrgApplyHandler;
@@ -23,10 +21,6 @@ public class ApplyHandlerFactory {
 
     public ApplyHandler<ModifyOrganization> getModifyOrganizationApplyHandler() {
         return modifyOrganizationApplyHandler;
-    }
-
-    public ApplyHandler<AddAdmin> getAddAdminApplyHandler() {
-        return addAdminApplyHandler;
     }
 
     public ApplyHandler<ApplyParentOrg> getApplyParentOrgApplyHandler() {

@@ -7,6 +7,8 @@ import cn.SkyShadow.model.*;
 import cn.SkyShadow.model.apply.Receipt;
 import cn.SkyShadow.model.apply.applyChildren.*;
 
+import java.util.List;
+
 /**
  * 组织管理
  */
@@ -87,25 +89,18 @@ public interface OrgService {
     BaseExecution deliverOrganizationCallback(Receipt<DeliverOrg> receipt);
 
     /**
-     * 添加管理员
-     * @param addAdmin 申请
-     * @return 执行结果
-     */
-    BaseExecution addAdmin(AddAdmin addAdmin);
-
-    /**
-     * 处理添加管理员的申请
-     * @param receipt 回执
-     * @return 执行结果
-     */
-    BaseExecution addAdminCallback(Receipt<AddAdmin> receipt);
-
-    /**
      * 删除组织
      * @param userId 用户ID
      * @param orgId 组织ID
      * @return 执行结果
      */
     BaseExecution deleteOrganization(Long userId,Long orgId);
+
+    /**
+     * 搜索组织
+     * @param str 字符串
+     * @return 组织列表信息
+     */
+    List<Organization> search(String str);
 
 }

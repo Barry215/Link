@@ -50,30 +50,18 @@
 		mailbox
 		where MAILBOX_ID = #{mailboxId,jdbcType=BIGINT}
 	</delete>
-	<insert id="insertSelective" parameterType="cn.SkyShadow.model.Mailbox"
+	<insert id="insert" parameterType="cn.SkyShadow.model.Mailbox"
 		keyProperty="mailboxId">
 		insert into mailbox
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="belongType != null">
 				BELONG_TYPE,
-			</if>
-			<if test="user != null">
 				USER,
-			</if>
-			<if test="occupation != null">
 				OCCUPATION,
-			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="belongType != null">
 				#{belongType,jdbcType=CHAR},
-			</if>
-			<if test="user != null">
 				#{user.userId,jdbcType=BIGINT},
-			</if>
-			<if test="occupation != null">
 				#{occupation.occupationId,jdbcType=BIGINT},
-			</if>
 		</trim>
 	</insert>
 </mapper>

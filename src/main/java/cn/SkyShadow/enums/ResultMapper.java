@@ -47,7 +47,8 @@ public enum ResultMapper {
     NeedAuthority,
     NoApply,
     NULL_ERROR,
-    APPLY_ALREADY_FINISHED;
+    APPLY_ALREADY_FINISHED,
+    FORMAT;
     private boolean isSuccess;
     private int code;
     private String info;

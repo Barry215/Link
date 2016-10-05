@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * 文件管理器
  * Created by Richard on 16/9/13.
@@ -37,66 +39,41 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public BaseExecution UpdateVoice(Voice voice) {
-        return ExecutionFactory.getExecutionByResultCode(VoiceMapper.insert(voice));
+        return null;
     }
 
     @Override
     public BaseExecution UpdateVideo(Video video) {
-        return ExecutionFactory.getExecutionByResultCode(VideoMapper.insert(video));
+        return null;
     }
 
     @Override
     public BaseExecution UpdateImage(Imagine imagine) {
-        return ExecutionFactory.getExecutionByResultCode(ImagineMapper.insertSelective(imagine));
+        return null;
+    }
+
+    @Override
+    public BaseExecution UpdateImage(List<Imagine> imagines) {
+        return null;
     }
 
     @Override
     public BaseExecution UpdateExpr(Expr expr) {
-        return ExecutionFactory.getExecutionByResultCode(ExprMapper.insert(expr));
+        return null;
     }
 
     @Override
     public BaseExecution UpdateFile(File file) {
-        return ExecutionFactory.getExecutionByResultCode(FileMapper.insert(file));
+        return null;
+    }
+
+    @Override
+    public BaseExecution UpdateFile(List<File> files) {
+        return null;
     }
 
     @Override
     public BaseExecution UpdateFileGroup(FileGroup fileGroup) {
-        return ExecutionFactory.getExecutionByResultCode(FileGroupMapper.insert(fileGroup));
-    }
-
-    @Override
-    public FileList GetFileList(Long organizationID) {
-        return OrganizationMapper.GetFileList(organizationID);
-    }
-
-    @Override
-    public BaseExecution DeleteFile(Long fileId) {
-        return ExecutionFactory.getExecutionByResultCode(FileMapper.deleteByPrimaryKey(fileId));
-    }
-
-    @Override
-    public BaseExecution DeleteFileGroup(Long fileGroupId) {
-        return ExecutionFactory.getExecutionByResultCode(FileGroupMapper.deleteByPrimaryKey(fileGroupId));
-    }
-
-    @Override
-    public BaseExecution UpdateFileToOrg(Long orgId, Long fileId) {
-        return ExecutionFactory.getExecutionByResultCode(FileMapper.AddFileToOrg(orgId,fileId));
-    }
-
-    @Override
-    public BaseExecution RemoveFileFromOrg(Long orgId, Long fileId) {
-        return ExecutionFactory.getExecutionByResultCode(FileMapper.RemoveFileFromOrg(orgId,fileId));
-    }
-
-    @Override
-    public BaseExecution UpdateFileGroupToOrg(Long orgId, Long fileGroupId) {
-        return ExecutionFactory.getExecutionByResultCode(FileMapper.AddFileToOrg(orgId,fileGroupId));
-    }
-
-    @Override
-    public BaseExecution RemoveFileGroupFromOrg(Long orgId, Long fileGroupId) {
-        return ExecutionFactory.getExecutionByResultCode(FileMapper.RemoveFileFromOrg(orgId, fileGroupId));
+        return null;
     }
 }

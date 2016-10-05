@@ -15,7 +15,7 @@ public interface MailboxMapper {
      * @param record 邮箱
      * @return 执行结果
      */
-    int insertSelective(Mailbox record);
+    int insert(Mailbox record);
 
     /**
      * 查询邮箱

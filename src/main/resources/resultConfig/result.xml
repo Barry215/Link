@@ -229,4 +229,10 @@
         <isSuccess>false</isSuccess>
         <info>申请已经被处理</info>
     </result>
+    <result>
+        <code>20006</code>
+        <name>FORMAT</name>
+        <info>格式存在问题</info>
+        <isSuccess>true</isSuccess>
+    </result>
 </results>

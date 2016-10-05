@@ -23,18 +23,4 @@ public class AnnounceServiceImpl implements AnnounceService {
         this.AnnounceMapper = AnnounceMapper;
     }
 
-    @Override
-    public BaseExecution Announce(Announce a, Long organizationID) {
-        return ExecutionFactory.getExecutionByResultCode(AnnounceMapper.insert(a,organizationID));
     }
-
-    @Override
-    public BaseExecution DeleteAnnounce(Long annId) {
-        return ExecutionFactory.getExecutionByResultCode(AnnounceMapper.deleteByPrimaryKey(annId));
-    }
-
-    @Override
-    public List<Announce> SelectAnnListByOrgId(Long orgId) {
-        return AnnounceMapper.selectByOrganizationId(orgId);
-    }
-}

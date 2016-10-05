@@ -11,6 +11,7 @@ import cn.SkyShadow.dto.user.PasswordProtectedKey;
 import cn.SkyShadow.dto.user.SignUpForm;
 import cn.SkyShadow.enums.*;
 import cn.SkyShadow.dto.user.RegisterResult;
+import cn.SkyShadow.factory.ValidatorFactory;
 import cn.SkyShadow.model.User;
 import cn.SkyShadow.service.CheckService;
 import cn.SkyShadow.service.KaptchaService;
@@ -19,6 +20,9 @@ import cn.SkyShadow.tp.service.SendEmailService;
 import cn.SkyShadow.tp.service.SendPhoneService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import cn.SkyShadow.dto.json.JsonResult;
 import cn.SkyShadow.dto.user.LoginResult;
@@ -38,9 +42,10 @@ public class UserController{
     private final CheckService checkService;
     private final ExceptionHandler exceptionHandle;
     private final KaptchaService kaptchaService;
+    private final ValidatorFactory validatorFactory;
 
 
-    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, ExceptionHandler exceptionHandle, KaptchaService kaptchaService) {
+    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, ExceptionHandler exceptionHandle, KaptchaService kaptchaService, ValidatorFactory validatorFactory) {
         this.pService = pService;
         this.uService = uService;
         this.phoneService = phoneService;
@@ -48,7 +53,12 @@ public class UserController{
         this.checkService = checkService;
         this.exceptionHandle = exceptionHandle;
         this.kaptchaService = kaptchaService;
+        this.validatorFactory = validatorFactory;
         exceptionHandle.setClass(this.getClass());
+    }
+    @InitBinder
+    public void initBinder(DataBinder binder) {
+        binder.addValidators(validatorFactory.getUserValidator());
     }
 
     /**
@@ -60,7 +70,10 @@ public class UserController{
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult<?> getLoginResult(@RequestBody User u, @RequestBody String imgCode , HttpSession httpSession) {
+    public JsonResult<?> getLoginResult(@RequestBody @Validated User u, @RequestBody String imgCode , HttpSession httpSession, BindingResult result) {
+        if (result.hasErrors()){
+            return JsonResultFactory.CreateJsonResult_True(ResultMapper.FORMAT);
+        }
         try {
             if (!kaptchaService.check(httpSession,imgCode,MaxWrongNumEnum.LOGIN)){
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_IMG_CODE_Error);
