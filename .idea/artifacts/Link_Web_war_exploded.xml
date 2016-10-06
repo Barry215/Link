@@ -44,6 +44,7 @@
           <element id="library" level="project" name="Maven: com.github.penggle:kaptcha:2.3.2" />
           <element id="library" level="project" name="Maven: com.jhlabs:filters:2.0.235-1" />
           <element id="library" level="project" name="Maven: org.jetbrains:annotations:15.0" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.0.0.GA" />
         </element>
       </element>
       <element id="directory" name="META-INF">

@@ -6,8 +6,10 @@ import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.model.apply.applyChildren.AddAdmin;
-import cn.SkyShadow.model.apply.applyChildren.DeliverDepartmentCreator;
 import cn.SkyShadow.model.apply.Receipt;
+import cn.SkyShadow.model.apply.applyChildren.CreateDepartment;
+import cn.SkyShadow.model.apply.applyChildren.DeleteDepartment;
+import cn.SkyShadow.model.apply.applyChildren.ModifyDepartment;
 import cn.SkyShadow.service.DepartmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,41 +30,32 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public BaseExecution CreateDepartment(Organization o) {
-        return ExecutionFactory.getExecutionByResultCode(OrganizationMapper.insert(o));
-    }
-
-
-    @Override
-    public BaseExecution MakeAdminCallback(Receipt<AddAdmin> r) {
-        if (r.isSuccess()){
-            OrganizationMapper.AddAdmin(r.getApply().getOrganization().getOrgId()
-                    ,r.getApply().getUser().getUserId());
-        }
-        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(r));
+    public BaseExecution CreateDepartment(CreateDepartment apply) {
+        return null;
     }
 
     @Override
-    public BaseExecution RemoveAdmin(Long depId, Long userId) {
-        return ExecutionFactory.getExecutionByResultCode(OrganizationMapper.RemoveAdmin(depId, userId));
+    public BaseExecution CreateDepartmentCallback(Receipt<CreateDepartment> receipt) {
+        return null;
     }
 
     @Override
-    public BaseExecution DeliverDepartmentCreatorCallback(Receipt<DeliverDepartmentCreator> r) {
-        if (r.isSuccess()){
-            OrganizationMapper.ModifyCreator(r.getApply().getOrganization().getOrgId()
-                    ,r.getApply().getUser().getUserId());
-        }
-        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(r));
+    public BaseExecution DeleteDepartment(DeleteDepartment apply) {
+        return null;
     }
 
     @Override
-    public BaseExecution DeleteDepartment(Long DepId) {
-        return ExecutionFactory.getExecutionByResultCode(OrganizationMapper.deleteByPrimaryKey(DepId));
+    public BaseExecution DeleteDepartmentCallback(Receipt<DeleteDepartment> receipt) {
+        return null;
     }
 
     @Override
-    public BaseExecution ModifyDepart(Organization o) {
-        return ExecutionFactory.getExecutionByResultCode(OrganizationMapper.updateByPrimaryKey(o));
+    public BaseExecution ModifyDepartment(ModifyDepartment apply) {
+        return null;
+    }
+
+    @Override
+    public BaseExecution ModifyDepartment(Receipt<ModifyDepartment> receipt) {
+        return null;
     }
 }

@@ -3,6 +3,10 @@ package cn.SkyShadow.service;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.dto.file.FileList;
 import cn.SkyShadow.model.*;
+import cn.SkyShadow.model.File;
+
+import java.io.*;
+import java.util.List;
 
 /**
  * 文件管理器
@@ -31,6 +35,13 @@ public interface FileService {
     BaseExecution UpdateImage(Imagine imagine);
 
     /**
+     * 批量上传图片
+     * @param imagines 图片信息
+     * @return 执行结果
+     */
+    BaseExecution UpdateImage(List<Imagine> imagines);
+
+    /**
      * 上传表情
      * @param expr 表情
      * @return 执行结果
@@ -44,59 +55,16 @@ public interface FileService {
     BaseExecution UpdateFile(File file);
 
     /**
+     * 批量上传文件
+     * @param files 文件
+     * @return 执行结果
+     */
+    BaseExecution UpdateFile(List<File> files);
+
+    /**
      * 特定角色为组织/部门上传文件组
      * @param fileGroup 文件组
      * @return 执行结果
      */
     BaseExecution UpdateFileGroup(FileGroup fileGroup);
-    /**
-     * 特定角色获取组织/部门文件列表
-     * @param organizationID 组织
-     * @return 执行结果
-     */
-    FileList GetFileList(Long organizationID);
-
-    /**
-     * 特定角色删除组织/部门文件
-     * @param fileId 文件ID
-     * @return 执行结果
-     */
-    BaseExecution DeleteFile(Long fileId);
-    /**
-     * 特定角色删除组织/部门文件组
-     * @param fileGroupId 文件组ID
-     * @return 执行结果
-     */
-    BaseExecution DeleteFileGroup(Long fileGroupId);
-
-    /**
-     * 向组织公共区域上传文件
-     * @param orgId 组织ID
-     * @param fileId 文件ID
-     * @return 执行结果
-     */
-    BaseExecution UpdateFileToOrg(Long orgId, Long fileId);
-
-    /**
-     * 移除组织的文件
-     * @param orgId 组织ID
-     * @param fileId 文件ID
-     * @return 执行结果
-     */
-    BaseExecution RemoveFileFromOrg(Long orgId, Long fileId);
-    /**
-     * 向组织公共区域上传文件组
-     * @param orgId 组织ID
-     * @param fileGroupId 文件ID
-     * @return 执行结果
-     */
-    BaseExecution UpdateFileGroupToOrg(Long orgId, Long fileGroupId);
-
-    /**
-     * 移除组织的文件组
-     * @param orgId 组织ID
-     * @param fileGroupId 文件ID
-     * @return 执行结果
-     */
-    BaseExecution RemoveFileGroupFromOrg(Long orgId, Long fileGroupId);
 }

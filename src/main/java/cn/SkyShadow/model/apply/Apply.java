@@ -10,19 +10,19 @@ public abstract class Apply {
     private Long id;
     private User user;
 
-    public Long getId() {
+    public final Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public final void setId(Long id) {
         this.id = id;
     }
 
-    public User getUser() {
+    public final User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public final void setUser(User user) {
         this.user = user;
     }
 

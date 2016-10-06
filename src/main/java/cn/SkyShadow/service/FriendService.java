@@ -8,14 +8,12 @@ import cn.SkyShadow.model.apply.Receipt;
 import java.util.List;
 
 public interface FriendService {
-
     /**
-     * 搜索用户
-     * @param str 模糊字段
-     * @return 用户信息列表
+     * 添加好友
+     * @param apply 申请
+     * @return 执行结果
      */
-    List<User> Search(String str);
-
+    BaseExecution AddFriend(AddFriend apply);
     /**
      * 处理加好友申请
      * @param receipt 回执

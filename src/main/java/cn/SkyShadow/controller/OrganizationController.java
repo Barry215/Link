@@ -46,7 +46,7 @@ public class OrganizationController {
             String result = orgService.HasOrgName(name);
             return  JsonResultFactory.CreateJsonResult_True(result);
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -55,14 +55,14 @@ public class OrganizationController {
     public JsonResult<?> CreateOrganization(HttpSession session,@PathVariable("code") String code, @RequestBody Organization organization){
         try {
             if (!checkService.LoginState(session)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.User_UnLogin));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
             if (!kaptchaService.check(session,code, MaxWrongNumEnum.CREATE_ORG)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_IMG_CODE_Error);
             }
             return  JsonResultFactory.CreateJsonResult_True(orgService.CreateNewOrg(organization));
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -72,7 +72,7 @@ public class OrganizationController {
         try {
             return JsonResultFactory.CreateJsonResult_True(orgService.getBaseInfo(orgId));
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -85,7 +85,7 @@ public class OrganizationController {
             }
             return JsonResultFactory.CreateJsonResult_True(orgService.modifyOrganization(modifyOrganization,applyModel));
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -95,7 +95,7 @@ public class OrganizationController {
         try {
 
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }*/

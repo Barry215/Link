@@ -12,12 +12,12 @@ import cn.SkyShadow.enums.ResultMapper;
  */
 public class ExecutionFactory {
     public static BaseExecution getExecutionByResultCode(int resultCode){
-        return new BaseExecution(resultCode,"操作已执行");
+        return new BaseExecution(resultCode,"操作已执行");// TODO: 16/9/29
     }
     public static BaseExecution getExecutionByResultCode(int resultCode, String info){
-        return new BaseExecution(resultCode,info);
+        return new BaseExecution(resultCode,info);// TODO: 16/9/29
     }
-    public static BaseExecution getExecution(ResultMapper ResultMapper, Object o){
+    public static BaseExecution getExecution(ResultMapper ResultMapper, Object o){// TODO: 16/9/29
         return new BaseExecution(ResultMapper.isSuccess(),ResultMapper.getCode(),ResultMapper.getInfo(),o);
     }
     public static BaseExecution getExecution(ResultMapper ResultMapper){

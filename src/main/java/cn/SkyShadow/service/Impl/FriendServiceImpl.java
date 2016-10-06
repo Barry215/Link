@@ -32,9 +32,10 @@ public class FriendServiceImpl implements FriendService {
         this.FriendGroupMapper = FriendGroupMapper;
     }
 
+
     @Override
-    public List<User> Search(String str) {
-        return UserMapper.Search(str);
+    public BaseExecution AddFriend(AddFriend apply) {
+        return null;
     }
 
     @Override

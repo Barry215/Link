@@ -15,7 +15,7 @@ public abstract class ReceiptHandler<T extends Apply> {
     private ApplyInterceptor<T> applyInterceptor;
     protected Receipt<T> receipt;
 
-    public ReceiptHandler() {
+    protected ReceiptHandler() {
         this.applyInterceptor = new ApplyInterceptorImpl<>();
     }
     public ResultMapper handler(Receipt<T> receipt){

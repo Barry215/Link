@@ -11,15 +11,18 @@ import cn.SkyShadow.dto.user.PasswordProtectedKey;
 import cn.SkyShadow.dto.user.SignUpForm;
 import cn.SkyShadow.enums.*;
 import cn.SkyShadow.dto.user.RegisterResult;
+import cn.SkyShadow.factory.ValidatorFactory;
 import cn.SkyShadow.model.User;
 import cn.SkyShadow.service.CheckService;
 import cn.SkyShadow.service.KaptchaService;
 import cn.SkyShadow.service.PublicService;
 import cn.SkyShadow.tp.service.SendEmailService;
 import cn.SkyShadow.tp.service.SendPhoneService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import cn.SkyShadow.dto.json.JsonResult;
 import cn.SkyShadow.dto.user.LoginResult;
@@ -39,9 +42,10 @@ public class UserController{
     private final CheckService checkService;
     private final ExceptionHandler exceptionHandle;
     private final KaptchaService kaptchaService;
+    private final ValidatorFactory validatorFactory;
 
 
-    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, ExceptionHandler exceptionHandle, KaptchaService kaptchaService) {
+    public UserController(PublicService pService, UserCoreService uService, SendPhoneService phoneService, SendEmailService emailService, CheckService checkService, ExceptionHandler exceptionHandle, KaptchaService kaptchaService, ValidatorFactory validatorFactory) {
         this.pService = pService;
         this.uService = uService;
         this.phoneService = phoneService;
@@ -49,7 +53,12 @@ public class UserController{
         this.checkService = checkService;
         this.exceptionHandle = exceptionHandle;
         this.kaptchaService = kaptchaService;
+        this.validatorFactory = validatorFactory;
         exceptionHandle.setClass(this.getClass());
+    }
+    @InitBinder
+    public void initBinder(DataBinder binder) {
+        binder.addValidators(validatorFactory.getUserValidator());
     }
 
     /**
@@ -61,10 +70,13 @@ public class UserController{
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public JsonResult<?> getLoginResult(@RequestBody User u, @RequestBody String imgCode , HttpSession httpSession) {
+    public JsonResult<?> getLoginResult(@RequestBody @Validated User u, @RequestBody String imgCode , HttpSession httpSession, BindingResult result) {
+        if (result.hasErrors()){
+            return JsonResultFactory.CreateJsonResult_True(ResultMapper.FORMAT);
+        }
         try {
             if (!kaptchaService.check(httpSession,imgCode,MaxWrongNumEnum.LOGIN)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_IMG_CODE_Error);
             }
             User u1 = uService.SelectUserByLogin(u);
             if (u1 == null) {
@@ -76,7 +88,7 @@ public class UserController{
             kaptchaService.removeFailNum(httpSession);
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             kaptchaService.addFailNum(httpSession);
             httpSession.removeAttribute(SessionNameEnum.user.getSessionName());
             return JsonResultFactory.CreateJsonResult_False(e);
@@ -96,7 +108,7 @@ public class UserController{
             session.removeAttribute(SessionNameEnum.user.getSessionName());
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -114,12 +126,12 @@ public class UserController{
             BaseExecution loginState;
             if (checkService.LoginState(session)) {
                 loginState = ExecutionFactory.getExecution(ResultMapper.User_Login_State_Online, checkService.LoginSate(session));
+                return JsonResultFactory.CreateJsonResult_True(loginState);
             } else {
-                loginState = ExecutionFactory.getExecution(ResultMapper.User_Login_State_Offline);
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_Login_State_Offline);
             }
-            return JsonResultFactory.CreateJsonResult_True(loginState);
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -136,17 +148,17 @@ public class UserController{
     public JsonResult<?> signUpNoEmail(HttpSession session, @RequestBody SignUpForm signUpForm) {
         try {
             if (!kaptchaService.check(session,signUpForm.getImgCode(),MaxWrongNumEnum.REGISTER)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_IMG_CODE_Error);
             }
             if (checkService.HasThisSessionRecord(session, SessionNameEnum.public_phone)
                     && checkService.CheckPhoneCode(session, SessionNameEnum.public_phone, signUpForm.getPhoneCode(), signUpForm.getUser().getPhone())) {
                 RegisterResult result = uService.getRegisterResult_NOEMAIL(signUpForm.getUser());
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(result));
             } else {
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_Phone_Error_code));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_Error_code);
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -163,18 +175,18 @@ public class UserController{
     public JsonResult<?> signUp(HttpSession session, @RequestBody SignUpForm signUpForm) {
         try {
             if (!kaptchaService.check(session,signUpForm.getImgCode(),MaxWrongNumEnum.REGISTER)){
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_IMG_CODE_Error));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_IMG_CODE_Error);
             }
             if (!checkService.CheckEmailCode(session, SessionNameEnum.public_email, signUpForm.getEmailCode(), signUpForm.getUser().getEmail())) {
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_Email_Error_code));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Error_code);
             } else if (!checkService.CheckPhoneCode(session, SessionNameEnum.public_phone, signUpForm.getPhoneCode(), signUpForm.getUser().getPhone())) {
-                return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(ResultMapper.Public_Phone_Error_code));
+                return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_Error_code);
             } else {
                 RegisterResult result = uService.getRegisterResult(signUpForm.getUser());
                 return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(result));
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -230,7 +242,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -288,7 +300,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -319,7 +331,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -352,7 +364,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.User_UnLogin);
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -375,7 +387,7 @@ public class UserController{
             PasswordProtected p = uService.getPasswordProtectByUserId(checkService.getUserId(session));
             return JsonResultFactory.CreateJsonResult_True(ExecutionFactory.getExecution(p));
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -425,7 +437,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -474,7 +486,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -505,7 +517,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Error_code);
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -536,7 +548,7 @@ public class UserController{
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Phone_Error_code);
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -591,7 +603,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
 
@@ -646,7 +658,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -691,7 +703,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -736,7 +748,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -763,7 +775,7 @@ public class UserController{
             uService.OpenOrClosePasswordChangeValidate(userId);
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -796,7 +808,7 @@ public class UserController{
             uService.OpenOrClosePasswordChangeValidate(userId);
             return JsonResultFactory.CreateJsonResult_True(ResultMapper.SUCCESS);
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }
@@ -844,7 +856,7 @@ public class UserController{
                 }
             }
         } catch (Exception e) {
-            exceptionHandle.ExceptionHandle(e);
+            exceptionHandle.exceptionHandle(e);
             return JsonResultFactory.CreateJsonResult_False(e);
         }
     }

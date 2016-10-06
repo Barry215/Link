@@ -43,7 +43,7 @@
             </bean>
         </property>
     </bean>
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
     <!-- 扫描controller（controller层注入） -->
     <!--<context:component-scan base-package="cn.SkyShadow.controller"/>-->
@@ -77,5 +77,20 @@
         <constructor-arg type="cn.SkyShadow.service.KaptchaService" ref="kaptchaService"/>
         <constructor-arg type="cn.SkyShadow.tp.service.SendPhoneService" ref="sendPhoneService"/>
         <constructor-arg type="cn.SkyShadow.service.CheckService" ref="checkService"/>
+        <constructor-arg name="validatorFactory" ref="validatorFactory"/>
     </bean>
+    <!--validator-->
+    <bean class="cn.SkyShadow.factory.ValidatorFactory" id="validatorFactory">
+        <constructor-arg name="userValidator" ref="userValidator"/>
+    </bean>
+    <bean class="cn.SkyShadow.basic_component.validator.UserValidator" id="userValidator"/>
+    <!--拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/user/*/sendEmailValidateCode"/>
+            <bean class="cn.SkyShadow.basic_component.interceptor.LoginStateInterceptor">
+                <constructor-arg name="checkService" ref="checkService"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

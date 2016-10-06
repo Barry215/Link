@@ -6,7 +6,7 @@ import cn.SkyShadow.dao.ReceiptMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
 import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.Occupation;
-import cn.SkyShadow.model.apply.applyChildren.AddUserToOccupation;
+import cn.SkyShadow.model.apply.applyChildren.*;
 import cn.SkyShadow.model.apply.Receipt;
 import cn.SkyShadow.service.OccupationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +29,45 @@ public class OccupationServiceImpl implements OccupationService {
         this.receiptMapper = receiptMapper;
     }
 
+
     @Override
-    public BaseExecution CreateOccupation(Occupation occupation) {
-        return ExecutionFactory.getExecutionByResultCode(OccupationMapper.insert(occupation));
+    public BaseExecution CreateOccupation(CreateOccupation occupation) {
+        return null;
     }
 
     @Override
-    public BaseExecution DeleteOccupation(Long occupationId) {
-        return ExecutionFactory.getExecutionByResultCode(OccupationMapper.deleteByPrimaryKey(occupationId));
+    public BaseExecution CreateOccupationCallback(Receipt<CreateOccupation> receipt) {
+        return null;
     }
 
     @Override
-    public BaseExecution ModifyOccupation(Occupation occupation) {
-        return ExecutionFactory.getExecutionByResultCode(OccupationMapper.updateByPrimaryKeySelective(occupation));
+    public BaseExecution DeleteOccupation(DeleteOccupation occupationId) {
+        return null;
     }
 
     @Override
-    public BaseExecution ModifyOccupation_Power(Occupation occupation) {
-        return ExecutionFactory.getExecutionByResultCode(OccupationMapper.updateByPrimaryKeySelective(occupation));
+    public BaseExecution DeleteOccupationCallback(Receipt<DeleteOccupation> receipt) {
+        return null;
+    }
+
+    @Override
+    public BaseExecution ModifyOccupation(ModifyOccupation apply) {
+        return null;
+    }
+
+    @Override
+    public BaseExecution ModifyOccupationCallback(Receipt<ModifyOccupation> receipt) {
+        return null;
+    }
+
+    @Override
+    public BaseExecution ModifyOccupation_Power(ModifyOccupation_Power occupation) {
+        return null;
+    }
+
+    @Override
+    public BaseExecution AddUserToOccupation(AddUserToOccupation apply) {
+        return null;
     }
 
     @Override
@@ -59,7 +80,8 @@ public class OccupationServiceImpl implements OccupationService {
     }
 
     @Override
-    public BaseExecution RemoveUser(Long userId, Long occupationId) {
-        return ExecutionFactory.getExecutionByResultCode(OccupationMapper.removeUser(occupationId,userId));
+    public BaseExecution RemoveUser(RemoveUser removeUser) {
+        return null;
     }
+
 }

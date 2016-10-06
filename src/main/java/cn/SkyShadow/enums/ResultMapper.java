@@ -1,5 +1,6 @@
 package cn.SkyShadow.enums;
 
+import cn.SkyShadow.factory.ReadConfigFileFactory;
 import cn.SkyShadow.tp.service.Impl.ReadXml;
 import cn.SkyShadow.tp.service.ReadConfigFile;
 import org.w3c.dom.Node;
@@ -47,12 +48,13 @@ public enum ResultMapper {
     NeedAuthority,
     NoApply,
     NULL_ERROR,
-    APPLY_ALREADY_FINISHED;
+    APPLY_ALREADY_FINISHED,
+    FORMAT;
     private boolean isSuccess;
     private int code;
     private String info;
     private String resultName;
-    private static ReadConfigFile readConfigFile = new ReadXml();
+    private ReadConfigFile readConfigFile = ReadConfigFileFactory.getReadXmlTools();
 
 
     ResultMapper() {

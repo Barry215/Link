@@ -15,6 +15,8 @@ import cn.SkyShadow.service.OrgService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Richard on 16/8/31.
  * 组织管理器
@@ -84,7 +86,8 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public BaseExecution modifyOrganization(ModifyOrganization apply, ApplyModel applyModel) {
-        ResultMapper resultMapper =applyHandlerFactory.getModifyOrganizationApplyHandler().handler(apply,applyModel);
+        ResultMapper resultMapper =applyHandlerFactory.getModifyOrganizationApplyHandler().
+                handler(apply,applyModel);
         if (resultMapper==ResultMapper.SUCCESS){
             return ExecutionFactory.getExecution(resultMapper,apply);
         }
@@ -193,37 +196,6 @@ public class OrgServiceImpl implements OrgService {
         }
         return ExecutionFactory.getExecution(resultMapper);
     }
-
-    /**
-     * 添加管理员
-     *
-     * @param addAdmin 申请
-     * @return 执行结果
-     */
-    @Override
-    public BaseExecution addAdmin(AddAdmin addAdmin) {
-        ResultMapper resultMapper= applyHandlerFactory.getAddAdminApplyHandler().handler(addAdmin,ApplyModel.APPLY_MODEL);
-        if (resultMapper==ResultMapper.SUCCESS){
-            return ExecutionFactory.getExecution(resultMapper,addAdmin);
-        }
-        return ExecutionFactory.getExecution(resultMapper);
-    }
-
-    /**
-     * 处理添加管理员的申请
-     *
-     * @param receipt 回执
-     * @return 执行结果
-     */
-    @Override
-    public BaseExecution addAdminCallback(Receipt<AddAdmin> receipt) {
-        ResultMapper resultMapper =receiptHandlerFactory.getAddAdminReceiptHandler().handler(receipt);
-        if (resultMapper==ResultMapper.SUCCESS){
-            return ExecutionFactory.getExecution(resultMapper,receipt);
-        }
-        return ExecutionFactory.getExecution(resultMapper);
-    }
-
     /**
      * 删除组织
      *
@@ -234,6 +206,11 @@ public class OrgServiceImpl implements OrgService {
     @Override
     public BaseExecution deleteOrganization(Long userId, Long orgId) {
         return null;// TODO: 9/28/2016
+    }
+
+    @Override
+    public List<Organization> search(String str) {
+        return null;
     }
 
 }

@@ -1,5 +1,8 @@
 package cn.SkyShadow.model;
 
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +33,8 @@ public class User {
 	/**
 	 * 手机号码
 	 */
+	@NotNull(message = "手机号不能为空")
+	@Pattern(regexp = "^1[34578]\\d{9}$",message = "手机号码格式错误")
 	private String phone;
 	/**
 	 * 性别
