@@ -1,8 +1,29 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 import java.util.Date;
 
-public class UserSchool extends UserSchoolKey {
+public class UserSchool {
+	private User userId;
+
+	private School schoolId;
+
+	public User getUserId() {
+		return userId;
+	}
+
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
+
+	public School getSchoolId() {
+		return schoolId;
+	}
+
+	public void setSchoolId(School schoolId) {
+		this.schoolId = schoolId;
+	}
 
 	private Date admissionTime;
 
@@ -14,19 +35,9 @@ public class UserSchool extends UserSchoolKey {
 		this.admissionTime = admissionTime;
 	}
 
-	public UserSchool(User userId, School schoolId, Date admissionTime) {
-		super(userId, schoolId);
-		this.admissionTime = admissionTime;
-	}
-
-	public UserSchool() {
-		super();
-	}
-
 	@Override
 	public String toString() {
-		return "UserSchoolKey [userId=" + getUserId() + ", schoolId=" + getSchoolId()
-				+ "],UserSchool [admissionTime=" + admissionTime + "]";
+		return JsonFormatUtil.getJsonFormatString(this);
 	}
 	
 	

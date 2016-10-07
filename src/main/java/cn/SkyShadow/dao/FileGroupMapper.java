@@ -33,20 +33,4 @@ public interface FileGroupMapper {
      */
 	int addFile(@Param("file_id") Long file_id,
                 @Param("fileGroupId") Long fileGroupId);
-
-    /**
-     * 向组织添加文件组
-     * @param fileGroupId 文件组ID
-     * @param orgId 组织ID
-     * @return 执行结果
-     */
-	int AddFileGroupToOrg(Long fileGroupId,Long orgId);//// TODO: 9/14/2016
-
-    /**
-     * 向组织移除文件组
-     * @param fileGroupId 文件组ID
-     * @param orgId 组织ID
-     * @return 执行结果
-     */
-    int RemoveFileGroupFromOrg(Long fileGroupId,Long orgId);//// TODO: 9/14/2016
 }

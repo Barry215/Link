@@ -34,12 +34,12 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public BaseExecution SendMessage(Message message) {
-        return ExecutionFactory.getExecutionByResultCode(MessageMapper.insert(message));
+        return null;
     }
 
     @Override
     public BaseExecution RollBackMessage(Long messageId) {
-        return ExecutionFactory.getExecutionByResultCode(MessageMapper.deleteByPrimaryKey(messageId));
+        return null;
     }
 
     @Override
@@ -54,6 +54,6 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public BaseExecution ReadMessage(List<String> IdList) {
-        return ExecutionFactory.getExecutionByResultCode(MessageMapper.ReadMessage(IdList));
+        return null;
     }
 }

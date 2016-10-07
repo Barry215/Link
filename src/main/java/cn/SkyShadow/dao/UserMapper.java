@@ -56,6 +56,7 @@ public interface UserMapper {
      * @return 用户信息
      */
     User selectBaseInfo(Long userId);
+    List<User> selectBaseInfo(List<Long> userId);
 
     /**
      * 验证邮箱
@@ -100,7 +101,7 @@ public interface UserMapper {
      * @return 用户信息
      */
     User selectBaseInfoByLoginName(String loginName);
-
+    List<User> selectBaseInfoByLoginName(List<String> loginName);
     /**
      * 打开或者关闭 "修改密码的时候需要验证密保"
      * @param userId 用户ID
@@ -115,10 +116,4 @@ public interface UserMapper {
      * @return 执行结果
      */
     int changePassword(@Param("userId")Long userId,@Param("password")String password);
-    /**
-     * 搜索用户
-     * @param str 模糊字段
-     * @return 用户信息列表
-     */
-    List<User> Search(String str);
 }

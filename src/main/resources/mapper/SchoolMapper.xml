@@ -1,38 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.SkyShadow.dao.SchoolMapper">
-	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.School">
-		<id column="SCHOOL_ID" property="schoolId" jdbcType="BIGINT" />
-		<result column="NAME" property="name" jdbcType="VARCHAR" />
-		<result column="RANK" property="rank" jdbcType="CHAR" />
-		<result column="IS_PUBLIC" property="isPublic" jdbcType="CHAR" />
-		<association column="LOCATION" property="location"
-			select="cn.SkyShadow.dao.LocationMapper.selectByPrimaryKey"/>
-		<association column="PARENT_ID" property="parentId" select="selectBaseInfo"/>
-	</resultMap>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-			SCHOOL_ID, NAME, LOCATION, RANK, PARENT_ID, IS_PUBLIC
-		from school
-		where SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
-	</select>
-	<select id="selectBaseInfo" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-		SCHOOL_ID, NAME, LOCATION, RANK, IS_PUBLIC
-		from school
-		where SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from school
-		where SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
-	</delete>
-	<insert id="insert" parameterType="cn.SkyShadow.model.School">
-		insert into school (NAME, LOCATION,
-		RANK, PARENT_ID, IS_PUBLIC)
-		values (#{name,jdbcType=VARCHAR},
-		#{location.locationId,jdbcType=BIGINT},
-		#{rank,jdbcType=CHAR}, #{parentId.schoolId,jdbcType=BIGINT}, #{isPublic,jdbcType=CHAR})
-	</insert>
+    <resultMap id="BaseResultMap" type="cn.SkyShadow.model.School">
+        <id column="SCHOOL_ID" property="schoolId" jdbcType="BIGINT"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="SCHOOL_RANK" property="rank" jdbcType="CHAR"/>
+        <result column="IS_PUBLIC" property="isPublic" jdbcType="CHAR"/>
+        <association column="LOCATION" property="location" resultMap="cn.SkyShadow.dao.LocationMapper.BaseResultMap"/>
+        <association column="PARENT_ID" property="parentId" resultMap="parent"/>
+    </resultMap>
+    <resultMap id="parent" type="cn.SkyShadow.model.School">
+        <id column="PARENT_ID_SCHOOL_ID" property="schoolId" jdbcType="BIGINT"/>
+        <result column="PARENT_ID_NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="PARENT_ID_SCHOOL_RANK" property="rank" jdbcType="CHAR"/>
+        <result column="PARENT_ID_IS_PUBLIC" property="isPublic" jdbcType="CHAR"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            school_A.SCHOOL_ID       AS `SCHOOL_ID`,
+            school_A.NAME            AS `NAME`,
+            school_A.RANK            AS `SCHOOL_RANK`,
+            school_A.PARENT_ID       AS `PARENT_ID`,
+            school_A.IS_PUBLIC       AS `IS_PUBLIC`,
+            school_B.SCHOOL_ID       AS `PARENT_ID_SCHOOL_ID`,
+            school_B.NAME            AS `PARENT_ID_NAME`,
+            school_B.RANK            AS `PARENT_ID_RANK`,
+            school_B.IS_PUBLIC       AS `PARENT_ID_IS_PUBLIC`,
+            DETAIL,
+            LONGITUDE,
+            LATITUDE,
+            LOCATION_ID              AS `LOCATION_ID`,
+            `city`.`CITY_ID`         AS `CITY_ID`,
+            `city`.`NAME`            AS
+                                        `CITYNAME`,
+            `city`.`RANK`            AS `RANK`,
+            `province`.`NAME`        AS
+                                        `PROVINCE_NAME`,
+            `province`.`PROVINCE_ID` AS
+                                        `PROVINCE_ID`,
+            `country`.`COUNTRY_ID`   AS
+                                        `COUNTRY_ID`,
+            `country`.`NAME_CN`      AS `NAME_CN`,
+            `country`.`NAME_JP`      AS
+                                        `NAME_JP`,
+            `country`.`NAME_US`      AS `NAME_US`
+        FROM school school_A
+            LEFT JOIN school school_B ON school_A.PARENT_ID = school_B.SCHOOL_ID
+            LEFT JOIN location ON location.LOCATION_ID = school_A.LOCATION
+            LEFT JOIN `city` ON location.CITY = city.CITY_ID
+            LEFT JOIN `province` ON `city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`
+            LEFT JOIN `country` ON `province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`
+        WHERE school_A.SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
+    </select>
+    <select id="selectBaseInfo" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            SCHOOL_ID,
+            school.NAME              AS `NAME`,
+            school.RANK              AS `RANK`,
+            PARENT_ID,
+            IS_PUBLIC,
+            LOCATION_ID,
+            DETAIL,
+            LONGITUDE,
+            LATITUDE,
+            LOCATION_ID              AS `LOCATION_ID`,
+            `city`.`CITY_ID`         AS `CITY_ID`,
+            `city`.`NAME`            AS
+                                        `CITYNAME`,
+            `city`.`RANK`            AS `RANK`,
+            `province`.`NAME`        AS
+                                        `PROVINCE_NAME`,
+            `province`.`PROVINCE_ID` AS
+                                        `PROVINCE_ID`,
+            `country`.`COUNTRY_ID`   AS
+                                        `COUNTRY_ID`,
+            `country`.`NAME_CN`      AS `NAME_CN`,
+            `country`.`NAME_JP`      AS
+                                        `NAME_JP`,
+            `country`.`NAME_US`      AS `NAME_US`
+        FROM school
+            LEFT JOIN location ON location.LOCATION_ID = school.LOCATION
+            LEFT JOIN `city` ON location.CITY = city.CITY_ID
+            LEFT JOIN `province` ON `city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`
+            LEFT JOIN `country` ON `province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`
+        WHERE SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM school
+        WHERE SCHOOL_ID = #{schoolId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.SkyShadow.model.School">
+        INSERT INTO school (NAME, LOCATION,
+                            RANK, PARENT_ID, IS_PUBLIC)
+        VALUES (#{name,jdbcType=VARCHAR},
+                #{location.locationId,jdbcType=BIGINT},
+                #{rank,jdbcType=CHAR}, #{parentId.schoolId,jdbcType=BIGINT}, #{isPublic,jdbcType=CHAR})
+    </insert>
 </mapper>

@@ -26,24 +26,21 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public List<Mail> Receive(Long userId) {
-        return MailMapper.Receive(userId);
+        return MailMapper.receive(userId);
     }
 
     @Override
     public BaseExecution SendMail(Mail mail) {
-        if (mail==null){
-            return ExecutionFactory.getExecutionByResultCode(0,"邮件不能为空");
-        }
-        return ExecutionFactory.getExecutionByResultCode(MailMapper.insertSelective(mail));
+        return null;
     }
 
     @Override
     public BaseExecution DeleteMail(Long mailId) {
-        return ExecutionFactory.getExecutionByResultCode(MailMapper.deleteByPrimaryKey(mailId));
+        return null;
     }
 
     @Override
     public BaseExecution ReadMail(List<Long> IdList) {
-        return ExecutionFactory.getExecutionByResultCode(MailMapper.ReadMail(IdList));
+        return null;
     }
 }

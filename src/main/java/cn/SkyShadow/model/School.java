@@ -1,5 +1,7 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 public class School {
 	private Long schoolId;
 
@@ -63,9 +65,7 @@ public class School {
 
 	@Override
 	public String toString() {
-		return "School [schoolId=" + schoolId + ", name=" + name
-				+ ", Location=" + location + ", rank=" + rank + ", parentId="
-				+ parentId + ", isPublic=" + isPublic + "]";
+		return JsonFormatUtil.getJsonFormatString(this);
 	}
 
 }

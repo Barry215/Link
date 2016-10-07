@@ -16,7 +16,7 @@ public interface MailboxGroupMapper {
      * @param record 邮箱组
      * @return 执行结果
      */
-	int insert(MailboxGroup record);//// TODO: 9/22/2016
+	int insert(MailboxGroup record);
 
     /**
      * 向邮箱组添加邮箱

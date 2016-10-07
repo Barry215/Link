@@ -1,7 +1,6 @@
 package cn.SkyShadow.factory;
 
 import cn.SkyShadow.dto.execution.BaseExecution;
-import cn.SkyShadow.dto.user.LoginResult;
 import cn.SkyShadow.dto.user.PasswordProtected;
 import cn.SkyShadow.dto.user.RegisterResult;
 import cn.SkyShadow.enums.ResultMapper;
@@ -11,23 +10,11 @@ import cn.SkyShadow.enums.ResultMapper;
  * Created by RichardW on 9/14/2016.
  */
 public class ExecutionFactory {
-    public static BaseExecution getExecutionByResultCode(int resultCode){
-        return new BaseExecution(resultCode,"操作已执行");// TODO: 16/9/29
-    }
-    public static BaseExecution getExecutionByResultCode(int resultCode, String info){
-        return new BaseExecution(resultCode,info);// TODO: 16/9/29
-    }
-    public static BaseExecution getExecution(ResultMapper ResultMapper, Object o){// TODO: 16/9/29
+    public static BaseExecution getExecution(ResultMapper ResultMapper, Object o){
         return new BaseExecution(ResultMapper.isSuccess(),ResultMapper.getCode(),ResultMapper.getInfo(),o);
     }
     public static BaseExecution getExecution(ResultMapper ResultMapper){
         return new BaseExecution(ResultMapper.isSuccess(),ResultMapper.getCode(),ResultMapper.getInfo());
-    }
-    public static BaseExecution getExecution(LoginResult loginResult){
-        if (loginResult.getResultNum()==1){
-            return getExecution(ResultMapper.SUCCESS);
-        }
-        return getExecution(ResultMapper.User_Login_Fail);
     }
     public static BaseExecution getExecution(RegisterResult registerResult){
         switch (registerResult.getT_error()){

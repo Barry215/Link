@@ -24,58 +24,33 @@
 		from mail
 		where MAIL_ID = #{mailId,jdbcType=BIGINT}
 	</select>
+	<select id="receive" parameterType="java.lang.Long">
+
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from mail
 		where MAIL_ID = #{mailId,jdbcType=BIGINT}
 	</delete>
-	<insert id="insertSelective" parameterType="cn.SkyShadow.model.Mail"
+	<insert id="insert" parameterType="cn.SkyShadow.model.Mail"
 		keyProperty="mailId">
 		insert into mail
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="headline != null">
 				HEADLINE,
-			</if>
-			<if test="subLine != null">
 				SUB_LINE,
-			</if>
-			<if test="content != null">
 				CONTENT,
-			</if>
-			<if test="senderMailbox != null">
 				SENDER_MAILBOX,
-			</if>
-			<if test="receivedMailboxGroup != null">
 				RECEIVED_MAILBOX_GROUP,
-			</if>
-			<if test="isRead != null">
 				IS_READ,
-			</if>
-			<if test="isDeleted != null">
 				ISDELETED
-			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="headline != null">
 				#{headline,jdbcType=VARCHAR},
-			</if>
-			<if test="subLine != null">
 				#{subLine,jdbcType=VARCHAR},
-			</if>
-			<if test="content != null">
 				#{content[0].contentId,jdbcType=VARCHAR},
-			</if>
-			<if test="senderMailbox != null">
 				#{senderMailbox.mailboxId,jdbcType=BIGINT},
-			</if>
-			<if test="receivedMailboxGroup != null">
 				#{receivedMailboxGroup.groupId,jdbcType=BIGINT},
-			</if>
-			<if test="isRead != null">
 				#{isRead,jdbcType=CHAR},
-			</if>
-			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=CHAR}
-			</if>
 		</trim>
 	</insert>
 </mapper>

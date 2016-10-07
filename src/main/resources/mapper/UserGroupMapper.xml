@@ -5,6 +5,10 @@
 		<id column="GROUP_ID" property="groupId" jdbcType="BIGINT" />
 		<collection property="users" column="GROUP_ID" select="selectUsers"/>
 	</resultMap>
+	<!--开放功能-->
+	<insert id="insert" parameterType="cn.SkyShadow.model.UserGroup" keyProperty="groupId">
+        INSERT INTO `usergroup`(GROUP_ID) VALUES(DEFAULT);
+	</insert>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from
 		usergroup
