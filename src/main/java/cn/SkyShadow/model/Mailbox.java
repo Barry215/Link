@@ -1,5 +1,7 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 import java.util.List;
 
 public class Mailbox {
@@ -19,9 +21,7 @@ public class Mailbox {
 
 	@Override
 	public String toString() {
-		return "Mailbox [mailboxId=" + mailboxId + ", belongType=" + belongType
-				+ ", User=" + user + ", Occupation=" + occupation + ", mails="
-				+ mails + "]";
+		return JsonFormatUtil.getJsonFormatString(this);
 	}
 
 	public Mailbox(String belongType) {

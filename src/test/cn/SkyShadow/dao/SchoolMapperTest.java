@@ -1,10 +1,10 @@
 package cn.SkyShadow.dao;
 
 
-import cn.SkyShadow.base.SpringBase;
+import cn.SkyShadow.base.SpringTest;
 import org.junit.Test;
 
-public class SchoolMapperTest extends SpringBase{
+public class SchoolMapperTest extends SpringTest {
     private LocationMapper locationMapper =
             (LocationMapper) applicationContext.getBean("locationMapper");
     private SchoolMapper schoolMapper =

@@ -3,10 +3,8 @@ package cn.SkyShadow.service.Impl;
 import cn.SkyShadow.dao.MessageMapper;
 import cn.SkyShadow.dao.SessionMapper;
 import cn.SkyShadow.dto.execution.BaseExecution;
-import cn.SkyShadow.factory.ExecutionFactory;
 import cn.SkyShadow.model.*;
 import cn.SkyShadow.service.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +27,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public List<Session> GetAllSession(Long userId) {
-        return SessionMapper.GetAllSession(userId);
+        return SessionMapper.getAllSession(userId);
     }
 
     @Override

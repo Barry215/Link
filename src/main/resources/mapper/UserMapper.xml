@@ -25,6 +25,11 @@
 			select="selectUser_schools"/>
 		<collection property="expressions" column="USER_ID" select="selectExpressions"/>
 	</resultMap>
+	<resultMap id="BaseInfo" type="cn.SkyShadow.model.User">
+		<id column="USER_ID" jdbcType="BIGINT" property="userId" />
+		<result column="USERNAME" jdbcType="VARCHAR" property="username" />
+		<result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+	</resultMap>
 	<resultMap id="LoginResultMap" type="cn.SkyShadow.dto.user.LoginResult">
 		<result column="result" jdbcType="VARCHAR" property="result" />
 		<result column="resultNum" jdbcType="BIGINT" property="resultNum" />
@@ -63,7 +68,7 @@
 		from user
 		where USER_ID = #{userId,jdbcType=BIGINT}
 	</select>
-	<select id="selectBaseInfo" resultMap="BaseResultMap"
+	<select id="selectBaseInfo" resultMap="BaseInfo"
 			parameterType="java.lang.Long">
 		select
 		USER_ID,USERNAME,NICKNAME

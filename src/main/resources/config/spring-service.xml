@@ -42,10 +42,10 @@
         <constructor-arg type="cn.SkyShadow.dao.ApplyMapper" ref="applyMapper"/>
     </bean>
     <bean id="orgService" class="cn.SkyShadow.service.Impl.OrgServiceImpl">
-        <constructor-arg type="cn.SkyShadow.dao.OrganizationMapper" ref="organizationMapper"/>
-        <constructor-arg type="cn.SkyShadow.factory.ReceiptHandlerFactory" ref="receiptHandlerFactory"/>
-        <constructor-arg type="cn.SkyShadow.factory.ApplyHandlerFactory" ref="applyHandlerFactory"/>
-        <constructor-arg type="cn.SkyShadow.dao.LocationMapper" ref="locationMapper"/>
+        <constructor-arg name="applyHandlerFactory" ref="applyHandlerFactory"/>
+        <constructor-arg name="lMapper" ref="locationMapper"/>
+        <constructor-arg name="OrganizationMapper" ref="organizationMapper"/>
+        <constructor-arg name="receiptHandlerFactory" ref="receiptHandlerFactory"/>
     </bean>
     <bean id="publicService" class="cn.SkyShadow.service.Impl.PublicServiceImpl">
         <constructor-arg type="cn.SkyShadow.dao.UserMapper" ref="userMapper"/>

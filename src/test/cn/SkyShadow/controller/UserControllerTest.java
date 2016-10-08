@@ -1,14 +1,11 @@
 package cn.SkyShadow.controller;
 
-import cn.SkyShadow.base.SpringBase;
+import cn.SkyShadow.base.SpringTest;
 import cn.SkyShadow.enums.ResultMapper;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.Assert.*;
 
 
-public class UserControllerTest extends SpringBase {
+public class UserControllerTest extends SpringTest {
     private UserController userController = (UserController) applicationContext.getBean("userController");
     @Test
     public void Test1(){

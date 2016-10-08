@@ -1,10 +1,7 @@
 package cn.SkyShadow.dao;
 
-import cn.SkyShadow.dto.file.FileList;
 import cn.SkyShadow.model.Organization;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 public interface OrganizationMapper {
     /**
@@ -27,6 +24,13 @@ public interface OrganizationMapper {
      * @return 组织
      */
     Organization selectByPrimaryKey(Long orgId);
+
+    /**
+     * 删除临时的组织信息
+     * @param orgId 组织ID
+     * @return 执行结果
+     */
+    Organization selectByPrimaryKeyTemp(Long orgId);
 
     /**
      * 插入临时的组织数据
@@ -56,30 +60,6 @@ public interface OrganizationMapper {
      * @return 执行结果
      */
     int ModifyCreator(@Param("orgId") Long orgId, @Param("userId") Long userId);
-
-    /**
-     * 添加管理员
-     * @param orgId 组织ID
-     * @param userId 用户ID
-     * @return 执行结果
-     */
-    int AddAdmin(@Param("orgId") Long orgId, @Param("userId") Long userId);
-
-    /**
-     * 移除管理员
-     * @param orgId 组织ID
-     * @param userId 用户ID
-     * @return 执行结果
-     */
-    int RemoveAdmin(@Param("orgId") Long orgId, @Param("userId") Long userId);
-
-    /**
-     * 获取所有文件
-     * @param organizationID 组织ID
-     * @return 执行结果
-     */
-    FileList GetFileList(Long organizationID);
-
     /**
      * 修改父组织
      * @param orgId 组织
@@ -94,16 +74,4 @@ public interface OrganizationMapper {
      * @return 执行解雇
      */
     String HasOrgName(String name);
-    /**
-     * 搜索组织
-     * @param str 搜索字段
-     * @return 返回组织列表
-     */
-    List<Organization> SearchOrg(String str);
-
-    /**
-     * 获取组织基本信息
-     * @param orgId 组织ID
-     * @return 返回组织信息
-     */
 }

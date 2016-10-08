@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:config/spring-dao.xml","classpath:config/spring-service.xml","classpath:config/spring-mvc.xml"})
-public class SpringBase {
+public class SpringTest {
     private MockHttpServletRequest request = new MockHttpServletRequest();
     private MockHttpServletResponse response =new MockHttpServletResponse();
 

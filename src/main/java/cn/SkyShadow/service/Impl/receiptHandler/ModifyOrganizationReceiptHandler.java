@@ -21,11 +21,11 @@ public class ModifyOrganizationReceiptHandler extends ReceiptHandler<ModifyOrgan
     @Override
     public void doIfAgree() {
         organizationMapper.updateByPrimaryKey(receipt.getApply().getOrganization());
-        receiptMapper.Create(receipt);
+        receiptMapper.create(receipt);
     }
 
     @Override
     public void doIfDisagree() {
-        receiptMapper.Create(receipt);
+        receiptMapper.create(receipt);
     }
 }

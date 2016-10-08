@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.SkyShadow.dao.SessionMapper" >
-  <resultMap id="BaseResultMap" type="cn.SkyShadow.model.Session" >
-    <id column="SESSION_ID" property="sessionId" jdbcType="BIGINT" />
-    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
-    <association column="USER_GROUP_ID" property="userGroupId" select="cn.SkyShadow.dao.UserGroupMapper.selectUserGroup" />
-  </resultMap>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-      SESSION_ID, USER_GROUP_ID, START_TIME, END_TIME
-    from session
-    where SESSION_ID = #{sessionId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from session
-    where SESSION_ID = #{sessionId,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="cn.SkyShadow.model.Session" keyProperty="sessionId">
-    insert into session (USER_GROUP_ID)
-    values (#{userGroupId.groupId,jdbcType=BIGINT})
-  </insert>
-  <select id="GetAllSession" parameterType="java.lang.Long" resultMap="BaseResultMap">
-
-  </select>
+<mapper namespace="cn.SkyShadow.dao.SessionMapper">
+    <resultMap id="BaseResultMap" type="cn.SkyShadow.model.Session">
+        <id column="SESSION_ID" property="sessionId" jdbcType="BIGINT"/>
+        <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP"/>
+        <association column="USER_GROUP_ID" property="userGroupId" select="cn.SkyShadow.dao.UserGroupMapper.selectUserGroup"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            SESSION_ID,
+            USER_GROUP_ID,
+            START_TIME,
+            END_TIME
+        FROM session
+        WHERE SESSION_ID = #{sessionId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM session
+        WHERE SESSION_ID = #{sessionId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.SkyShadow.model.Session" keyProperty="sessionId">
+        INSERT INTO session (USER_GROUP_ID, END_TIME)
+        VALUES (#{userGroupId.groupId,jdbcType=BIGINT},
+                #{endTime,jdbcType=TIMESTAMP})
+    </insert>
+    <select id="getAllSession" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT SESSION_ID,
+            USER_GROUP_ID,
+            START_TIME,
+            END_TIME
+        FROM session
+        LEFT JOIN usergroup ON session.USER_GROUP_ID = usergroup.GROUP_ID
+        LEFT JOIN user_usergroup ON usergroup.GROUP_ID = user_usergroup.USERGROUP
+        LEFT JOIN user ON user_usergroup.USER_ID = user.USER_ID
+        WHERE user.USER_ID = #{userId,jdbcType=BIGINT}
+    </select>
 </mapper>

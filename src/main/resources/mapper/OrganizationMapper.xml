@@ -3,75 +3,26 @@
 <mapper namespace="cn.SkyShadow.dao.OrganizationMapper">
     <resultMap id="BaseResultMap" type="cn.SkyShadow.model.Organization">
         <id column="ORG_ID" property="orgId" jdbcType="BIGINT"/>
-        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="ORG_NAME" property="name" jdbcType="VARCHAR"/>
         <result column="TYPE" property="type" jdbcType="VARCHAR"/>
-        <association column="LOCATION" property="location"
-                     select="cn.SkyShadow.dao.LocationMapper.selectByPrimaryKey"/>
-        <association column="PARENT_ID" property="parentId"
-                     select="cn.SkyShadow.dao.OrganizationMapper.selectBaseInfo"/>
-        <association column="CREATOR_ID" property="creatorId"
-                     select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
-        <collection property="Announces" column="ORD_ID" select="selectAnnounces"/>
-        <collection property="sonOrganizations" column="ORG_ID"
-                    select="selectSonOrganizations"/>
+        <association column="LOCATION" property="location" resultMap="cn.SkyShadow.dao.LocationMapper.BaseResultMap"/>
+        <association column="PARENT_ID" property="parentId" javaType="cn.SkyShadow.model.Organization">
+            <id column="PARENT_ORG_ID" property="orgId" jdbcType="BIGINT"/>
+            <result column="PARENT_ORG_NAME" property="name" jdbcType="VARCHAR"/>
+            <result column="PARENT_TYPE" property="type" jdbcType="VARCHAR"/>
+        </association>
+        <association column="CREATOR_ID" property="creatorId" javaType="cn.SkyShadow.model.User">
+            <id column="USER_ID" jdbcType="BIGINT" property="userId"/>
+            <result column="NICKNAME" jdbcType="VARCHAR" property="nickname"/>
+            <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
+        </association>
+        <collection property="sonOrganizations" column="ORG_ID" ofType="cn.SkyShadow.model.Organization">
+            <id column="SON_ORG_ID" property="orgId" jdbcType="BIGINT"/>
+            <result column="SON_ORG_NAME" property="name" jdbcType="VARCHAR"/>
+            <result column="SON_TYPE" property="type" jdbcType="VARCHAR"/>
+        </collection>
     </resultMap>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
-            parameterType="java.lang.Long">
-        SELECT
-            ORG_ID,
-            NAME,
-            LOCATION,
-            PARENT_ID,
-            CREATOR_ID,
-            TYPE
-        FROM organization
-        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
-    </select>
-    <select id="selectByPrimaryKeyTemp" resultMap="BaseResultMap"
-            parameterType="java.lang.Long">
-        SELECT
-        ORG_ID,
-        NAME,
-        LOCATION,
-        PARENT_ID,
-        CREATOR_ID,
-        TYPE
-        FROM organization_temporary
-        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
-    </select>
-    <select id="selectAnnounces" resultMap="cn.SkyShadow.dao.AnnounceMapper.BaseResultMap"
-            parameterType="java.lang.Long">
-        SELECT
-            ANN_ID,
-            CONTENT_ID,
-            TIME,
-            AUTHOR
-        FROM
-            Announce
-        WHERE
-            ORG_ID = #{orgId jdbcType="BIGINT"}
-    </select>
-    <select id="selectSonOrganizations" resultMap="BaseResultMap"
-            parameterType="java.lang.Long">
-        SELECT
-            ORG_ID,
-            NAME,
-            CREATOR_ID,
-            TYPE
-        FROM organization
-        WHERE PARENT_ID = #{orgId,jdbcType=BIGINT}
-    </select>
-    <select id="selectBaseInfo" resultMap="BaseResultMap"
-            parameterType="java.lang.Long">
-        SELECT
-            ORG_ID,
-            NAME,
-            LOCATION,
-            CREATOR_ID,
-            TYPE
-        FROM organization
-        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
-    </select>
+    <!--开放功能-->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         DELETE FROM
             organization
@@ -88,16 +39,106 @@
              #{creatorId.userId,jdbcType=BIGINT},
              #{type,jdbcType=VARCHAR})
     </insert>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            org.ORG_ID,
+            org.NAME                 AS `ORG_NAME`,
+            org.PARENT_ID,
+            org.CREATOR_ID,
+            org.TYPE,
+            org_Father.ORG_ID        AS `PARENT_ORG_ID`,
+            org_Father.NAME          AS `PARENT_ORG_NAME`,
+            org_Father.TYPE          AS `PARENT_TYPE`,
+            org_son.ORG_ID        AS `SON_ORG_ID`,
+            org_son.NAME          AS `SON_ORG_NAME`,
+            org_son.TYPE          AS `SON_TYPE`,
+            LOCATION_ID,
+            DETAIL,
+            LONGITUDE,
+            LATITUDE,
+            `city`.`CITY_ID`         AS `CITY_ID`,
+            `city`.`NAME`            AS
+                                        `CITYNAME`,
+            `city`.`RANK`            AS `RANK`,
+            `province`.`NAME`        AS
+                                        `PROVINCE_NAME`,
+            `province`.`PROVINCE_ID` AS
+                                        `PROVINCE_ID`,
+            `country`.`COUNTRY_ID`   AS
+                                        `COUNTRY_ID`,
+            `country`.`NAME_CN`      AS `NAME_CN`,
+            `country`.`NAME_JP`      AS
+                                        `NAME_JP`,
+            `country`.`NAME_US`      AS `NAME_US`,
+            USER_ID,
+            NICKNAME,
+            USERNAME
+        FROM organization AS org
+            LEFT JOIN organization AS org_Father ON org.PARENT_ID = org_Father.ORG_ID
+            LEFT JOIN organization AS org_son ON org.ORG_ID = org_son.PARENT_ID
+            LEFT JOIN location ON org.LOCATION = location.LOCATION_ID
+            LEFT JOIN `city` ON location.CITY = city.CITY_ID
+            LEFT JOIN `province` ON`city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`
+            LEFT JOIN `country` ON `province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`
+            LEFT JOIN user ON org.CREATOR_ID = user.USER_ID
+        WHERE org.ORG_ID = #{orgId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPrimaryKeyTemp" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            org.ORG_ID,
+            org.NAME                 AS `ORG_NAME`,
+            org.PARENT_ID,
+            org.CREATOR_ID,
+            org.TYPE,
+            org_Father.ORG_ID        AS `PARENT_ORG_ID`,
+            org_Father.NAME          AS `PARENT_ORG_NAME`,
+            org_Father.TYPE          AS `PARENT_TYPE`,
+            org_son.ORG_ID        AS `SON_ORG_ID`,
+            org_son.NAME          AS `SON_ORG_NAME`,
+            org_son.TYPE          AS `SON_TYPE`,
+            LOCATION_ID,
+            DETAIL,
+            LONGITUDE,
+            LATITUDE,
+            `city`.`CITY_ID`         AS `CITY_ID`,
+            `city`.`NAME`            AS
+                                        `CITYNAME`,
+            `city`.`RANK`            AS `RANK`,
+            `province`.`NAME`        AS
+                                        `PROVINCE_NAME`,
+            `province`.`PROVINCE_ID` AS
+                                        `PROVINCE_ID`,
+            `country`.`COUNTRY_ID`   AS
+                                        `COUNTRY_ID`,
+            `country`.`NAME_CN`      AS `NAME_CN`,
+            `country`.`NAME_JP`      AS
+                                        `NAME_JP`,
+            `country`.`NAME_US`      AS `NAME_US`,
+            USER_ID,
+            NICKNAME,
+            USERNAME
+        FROM organization_temporary AS org
+            LEFT JOIN organization AS org_Father ON org.PARENT_ID = org_Father.ORG_ID
+            LEFT JOIN organization AS org_son ON org.ORG_ID = org_son.PARENT_ID
+            LEFT JOIN location ON org.LOCATION = location.LOCATION_ID
+            LEFT JOIN `city` ON location.CITY = city.CITY_ID
+            LEFT JOIN `province` ON`city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`
+            LEFT JOIN `country` ON `province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`
+            LEFT JOIN user ON org.CREATOR_ID = user.USER_ID
+        WHERE org.ORG_ID = #{orgId,jdbcType=BIGINT}
+    </select>
     <insert id="insertTemp" parameterType="cn.SkyShadow.model.Organization" keyProperty="orgId">
         INSERT IGNORE INTO
-        organization_temporary (ORG_ID, NAME, LOCATION,
-        PARENT_ID, CREATOR_ID, TYPE)
+            organization_temporary (ORG_ID, NAME, LOCATION,
+                                    PARENT_ID, CREATOR_ID, TYPE)
         VALUES
-        (#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
-        #{location.locationId,jdbcType=BIGINT},
-        #{parentId.organizationId,jdbcType=BIGINT},
-        #{creatorId.userId,jdbcType=BIGINT},
-        #{type,jdbcType=VARCHAR})
+            (#{orgId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+             #{location.locationId,jdbcType=BIGINT},
+             #{parentId.organizationId,jdbcType=BIGINT},
+             #{creatorId.userId,jdbcType=BIGINT},
+             #{type,jdbcType=VARCHAR})
     </insert>
     <update id="updateByPrimaryKey" parameterType="cn.SkyShadow.model.Organization">
         update organization
@@ -109,36 +150,48 @@
         </set>
         where ORG_ID = #{orgId,jdbcType=BIGINT}
     </update>
-    <select id="GetFileList" resultMap="BaseResultMap" parameterType="java.lang.Long">
-        SELECT *
-        FROM `file`
-        WHERE ASCRIPTION_TYPE = 'ORGANIZATION' AND organization = #{organizationID,jdbcType=BIGINT};
+    <select id="selectBaseInfo" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            ORG_ID,
+            NAME,
+            LOCATION,
+            CREATOR_ID,
+            TYPE
+        FROM organization
+        WHERE ORG_ID = #{orgId,jdbcType=BIGINT}
     </select>
-    <update id="ModifyCreator">
-        UPDATE organization
-        SET organization.CREATOR_ID = #{userId,jdbcType=BIGINT}
-        WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
-    </update>
-    <update id="AddAdmin">
-        INSERT INTO org_admin (org_admin.orgId, org_admin.userId)
-        VALUES (#{orgId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
-    </update>
-    <update id="RemoveAdmin">
-        DELETE FROM org_admin
-        WHERE org_admin.orgId = #{orgId,jdbcType=BIGINT} AND org_admin.userId = #{userId,jdbcType=BIGINT}
-    </update>
     <update id="ModifyParent">
         UPDATE organization
         SET organization.PARENT_ID = #{parentId,jdbcType=BIGINT}
         WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
     </update>
+    <update id="ModifyCreator">
+        UPDATE organization
+        SET organization.CREATOR_ID = #{userId,jdbcType=BIGINT}
+        WHERE organization.ORG_ID = #{orgId,jdbcType=BIGINT};
+    </update>
+    <select id="HasOrgName" parameterType="java.lang.String">
+        # noinspection SqlResolve
+        SELECT org_HasOrgName(#{str,jdbcType=VARCHAR});
+    </select>
+    <!--保留功能-->
+    <select id="selectAnnounces" resultMap="cn.SkyShadow.dao.AnnounceMapper.BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            ANN_ID,
+            CONTENT_ID,
+            TIME,
+            AUTHOR
+        FROM
+            Announce
+        WHERE
+            ORG_ID = #{orgId jdbcType="BIGINT"}
+    </select>
     <select id="SearchOrg" parameterType="java.lang.String">
         SELECT *
         FROM organization
         WHERE organization.`NAME` LIKE CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
     </select>
-    <select id="HasOrgName" parameterType="java.lang.String">
-        # noinspection SqlResolve
-        SELECT org_HasOrgName(#{str,jdbcType=VARCHAR});
-    </select>
+
 </mapper>

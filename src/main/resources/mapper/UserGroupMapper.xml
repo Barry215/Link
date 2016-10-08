@@ -15,7 +15,7 @@
 		where GROUP_ID = #{groupId,jdbcType=BIGINT}
 	</delete>
 	<select id="selectUsers" parameterType="java.lang.Long"
-		resultMap="cn.SkyShadow.dao.UserMapper.BaseResultMap">
+		resultMap="cn.SkyShadow.dao.UserMapper.BaseInfo">
 		SELECT
 		`user`.USER_ID USER_ID,USERNAME,NICKNAME
 		FROM
