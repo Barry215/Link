@@ -54,7 +54,7 @@ public enum ResultMapper {
     private int code;
     private String info;
     private String resultName;
-    private ReadConfigFile readConfigFile = ReadConfigFileFactory.getReadXmlTools();
+    private ReadConfigFile readConfigFile = ReadConfigFileFactory.getReadXmlTools("/resultConfig/result.xml");
 
 
     ResultMapper() {
@@ -97,7 +97,6 @@ public enum ResultMapper {
     private void read(){
         try {
             this.resultName = this.name();
-            readConfigFile.setPath("/resultConfig/result.xml");
             Node node = (Node) readConfigFile.getValue(this.name());
             NodeList childNode = node.getChildNodes();
             for (int j = 0;j<childNode.getLength();j++){

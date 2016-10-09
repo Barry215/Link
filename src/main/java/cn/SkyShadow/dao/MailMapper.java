@@ -17,7 +17,7 @@ public interface MailMapper {
      * @param record 邮件信息
      * @return 执行结果
      */
-    int insertSelective(Mail record);
+    int insert(Mail record);
 
     /**
      * 查询邮件
@@ -31,12 +31,12 @@ public interface MailMapper {
      * @param userId 用户ID
      * @return 邮件列表
      */
-    List<Mail> Receive(Long userId);//TODO
+    List<Mail> receive(Long userId);
 
     /**
      * 已读mail
      * @param mailIdList 邮件ID列表
      * @return 执行结果
      */
-    int ReadMail(List<Long> mailIdList);//// TODO: 9/14/2016
+    int readMail(List<Long> mailIdList);
 }

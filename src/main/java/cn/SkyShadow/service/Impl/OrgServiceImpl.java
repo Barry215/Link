@@ -205,7 +205,7 @@ public class OrgServiceImpl implements OrgService {
      */
     @Override
     public BaseExecution deleteOrganization(Long userId, Long orgId) {
-        return null;// TODO: 9/28/2016
+        return null;
     }
 
     @Override

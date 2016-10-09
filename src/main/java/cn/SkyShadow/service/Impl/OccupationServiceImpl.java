@@ -76,7 +76,7 @@ public class OccupationServiceImpl implements OccupationService {
             OccupationMapper.addUser(receipt.getApply().getOccupation().getOccupationId()
                     ,receipt.getApply().getPerson().getUserId());
         }
-        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(receipt));
+        return null;
     }
 
     @Override

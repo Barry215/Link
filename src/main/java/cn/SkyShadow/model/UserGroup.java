@@ -1,5 +1,7 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 import java.util.List;
 
 public class UserGroup {
@@ -25,7 +27,7 @@ public class UserGroup {
 
 	@Override
 	public String toString() {
-		return "UserGroup [groupId=" + groupId + ", users=" + users + "]";
+		return JsonFormatUtil.getJsonFormatString(this);
 	}
 
 }

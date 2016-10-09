@@ -43,26 +43,26 @@ public class FriendServiceImpl implements FriendService {
         if (receipt.isSuccess()){
             FriendMapper.insert(receipt.getApply().getFriend());
         }
-        return ExecutionFactory.getExecutionByResultCode(receiptMapper.Create(receipt));
+        return null;
     }
 
     @Override
     public BaseExecution CreateFriendGroup(FriendGroup friendGroup) {
-        return ExecutionFactory.getExecutionByResultCode(FriendGroupMapper.insert(friendGroup));
+        return null;
     }
 
     @Override
     public BaseExecution ModifyFriendGroup(FriendGroup friendGroup) {
-        return ExecutionFactory.getExecutionByResultCode(FriendGroupMapper.update(friendGroup));
+        return null;
     }
 
     @Override
     public BaseExecution DeleteFriend(Long friendId) {
-        return ExecutionFactory.getExecutionByResultCode(FriendMapper.deleteByPrimaryKey(friendId));
+        return null;
     }
 
     @Override
     public BaseExecution deleteFriendGroup(Long friendGroupId) {
-        return ExecutionFactory.getExecutionByResultCode(FriendGroupMapper.deleteByPrimaryKey(friendGroupId));
+        return null;
     }
 }

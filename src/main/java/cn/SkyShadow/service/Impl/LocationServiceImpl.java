@@ -24,16 +24,16 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public BaseExecution Add(Location location) {
-        return ExecutionFactory.getExecutionByResultCode(LocationMapper.CreateNewLocation(location));
+        return null;
     }
 
     @Override
     public BaseExecution Remove(Long locationId) {
-        return ExecutionFactory.getExecutionByResultCode(LocationMapper.RemoveLocation(locationId));
+        return null;
     }
 
     @Override
     public BaseExecution Modify(Location location) {
-        return ExecutionFactory.getExecutionByResultCode(LocationMapper.ModifyLocation(location));
+        return null;
     }
 }

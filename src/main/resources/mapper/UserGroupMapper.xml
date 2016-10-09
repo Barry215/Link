@@ -5,13 +5,17 @@
 		<id column="GROUP_ID" property="groupId" jdbcType="BIGINT" />
 		<collection property="users" column="GROUP_ID" select="selectUsers"/>
 	</resultMap>
+	<!--开放功能-->
+	<insert id="insert" parameterType="cn.SkyShadow.model.UserGroup" keyProperty="groupId">
+        INSERT INTO `usergroup`(GROUP_ID) VALUES(DEFAULT);
+	</insert>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete from
 		usergroup
 		where GROUP_ID = #{groupId,jdbcType=BIGINT}
 	</delete>
 	<select id="selectUsers" parameterType="java.lang.Long"
-		resultMap="cn.SkyShadow.dao.UserMapper.BaseResultMap">
+		resultMap="cn.SkyShadow.dao.UserMapper.BaseInfo">
 		SELECT
 		`user`.USER_ID USER_ID,USERNAME,NICKNAME
 		FROM

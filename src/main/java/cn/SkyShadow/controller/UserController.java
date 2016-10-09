@@ -203,6 +203,7 @@ public class UserController{
     public JsonResult<?> sendEmailValidateCode(
             @PathVariable("email") String email, HttpSession session) {
         try {
+
             if (pService.HasEmail(email).equals("ER")) {
                 return JsonResultFactory.CreateJsonResult_True(ResultMapper.Public_Email_Format);
             } else if (pService.HasEmail(email).equals("Y")) {

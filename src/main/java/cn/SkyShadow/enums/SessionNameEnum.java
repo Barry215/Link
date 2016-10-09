@@ -1,7 +1,6 @@
 package cn.SkyShadow.enums;
 
 import cn.SkyShadow.factory.ReadConfigFileFactory;
-import cn.SkyShadow.tp.service.Impl.ReadProperties;
 import cn.SkyShadow.tp.service.ReadConfigFile;
 
 /**
@@ -23,7 +22,7 @@ public enum SessionNameEnum {
 
     private String sessionName;
     private String info;
-    private ReadConfigFile readProperties = ReadConfigFileFactory.getReadPropertiesTools();
+    private ReadConfigFile readProperties = ReadConfigFileFactory.getReadPropertiesTools("/resultConfig/sessionName.properties");
     SessionNameEnum() {
         this.sessionName = this.name();
         try {
@@ -33,7 +32,6 @@ public enum SessionNameEnum {
         }
     }
     private void read() throws Exception {
-        readProperties.setPath("/resultConfig/sessionName.properties");
         this.info = (String) readProperties.getValue(sessionName);
     }
 

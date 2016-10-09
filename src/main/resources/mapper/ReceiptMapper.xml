@@ -1,7 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.SkyShadow.dao.ReceiptMapper">
-    <resultMap id="BaseResultMap" type="cn.SkyShadow.model.apply.Receipt">
-        <id column="" property="id" jdbcType="BIGINT"/>
+    <resultMap id="ModifyOrganization" type="cn.SkyShadow.model.apply.Receipt">
+        <id column="RECEIPT_ID" jdbcType="BIGINT"/>
+        <result column="AGREE" jdbcType="VARCHAR"/>
+        <result column="REASON" jdbcType="VARCHAR"/>
+        <association property="apply" resultMap="cn.SkyShadow.dao.ApplyMapper.ModifyOrganization"/>
     </resultMap>
+    <resultMap id="ApplyParentOrg" type="cn.SkyShadow.model.apply.Receipt">
+        <id column="RECEIPT_ID" jdbcType="BIGINT"/>
+        <result column="AGREE" jdbcType="VARCHAR"/>
+        <result column="REASON" jdbcType="VARCHAR"/>
+        <association property="apply" resultMap="cn.SkyShadow.dao.ApplyMapper.ApplyParentOrg"/>
+    </resultMap>
+    <resultMap id="ApplyUnlockParentOrg" type="cn.SkyShadow.model.apply.Receipt">
+        <id column="RECEIPT_ID" jdbcType="BIGINT"/>
+        <result column="AGREE" jdbcType="VARCHAR"/>
+        <result column="REASON" jdbcType="VARCHAR"/>
+        <association property="apply" resultMap="cn.SkyShadow.dao.ApplyMapper.ApplyUnlockParentOrg"/>
+    </resultMap>
+    <resultMap id="DeliverOrg" type="cn.SkyShadow.model.apply.Receipt">
+        <id column="RECEIPT_ID" jdbcType="BIGINT"/>
+        <result column="AGREE" jdbcType="VARCHAR"/>
+        <result column="REASON" jdbcType="VARCHAR"/>
+        <association property="apply" resultMap="cn.SkyShadow.dao.ApplyMapper.DeliverOrg"/>
+    </resultMap>
+    <insert id="create" parameterType="cn.SkyShadow.model.apply.Receipt" keyProperty="orgId">
+        INSERT INTO receipt (APPLY_ID, AGREE, REASON)
+        VALUES (#{apply.id,jdbcType=BIGINT}, #{agree,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR})
+    </insert>
+    <select id="getModifyOrganization" parameterType="java.lang.Long" resultMap="ModifyOrganization">
+        SELECT RECEIPT_ID,
+            AGREE,
+            REASON,
+            USER,
+            ORG_TEMP1
+        FROM receipt
+            LEFT JOIN apply ON receipt.APPLY_ID = apply.APPLY_ID
+        WHERE receipt.RECEIPT_ID = #{receiptId,jdbcType=BIGINT}
+    </select>
+    <select id="getApplyParentOrg" parameterType="java.lang.Long" resultMap="ApplyParentOrg">
+        SELECT RECEIPT_ID,
+            AGREE,
+            REASON,
+            USER,
+            ORG_TEMP1,
+            ORG_TEMP2
+        FROM receipt
+            LEFT JOIN apply ON receipt.APPLY_ID = apply.APPLY_ID
+        WHERE receipt.RECEIPT_ID = #{receiptId,jdbcType=BIGINT}
+    </select>
+    <select id="getApplyUnlockParentOrg" parameterType="java.lang.Long" resultMap="ApplyUnlockParentOrg">
+        SELECT RECEIPT_ID,
+            AGREE,
+            REASON,
+            USER,
+            ORG_TEMP1,
+            ORG_TEMP2
+        FROM receipt
+            LEFT JOIN apply ON receipt.APPLY_ID = apply.APPLY_ID
+        WHERE receipt.RECEIPT_ID = #{receiptId,jdbcType=BIGINT}
+    </select>
+    <select id="getDeliverOrg" parameterType="java.lang.Long" resultMap="DeliverOrg">
+        SELECT RECEIPT_ID,
+            AGREE,
+            REASON,
+            USER,
+            ORG_TEMP1,
+            USER_TEMP1
+        FROM receipt
+            LEFT JOIN apply ON receipt.APPLY_ID = apply.APPLY_ID
+        WHERE receipt.RECEIPT_ID = #{receiptId,jdbcType=BIGINT}
+    </select>
 </mapper>

@@ -24,21 +24,6 @@ public class BaseExecution {
 		return resultInfo;
 	}
 
-	public BaseExecution(int resultNum, String resultInfo, Object obj) {
-		super();
-		this.resultNum = resultNum;
-		this.resultInfo = resultInfo;
-		this.obj = obj;
-		// TODO: 9/19/2016 请撤销此方法 
-	}
-
-	public BaseExecution(int resultNum, String resultInfo) {
-		super();
-		this.resultNum = resultNum;
-		this.resultInfo = resultInfo;
-		// TODO: 9/19/2016 请撤销此方法
-	}
-
 	public BaseExecution(int resultNum) {
 		this.resultNum = resultNum;
 		this.resultInfo = "执行已经完成";

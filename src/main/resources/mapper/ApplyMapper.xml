@@ -2,11 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.SkyShadow.dao.ApplyMapper">
     <resultMap id="ModifyOrganization" type="cn.SkyShadow.model.apply.applyChildren.ModifyOrganization">
-        <id column="" property="id" jdbcType="BIGINT"/>
-        <association property="user" column="" select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
-        <association property="organization" column="" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
+        <id column="APPLY_ID" property="id" jdbcType="BIGINT"/>
+        <association property="user" column="USER" select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+        <association property="organization" column="ORG_TEMP1" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
+    </resultMap>
+    <resultMap id="ApplyParentOrg" type="cn.SkyShadow.model.apply.applyChildren.ApplyParentOrg">
+        <id column="APPLY_ID" property="id" jdbcType="BIGINT"/>
+        <association property="user" column="USER" select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+        <association property="son" column="ORG_TEMP1" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
+        <association property="father" column="ORG_TEMP2" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
+    </resultMap>
+    <resultMap id="ApplyUnlockParentOrg" type="cn.SkyShadow.model.apply.applyChildren.ApplyUnlockParentOrg">
+        <id column="APPLY_ID" property="id" jdbcType="BIGINT"/>
+        <association property="user" column="USER" select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+        <association property="son" column="ORG_TEMP1" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
+        <association property="father" column="ORG_TEMP2" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
+    </resultMap>
+    <resultMap id="DeliverOrg" type="cn.SkyShadow.model.apply.applyChildren.DeliverOrg">
+        <id column="APPLY_ID" property="id" jdbcType="BIGINT"/>
+        <association property="user" column="USER" select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+        <association property="u" column="USER_TEMP1" select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
+        <association property="organization" column="ORG_TEMP1" select="cn.SkyShadow.dao.OrganizationMapper.selectByPrimaryKeyTemp"/>
     </resultMap>
     <insert id="createModifyOrganization" parameterType="cn.SkyShadow.model.apply.applyChildren.ModifyOrganization" keyProperty="orgId">
-        INSERT INTO apply(APPLY_TYPE,USER,ORG_TEMP) VALUES('ModifyOrganization',#{user.userId,jdbcType=BIGINT},#{organization.orgId});
+        INSERT INTO apply(APPLY_TYPE,USER,ORG_TEMP1) VALUES('ModifyOrganization',#{user.userId,jdbcType=BIGINT},#{organization.orgId});
     </insert>
+    <insert id="createApplyParentOrg" parameterType="cn.SkyShadow.model.apply.applyChildren.ApplyParentOrg">
+        INSERT INTO apply(APPLY_TYPE,USER,ORG_TEMP1,ORG_TEMP2) VALUES ('ApplyParentOrg',#{user.userId,jdbcType=BIGINT},#{son.orgId},#{father.orgId});
+    </insert>
+    <insert id="createApplyUnlockParentOrg" parameterType="cn.SkyShadow.model.apply.applyChildren.ApplyUnlockParentOrg">
+        INSERT INTO apply(APPLY_TYPE,USER,ORG_TEMP1,ORG_TEMP2) VALUES ('ApplyUnlockParentOrg',#{user.userId,jdbcType=BIGINT},#{son.orgId},#{father.orgId});
+    </insert>
+    <insert id="createDeliverOrg" parameterType="cn.SkyShadow.model.apply.applyChildren.DeliverOrg">
+        INSERT INTO apply(APPLY_TYPE,USER,ORG_TEMP1,USER_TEMP1) VALUES ('DeliverOrg',#{user.userId,jdbcType=BIGINT},#{organization.orgId},#{father.orgId});
+    </insert>
+    <select id="getModifyOrganization" parameterType="java.lang.Long" resultMap="ModifyOrganization">
+        SELECT APPLY_ID,USER,ORG_TEMP1 FROM apply WHERE apply.APPLY_ID = #{applyId,jdbcType=BIGINT};
+    </select>
+    <select id="getApplyParentOrg" parameterType="java.lang.Long" resultMap="ApplyParentOrg">
+        SELECT APPLY_ID,USER,ORG_TEMP1,ORG_TEMP2 FROM apply WHERE apply.APPLY_ID = #{applyId,jdbcType=BIGINT};
+    </select>
+    <select id="getApplyUnlockParentOrg" parameterType="java.lang.Long" resultMap="ApplyUnlockParentOrg">
+        SELECT APPLY_ID,USER,ORG_TEMP1,ORG_TEMP2 FROM apply WHERE apply.APPLY_ID = #{applyId,jdbcType=BIGINT};
+    </select>
+    <select id="getDeliverOrg" parameterType="java.lang.Long" resultMap="DeliverOrg">
+        SELECT APPLY_ID,USER,ORG_TEMP1,USER_TEMP1 FROM apply WHERE apply.APPLY_ID = #{applyId,jdbcType=BIGINT};
+    </select>
 </mapper>

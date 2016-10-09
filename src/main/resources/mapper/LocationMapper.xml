@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.SkyShadow.dao.LocationMapper">
-	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.Location">
-		<id column="LOCATION_ID" property="locationId" jdbcType="BIGINT" />
-		<result column="DETAIL" property="detail" jdbcType="VARCHAR" />
-		<result column="LONGITUDE" property="longitude" jdbcType="REAL" />
-		<result column="LATITUDE" property="latitude" jdbcType="REAL" />
-		<association property="city" column="CITY"
-			resultMap="cn.SkyShadow.dao.CityMapper.BaseResultMap"/>
-	</resultMap>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		SELECT LOCATION_ID, DETAIL, LONGITUDE,
-		LATITUDE,`city`.`CITY_ID` AS `CITY_ID`,`city`.`NAME` AS
-		`CITYNAME`,`city`.`RANK` AS `RANK`,`province`.`NAME` AS
-		`PROVINCE_NAME`,`province`.`PROVINCE_ID` AS
-		`PROVINCE_ID`,`country`.`COUNTRY_ID` AS
-		`COUNTRY_ID`,`country`.`NAME_CN` AS `NAME_CN`,`country`.`NAME_JP` AS
-		`NAME_JP`,`country`.`NAME_US` AS `NAME_US`FROM((location LEFT JOIN
-		`city` ON location.CITY = city.CITY_ID LEFT JOIN `province` ON
-		((`city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`)))LEFT JOIN
-		`country` ON ((`province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`)))
-		where location.LOCATION_ID = #{locationId,jdbcType=BIGINT}
-	</select>
-	<insert id="CreateNewLocation" keyProperty="locationId">
-		insert into location(CITY,DETAIL,LONGITUDE,LATITUDE)
-		VALUES(#{city.cityId,jdbcType=BIGINT},#{detail,jdbcType=VARCHAR},#{longitude,jdbcType=REAL},#{latitude,jdbcType=REAL});
-	</insert>
+    <resultMap id="BaseResultMap" type="cn.SkyShadow.model.Location">
+        <id column="LOCATION_ID" property="locationId" jdbcType="BIGINT"/>
+        <result column="DETAIL" property="detail" jdbcType="VARCHAR"/>
+        <result column="LONGITUDE" property="longitude" jdbcType="REAL"/>
+        <result column="LATITUDE" property="latitude" jdbcType="REAL"/>
+        <association property="city" column="CITY"
+                     resultMap="cn.SkyShadow.dao.CityMapper.BaseResultMap"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            LOCATION_ID,
+            DETAIL,
+            LONGITUDE,
+            LATITUDE,
+            `city`.`CITY_ID`         AS `CITY_ID`,
+            `city`.`NAME`            AS
+                                        `CITYNAME`,
+            `city`.`RANK`            AS `RANK`,
+            `province`.`NAME`        AS
+                                        `PROVINCE_NAME`,
+            `province`.`PROVINCE_ID` AS
+                                        `PROVINCE_ID`,
+            `country`.`COUNTRY_ID`   AS
+                                        `COUNTRY_ID`,
+            `country`.`NAME_CN`      AS `NAME_CN`,
+            `country`.`NAME_JP`      AS
+                                        `NAME_JP`,
+            `country`.`NAME_US`      AS `NAME_US`
+        FROM ((
+                location
+                LEFT JOIN `city` ON location.CITY = city.CITY_ID
+                LEFT JOIN `province` ON
+                                         ((`city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`))) LEFT JOIN
+            `country` ON ((`province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`)))
+        WHERE location.LOCATION_ID = #{locationId,jdbcType=BIGINT}
+    </select>
+    <insert id="CreateNewLocation" keyProperty="locationId">
+        INSERT INTO location (CITY, DETAIL, LONGITUDE, LATITUDE)
+        VALUES (#{city.cityId,jdbcType=BIGINT}, #{detail,jdbcType=VARCHAR}, #{longitude,jdbcType=REAL},
+                #{latitude,jdbcType=REAL});
+    </insert>
+
 </mapper>

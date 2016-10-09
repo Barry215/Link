@@ -1,5 +1,6 @@
 package cn.SkyShadow.model.apply.applyChildren;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
 import cn.SkyShadow.model.Organization;
 import cn.SkyShadow.model.apply.Apply;
 
@@ -16,5 +17,10 @@ public class ModifyOrganization extends Apply {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    @Override
+    public String toString() {
+        return JsonFormatUtil.getJsonFormatString(this);
     }
 }

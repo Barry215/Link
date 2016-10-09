@@ -1,5 +1,7 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 import java.util.List;
 
 public class Organization {
@@ -99,15 +101,6 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "Organization{" +
-                "orgId=" + orgId +
-                ", name='" + name + '\'' +
-                ", Location=" + location +
-                ", parentId=" + parentId +
-                ", creatorId=" + creatorId +
-                ", Announces=" + Announces +
-                ", sonOrganizations=" + sonOrganizations +
-                ", type='" + type + '\'' +
-                '}';
+        return JsonFormatUtil.getJsonFormatString(this);
     }
 }

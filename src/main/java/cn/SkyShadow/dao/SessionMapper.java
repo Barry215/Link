@@ -30,5 +30,5 @@ public interface SessionMapper {
      * @param userId 用户ID
      * @return 会话列表
      */
-    List<Session> GetAllSession(Long userId);// TODO: 9/16/2016
+    List<Session> getAllSession(Long userId);
 }

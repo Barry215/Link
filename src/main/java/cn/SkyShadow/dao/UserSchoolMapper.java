@@ -1,17 +1,18 @@
 package cn.SkyShadow.dao;
 
 import cn.SkyShadow.model.UserSchool;
-import cn.SkyShadow.model.UserSchoolKey;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface UserSchoolMapper {
     /**
      * 删除用户的教育记录
-     * @param key 教育记录的KEY
+     * @param userId 用户ID
+     * @param schoolTd 学校ID
      * @return 执行结果
      */
-    int deleteByPrimaryKey(UserSchoolKey key);
+    int deleteByPrimaryKey(@Param("userId")Long userId,@Param("schoolId")Long schoolTd);
 
     /**
      * 新建一条教育记录

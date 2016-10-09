@@ -1,44 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.SkyShadow.dao.UserSchoolMapper">
-	<resultMap id="BaseResultMap" type="cn.SkyShadow.model.UserSchool">
-<!-- 		<id column="USER_ID" property="userId" jdbcType="BIGINT" /> -->
-<!-- 		<id column="SCHOOL_ID" property="schoolId" jdbcType="BIGINT" /> -->
-		<result column="ADMISSION_TIME" property="admissionTime"
-			jdbcType="DATE" />
-		<association column="USER_ID" property="userId"
-			select="cn.SkyShadow.dao.UserMapper.selectBaseInfo"/>
-		<association column="SCHOOL_ID" property="schoolId"
-			select="cn.SkyShadow.dao.SchoolMapper.selectBaseInfo"/>
-	</resultMap>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.lang.Long">
-		select
-			USER_ID, SCHOOL_ID, ADMISSION_TIME
-		from user_school
-		where USER_ID = #{userId.userId,jdbcType=BIGINT}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="cn.SkyShadow.model.UserSchoolKey">
-		delete from
-		user_school
-		where USER_ID = #{userId.userId,jdbcType=BIGINT}
-		and SCHOOL_ID =
-		#{schoolId.schoolId,jdbcType=BIGINT}
-	</delete>
-	<insert id="insert" parameterType="cn.SkyShadow.model.UserSchool">
-		insert into user_school
-		(USER_ID, SCHOOL_ID, ADMISSION_TIME
-		)
-		values (#{userId.userId,jdbcType=BIGINT},
-		#{schoolId.schoolId,jdbcType=BIGINT},
-		#{admissionTime,jdbcType=DATE}
-		)
-	</insert>
-	<update id="updateByPrimaryKey" parameterType="cn.SkyShadow.model.UserSchool">
-		update user_school
-		set ADMISSION_TIME = #{admissionTime,jdbcType=DATE}
-		where USER_ID =
-		#{userId.userId,jdbcType=BIGINT}
-		and SCHOOL_ID = #{schoolId.schoolId,jdbcType=BIGINT}
-	</update>
+    <resultMap id="BaseResultMap" type="cn.SkyShadow.model.UserSchool">
+        <result column="ADMISSION_TIME" property="admissionTime"
+                jdbcType="DATE"/>
+        <association column="USER_ID" property="userId" javaType="cn.SkyShadow.model.User">
+            <id column="USER_ID" jdbcType="BIGINT" property="userId"/>
+            <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
+            <result column="NICKNAME" jdbcType="VARCHAR" property="nickname"/>
+        </association>
+        <association column="SCHOOL_ID" property="schoolId" resultMap="cn.SkyShadow.dao.SchoolMapper.BaseResultMap"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        SELECT
+            user_school.USER_ID      AS `USER_ID`,
+            user_school.SCHOOL_ID    AS `SCHOOL_ID`,
+            ADMISSION_TIME,
+            USERNAME,
+            NICKNAME,
+            school.NAME              AS `NAME`,
+            school.RANK              AS `RANK`,
+            PARENT_ID,
+            IS_PUBLIC,
+            LOCATION_ID,
+            DETAIL,
+            LONGITUDE,
+            LATITUDE,
+            LOCATION_ID              AS `LOCATION_ID`,
+            `city`.`CITY_ID`         AS `CITY_ID`,
+            `city`.`NAME`            AS
+                                        `CITYNAME`,
+            `city`.`RANK`            AS `RANK`,
+            `province`.`NAME`        AS
+                                        `PROVINCE_NAME`,
+            `province`.`PROVINCE_ID` AS
+                                        `PROVINCE_ID`,
+            `country`.`COUNTRY_ID`   AS
+                                        `COUNTRY_ID`,
+            `country`.`NAME_CN`      AS `NAME_CN`,
+            `country`.`NAME_JP`      AS
+                                        `NAME_JP`,
+            `country`.`NAME_US`      AS `NAME_US`
+        FROM user_school
+            LEFT JOIN user ON user_school.USER_ID = user.USER_ID
+            LEFT JOIN school ON user_school.SCHOOL_ID = school.SCHOOL_ID
+            LEFT JOIN location ON location.LOCATION_ID = school.LOCATION
+            LEFT JOIN `city` ON location.CITY = city.CITY_ID
+            LEFT JOIN `province` ON `city`.`PROVINCE_ID` = `province`.`PROVINCE_ID`
+            LEFT JOIN `country` ON `province`.`COUNTRY_ID` = `country`.`COUNTRY_ID`
+        WHERE user_school.USER_ID = #{userId.userId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM
+            user_school
+        WHERE USER_ID = #{userId,jdbcType=BIGINT}
+              AND SCHOOL_ID =
+                  #{schoolId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.SkyShadow.model.UserSchool">
+        INSERT INTO user_school
+        (USER_ID, SCHOOL_ID, ADMISSION_TIME
+        )
+        VALUES (#{userId.userId,jdbcType=BIGINT},
+                #{schoolId.schoolId,jdbcType=BIGINT},
+                #{admissionTime,jdbcType=DATE}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.SkyShadow.model.UserSchool">
+        UPDATE user_school
+        SET ADMISSION_TIME = #{admissionTime,jdbcType=DATE}
+        WHERE USER_ID =
+              #{userId.userId,jdbcType=BIGINT}
+              AND SCHOOL_ID = #{schoolId.schoolId,jdbcType=BIGINT}
+    </update>
 </mapper>

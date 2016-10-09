@@ -1,9 +1,21 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 public class Occupation {
 	private Long occupationId;
 
 	private String name;
+
+	private String rank;
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
 
 	private Organization organization;
 
@@ -27,9 +39,7 @@ public class Occupation {
 
 	@Override
 	public String toString() {
-		return "Occupation [occupationId=" + occupationId + ", name=" + name
-				+ ", Organization=" + organization + ", Mailbox=" + mailbox
-				+ "]";
+		return JsonFormatUtil.getJsonFormatString(this);
 	}
 	
 

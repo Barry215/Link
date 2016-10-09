@@ -1,5 +1,7 @@
 package cn.SkyShadow.model;
 
+import cn.SkyShadow.basic_component.JsonFormatUtil;
+
 import java.util.Date;
 
 public class Session {
@@ -24,9 +26,7 @@ public class Session {
 
 	@Override
 	public String toString() {
-		return "Session [sessionId=" + sessionId + ", userGroupId="
-				+ userGroupId + ", startTime=" + startTime + ", endTime="
-				+ endTime + "]";
+		return JsonFormatUtil.getJsonFormatString(this);
 	}
 
 	public Long getSessionId() {

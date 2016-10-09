@@ -1,6 +1,7 @@
 package cn.SkyShadow.dao;
 
 import cn.SkyShadow.model.Occupation;
+import org.apache.ibatis.annotations.Param;
 
 public interface OccupationMapper {
     /**
@@ -30,7 +31,7 @@ public interface OccupationMapper {
      * @param record 职业信息
      * @return 执行结果
      */
-    int updateByPrimaryKeySelective(Occupation record);
+    int update(Occupation record);
 
     /**
      * 添加成员
@@ -38,12 +39,12 @@ public interface OccupationMapper {
      * @param userId 成员ID
      * @return 执行结果
      */
-    int addUser(Long occId,Long userId);
+    int addUser(@Param("occId") Long occId, @Param("userId")Long userId);
     /**
      * 去除成员
      * @param occId 职业ID
      * @param userId 成员ID
      * @return 执行结果
      */
-    int removeUser(Long occId,Long userId);
+    int removeUser(@Param("occId") Long occId, @Param("userId")Long userId);
 }

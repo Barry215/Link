@@ -1,7 +1,6 @@
 package cn.SkyShadow.enums;
 
 import cn.SkyShadow.factory.ReadConfigFileFactory;
-import cn.SkyShadow.tp.service.Impl.ReadProperties;
 import cn.SkyShadow.tp.service.ReadConfigFile;
 
 /**
@@ -20,10 +19,9 @@ public enum MaxWrongNumEnum {
     ;
     private int num;
     private String info;
-    private ReadConfigFile readConfigFile = ReadConfigFileFactory.getReadPropertiesTools();
+    private ReadConfigFile readConfigFile = ReadConfigFileFactory.getReadPropertiesTools("/resultConfig/maxWrongNumEnum.properties");
     private void read(){
         try {
-            readConfigFile.setPath("/resultConfig/maxWrongNumEnum.properties");
             this.setNum(Integer.parseInt((String) readConfigFile.getValue(this.name())));
         } catch (Exception e) {
             e.printStackTrace();
